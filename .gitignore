@@ -1,0 +1,84 @@
+# ═══════════════════════════════════════════════════════════════════════
+# GridPulse — .gitignore
+# ═══════════════════════════════════════════════════════════════════════
+
+# Операційні системи
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Редактори та IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.project
+.settings/
+.sublime-project
+.sublime-workspace
+*.code-workspace
+
+# Логи та тимчасові файли
+*.log
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+
+# Експорт користувача (не комітити особисті дані)
+*.csv
+exports/
+downloads/
+backup/
+backups/
+
+# Node.js (на майбутнє, якщо знадобиться)
+node_modules/
+package-lock.json
+yarn.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (про всяк випадок)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+venv/
+.venv/
+
+# Локальні налаштування / секрети
+.env
+.env.local
+.env.*.local
+secrets.json
+config.local.json
+*.key
+*.pem
+
+# Архіви
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Зображення-кеш (крім docs/)
+*.psd
+*.ai
+*.sketch
+
+# Тестові HTML-файли
+test.html
+test*.html
+draft*.html
+sandbox/
