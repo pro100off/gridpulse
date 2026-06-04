@@ -1,136 +1,68 @@
-# ⚡ GridPulse
+# ⚡ GridPulse v14.2
 
-**Multi-Exchange Crypto Reversal Screener · Pionex Grid Bot Ready**
+> Free open-source multi-exchange crypto reversal screener — MACD + VWAP + ATR + ADX setups across Bybit, Binance, KuCoin, OKX, Pionex. One-click Launch Cards for Pionex Grid Bots.
 
-Real-time MACD-розворотний скринер для 5 бірж з готовими **Launch Cards** для Pionex Grid / Smart Trade ботів.
+🔗 **Live demo:** https://pro100off.github.io/gridpulse/
+📢 **Telegram:** https://t.me/tradescoutfree
+🐦 **Twitter:** https://x.com/tradeaiscout
 
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-![Version](https://img.shields.io/badge/version-13.2-green.svg)
-![Exchanges](https://img.shields.io/badge/exchanges-5-orange.svg)
-![No Backend](https://img.shields.io/badge/backend-none-brightgreen.svg)
-![Open Source](https://img.shields.io/badge/open%20source-yes-success.svg)
-
-🌐 **Спробувати онлайн (без реєстрації):** [pro100off.github.io/gridpulse](https://pro100off.github.io/gridpulse/)
-
-📢 **Telegram-канал:** [@tradescoutfree](https://t.me/tradescoutfree)
+![GridPulse screenshot](docs/screenshot.png)
 
 ---
 
-## 🎯 Що це?
+## ✨ Features
 
-**GridPulse** сканує крипторинок на 5 біржах одночасно, шукає **MACD-розвороти** з підтвердженням реверсної свічки, аналізує VWAP / ATR / ADX і генерує **готові параметри** для запуску Pionex Grid Bot, Smart Trade, Reverse Grid.
+- 🔍 **5 exchanges**: Bybit, Binance, KuCoin, OKX, Pionex (Spot + USDT Futures)
+- 📊 **MACD reversal detection** with configurable depth and extremum lookback
+- 🎯 **Multi-filter booster pack**: VWAP direction, VWAP confluence, ATR size, volume spike, ADX trend, R:R ratio
+- 🤖 **Pionex Launch Cards** — auto-calculated parameters for Grid Bot, Smart Trade BUY/SELL with copy-to-clipboard
+- 🌐 **5 languages**: English, Ukrainian, Spanish, Russian, Chinese
+- 🌙 **Dark/Light themes** with persistent settings
+- 📈 **Embedded TradingView charts** with MACD + VWAP studies
+- 💾 **CSV export** of all signals
+- 🔄 **Multi-proxy rotation** for reliability under load
+- 💨 **Smart caching** — no API spam on page reload
 
-### 🔑 Ключові фішки
+## 🚀 Quick start
 
-- 🔄 **Реальні MACD-розвороти** з аналізом глибини імпульсу
-- 📊 **Launch Cards** — готові параметри (Buy/Sell/SL/TP) для одного кліку на Pionex
-- 🤖 **3 режими рекомендацій**: Grid Bot / Grid Buy / Grid Sell / Skip
-- 📐 **Автодіапазони** для Grid Bot на основі ATR і ADX
-- ⭐ **VWAP Confluence** — пошук злиття ціни з ключовими рівнями
-- 📈 **TradingView графіки** одним кліком
-- 🌐 **5 бірж**: Bybit · Binance · KuCoin · OKX · **Pionex** (пріоритет)
-- 📥 **CSV-експорт** з повною атрибуцією
-- 💯 **Без backend** — все працює в браузері
+Just open https://pro100off.github.io/gridpulse/ — no signup, no install.
 
----
+Or clone and serve locally:
 
-## 🚀 Швидкий старт
+```bash
+git clone https://github.com/pro100off/gridpulse.git
+cd gridpulse
+python3 -m http.server 8080
+# open http://localhost:8080
+```
 
-### Варіант 1: Онлайн (рекомендовано)
-👉 Просто відкрийте: **https://pro100off.github.io/gridpulse/**
+## 🔧 Self-hosting & custom CORS proxy
 
-### Варіант 2: Локально
-1. Скачайте `index.html` (Code → Download ZIP, або з вкладки Releases)
-2. Відкрийте файл у будь-якому сучасному браузері (Chrome / Edge / Firefox)
-3. Натисніть **▶ Сканувати**
+For high-traffic deployments, set up your own Cloudflare Worker — see [worker/README.md](worker/README.md). Then edit `index.html`:
 
-### Варіант 3: Свій форк на GitHub Pages
-1. Натисніть **Fork** угорі цієї сторінки
-2. У вашій копії: Settings → Pages → Branch `main` → Save
-3. Через хвилину доступно за `https://<your-user>.github.io/gridpulse/`
+```js
+const CUSTOM_PROXY = 'https://your-worker.your-name.workers.dev/?url=';
+```
 
----
+## 📋 Roadmap
 
-## 📊 Підтримувані біржі та ринки
+- [ ] Heatmap view across all timeframes
+- [ ] Telegram bot for push alerts
+- [ ] Backtest mode with historical setups
+- [ ] More exchanges (MEXC, Gate, BingX)
 
-| Біржа | Спот | Ф'ючерси USDT | Особливості |
-|---|---|---|---|
-| **Pionex** ⭐ | ✅ | ⚠️ обмежено | Пріоритет — Launch Cards оптимізовані під Grid Bots |
-| Bybit | ✅ | ✅ | Прямий API |
-| Binance | ✅ | ✅ | Через CORS-проксі |
-| KuCoin | ✅ | ✅ | Через CORS-проксі |
-| OKX | ✅ | ✅ | Через CORS-проксі |
+## 🤝 Contributing
 
----
+PRs welcome. If you fork and replace the referral link with your own — please keep a visible link back to this repository.
 
-## 🧠 Алгоритм пошуку сетапів
+## 📄 License
 
-1. **MACD Reversal** — пошук перших ознак розвороту гістограми (бичачий / ведмежий)
-2. **Reversal Candle** — перевірка реверсної свічки на екстремумі (3–10 баров lookback)
-3. **Confirmation Candle** — наступна свічка підтверджує патерн
-4. **VWAP + Bands** — конфлюенс з ключовими рівнями (σ, 2σ)
-5. **ATR** — мінімальний розмір свічки × 0.8
-6. **Volume** — об'єм реверсної свічки × 1.1 від середнього
-7. **ADX** — сила тренду (≥ 18)
-8. **R:R** — мінімум 1.5 для входу
-9. **decideMode()** — фінальна рекомендація: **BOT / BUY / SELL / SKIP**
+CC BY-NC-SA 4.0 — Free for personal use. Commercial resale prohibited.
+
+## 💚 Support the project
+
+GridPulse is free. The only monetization is the [Pionex referral link](https://bit.ly/43bkdc7) — if you sign up via it, you help fund development. Thank you!
 
 ---
 
-## 📋 Launch Card — що це?
-
-Натиснувши **📋** біля будь-якого результату, ви отримаєте інтерактивну картку з:
-
-- 📊 **Параметрами для Pionex**: Buy Price, Stop Loss, Take Profit, Trailing
-- 📈 **Підтвердженням індикаторів**: ADX, Volume, VWAP%, R:R
-- 📝 **Покроковою інструкцією** для запуску бота
-- 🚀 **QR-кодом** реєстрації на Pionex
-- 📋 Кнопкою **"Копіювати все"** — текстова версія для блокноту/Telegram
-
----
-
-## 🎨 Скриншоти
-
-> 💡 *Після першого скріншоту видаліть цей блок і додайте `![GridPulse Screenshot](docs/screenshot.png)`*
-
----
-
-## 🛠️ Технології
-
-- **Pure HTML/CSS/JS** — без фреймворків, без збірки
-- **TradingView Widget** — для інтерактивних графіків
-- **QRCode.js** — для генерації QR-кодів реферального посилання
-- **CoinGecko API** — для ринкової капіталізації
-- **CORS-проксі**: codetabs.com / allorigins.win — для обходу обмежень бірж
-
----
-
-## 🛡️ Ліцензія
-
-[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) (CC BY-NC-SA 4.0)
-
-**✓ Дозволено:** особисте використання, модифікація, поширення зі збереженням атрибуції.
-
-**✗ Заборонено:** комерційне використання, перепродаж, видалення авторської інформації та реферальних посилань.
-
-Для комерційної ліцензії: [@tradescoutfree](https://t.me/tradescoutfree)
-
----
-
-## 💚 Підтримати проєкт
-
-GridPulse безкоштовний і завжди буде open source. Якщо інструмент допоміг — підтримайте автора, зареєструвавшись на **Pionex** за реферальним посиланням у скринері. Це єдина форма монетизації проєкту.
-
-- 📢 **Telegram-канал:** [@tradescoutfree](https://t.me/tradescoutfree)
-- 🐙 **GitHub:** [github.com/pro100off/gridpulse](https://github.com/pro100off/gridpulse)
-- ⭐ Поставте зірочку, якщо корисно!
-
----
-
-## ⚠️ Дисклеймер
-
-GridPulse надається **«як є»** (as-is), без жодних гарантій. Автор не несе відповідальності за фінансові втрати, торгові рішення або іншу шкоду, що виникла внаслідок використання інструменту. Криптотрейдинг пов'язаний з високими ризиками — завжди робіть власний аналіз.
-
----
-
-**⚡ Made with ❤️ for crypto traders · © 2026 GridPulse Project**
+**Disclaimer:** Crypto trading is risky. This tool is not financial advice. Always do your own research.
