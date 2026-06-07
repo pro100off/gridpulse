@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<!--
+  GridPulse v14.2 — Multi-Exchange Crypto Reversal Screener
+  © 2026 GridPulse Project · CC BY-NC-SA 4.0
+  Release: v14.2 (2026-06-04) — Dated-contract filter + Binance IP-ban notice
+  Canary : GRDPLS-V14-2-RELEASE-2026
+  Source of truth : github.com/pro100off/gridpulse
+  Live demo       : pro100off.github.io/gridpulse/
+  Telegram        : t.me/tradescoutfree
+  License         : creativecommons.org/licenses/by-nc-sa/4.0/
+
+  FIXES in this build:
+   * render() syntax error fixed (duplicated/broken funding block)
+   * fPairs() hardened with Array.isArray() guards for ALL exchanges
+   * Binance futures: lightweight ticker/price fallback when exchangeInfo is rate-limited
+   * fundingBias() fixed: correct SHORT labels + correct long-costly/long-friendly logic
+   * Added SHORT funding-bias i18n keys for all 5 languages
+   * i18n: full Launch-Card translation for es/ru/zh (steps, params, indicators)
+   * i18n: footer/disclosure translated for all 5 languages
+   * i18n: 'ua' now inherits full EN base (no partial fallback gaps)
+
+  DISCLAIMER: analytical tool, NOT financial advice. Crypto is risky. DYOR.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free open-source multi-exchange crypto reversal screener — MACD, VWAP, ATR, ADX, Funding-aware setups for Bybit, Binance, KuCoin, OKX, Pionex. Launch Cards for Pionex Grid Bots.">
+<meta name="author" content="GridPulse Project">
+<meta name="keywords" content="crypto screener, pionex, grid bot, macd, vwap, atr, adx, funding rate, bybit, binance, kucoin, okx, reversal, open source, trading, screener, free">
+<meta name="theme-color" content="#0b0f1a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GridPulse">
+<meta property="og:title" content="⚡ GridPulse v14.2 — Free Crypto Reversal Screener">
+<meta property="og:description" content="Multi-exchange MACD + VWAP + ATR + ADX + Funding-aware screener with one-click Launch Cards for Pionex Grid Bots. Free, open-source, no signup.">
+<meta property="og:url" content="https://pro100off.github.io/gridpulse/">
+<meta property="og:image" content="https://pro100off.github.io/gridpulse/docs/screenshot.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="GridPulse v14.2 — Multi-Exchange Crypto Reversal Screener">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="uk_UA">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:locale:alternate" content="es_ES">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@tradeaiscout">
+<meta name="twitter:creator" content="@tradeaiscout">
+<meta name="twitter:title" content="⚡ GridPulse — Free Crypto Reversal Screener">
+<meta name="twitter:description" content="MACD + VWAP + ATR + ADX + Funding setups across Bybit, Binance, KuCoin, OKX, Pionex. Launch Cards for Pionex Grid Bots.">
+<meta name="twitter:image" content="https://pro100off.github.io/gridpulse/docs/screenshot.png">
+<link rel="canonical" href="https://pro100off.github.io/gridpulse/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<title>⚡ GridPulse v14.2 — Multi-Exchange Crypto Reversal Screener</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GridPulse",
+  "alternateName": "GridPulse Crypto Reversal Screener",
+  "description": "Free open-source multi-exchange crypto reversal screener with MACD, VWAP, ATR, ADX, Funding-aware setups and Launch Cards for Pionex Grid Bots.",
+  "url": "https://pro100off.github.io/gridpulse/",
+  "applicationCategory": "FinanceApplication",
+  "applicationSubCategory": "Crypto Trading Screener",
+  "operatingSystem": "Any (browser-based)",
+  "browserRequirements": "Requires JavaScript. Modern browser (Chrome, Firefox, Safari, Edge).",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Organization", "name": "GridPulse Project", "url": "https://github.com/pro100off/gridpulse" },
+  "softwareVersion": "14.1",
+  "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "inLanguage": ["en","uk","es","ru","zh"],
+  "image": "https://pro100off.github.io/gridpulse/docs/screenshot.png",
+  "screenshot": "https://pro100off.github.io/gridpulse/docs/screenshot.png"
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg0:#0b0f1a;--bg1:#111a2e;--bg2:#162040;--bg3:#1e2d50;--bd:#253560;--t1:#e2e8f5;--t2:#7a8bb5;--t3:#4a5a80;--grn:#00c853;--red:#ff1744;--blue:#2196f3;--ylw:#ffd740;--org:#ff9100;--wht:#fff;--cyan:#18ffff;--pur:#bb86fc}
+body.light{--bg0:#eef1f7;--bg1:#fff;--bg2:#f3f6fc;--bg3:#e6ebf5;--bd:#cdd6e6;--t1:#1c2540;--t2:#3f4a66;--t3:#6b7794;--wht:#1c2540;--grn:#0a9d4a;--red:#d61e3c;--blue:#1668c4;--ylw:#b07d00;--org:#c96a00;--cyan:#0b86c4;--pur:#7a4fd0}
+body.light .hdr{background:linear-gradient(135deg,#fff,#eef1f8);box-shadow:0 1px 4px rgba(0,0,0,.05)}
+body.light .ref-banner{background:linear-gradient(135deg,#e8f5ec 0%,#e3f0ff 100%)}
+body.light .ref-info .ref-title{color:#1c2540}
+body.light .ref-btn{color:#063d1d}
+body.light thead th{background:var(--bg2);color:#3f4a66}
+body.light .sl{color:#1668c4}
+body.light .blm{background:rgba(0,0,0,.05);color:#1c2540;border-color:rgba(0,0,0,.12)}
+body.light .lc-val{color:#1c2540}
+body.light .mtg{color:#b07d00}
+body.light .tip .ttt{color:#1c2540}
+body.light .bmd-skp{color:#4a5a80}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg0);color:var(--t1);min-height:100vh}
+.ref-banner{background:linear-gradient(135deg,#0d1a3a 0%,#0a2a1a 50%,#0d1a3a 100%);border-bottom:2px solid rgba(0,200,83,.4);padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:relative;overflow:hidden}
+.ref-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(0,200,83,.03) 40px,rgba(0,200,83,.03) 80px);pointer-events:none}
+.ref-qr-wrap{width:72px;height:72px;background:#fff;border-radius:6px;padding:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(0,200,83,.35)}
+.ref-qr-wrap canvas,.ref-qr-wrap img{width:64px!important;height:64px!important;display:block}
+.ref-info{flex:1;min-width:200px}
+.ref-info .ref-title{font-size:14px;font-weight:800;color:var(--wht);margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ref-info .ref-title .ref-badge{background:rgba(0,200,83,.2);color:var(--grn);border:1px solid rgba(0,200,83,.4);font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px}
+.ref-info .ref-sub{font-size:11px;color:var(--t2);line-height:1.6;margin-bottom:6px}
+.ref-info .ref-features{display:flex;gap:6px;flex-wrap:wrap}
+.ref-info .ref-feat{font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px}
+.ref-feat-green{background:rgba(0,200,83,.15);color:var(--grn);border:1px solid rgba(0,200,83,.3)}
+.ref-feat-blue{background:rgba(33,150,243,.15);color:var(--blue);border:1px solid rgba(33,150,243,.3)}
+.ref-feat-ylw{background:rgba(255,215,64,.15);color:var(--ylw);border:1px solid rgba(255,215,64,.3)}
+.ref-cta{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ref-btn{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#00c853,#00b04a);color:#000;font-weight:800;font-size:12px;padding:10px 20px;border-radius:6px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(0,200,83,.4);transition:transform .15s,box-shadow .15s}
+.ref-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,200,83,.55)}
+.ref-url{font-size:9px;color:var(--t3);text-align:center;word-break:break-all;max-width:180px}
+.ref-trust{font-size:9px;color:var(--t3);text-align:center;margin-top:2px}
+.hdr{background:linear-gradient(135deg,#0d1529,#162040);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--bd);flex-wrap:wrap;gap:8px}
+.hdr h1{font-size:20px;color:var(--blue)}
+.hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.clk{background:var(--bg3);padding:4px 10px;border-radius:12px;font-size:11px;color:var(--grn);display:flex;align-items:center;gap:5px}
+.clk::before{content:'';width:7px;height:7px;background:var(--grn);border-radius:50%}
+.mtg{background:var(--bg3);padding:4px 10px;border-radius:12px;font-size:10px;color:var(--ylw)}
+.rl-warn{display:none;background:rgba(255,145,0,.18);border:1px solid var(--org);color:var(--org);padding:4px 10px;border-radius:12px;font-size:10px;font-weight:700;animation:pulse 1.8s ease-in-out infinite}
+.rl-warn.on{display:inline-flex;align-items:center;gap:5px}
+@keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+.lang-sw{display:flex;gap:3px;align-items:center}
+.lang-sw button{cursor:pointer;font-size:11px;font-weight:700;padding:3px 7px;border-radius:4px;border:1px solid var(--bd);background:var(--bg3);color:var(--t2)}
+.lang-sw button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.theme-btn{cursor:pointer;font-size:14px;background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:12px;padding:4px 10px;font-weight:700}
+.gh-star-btn{background:linear-gradient(135deg,#24292e,#0d1117);color:#ffd740;border:1px solid #30363d;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:transform .15s,box-shadow .15s;white-space:nowrap}
+.gh-star-btn:hover{transform:translateY(-1px);box-shadow:0 0 12px rgba(255,215,64,.3)}
+body.light .gh-star-btn{background:linear-gradient(135deg,#f6f8fa,#e1e4e8);color:#b07d00;border-color:#d0d7de}
+.pns{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--bd)}
+.pn{padding:14px 18px;background:var(--bg1)}
+.pn:first-child{border-right:1px solid var(--bd)}
+.ptl{font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:700;border-left:3px solid var(--blue);padding-left:8px}
+.tfg{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.tf{padding:5px 12px;font-size:11px;background:var(--bg2);border:1px solid var(--bd);color:var(--t2);border-radius:4px;cursor:pointer;font-weight:600;user-select:none}
+.tf.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tf:hover:not(.on){border-color:var(--t2)}
+.tf.disabled{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.rw{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px}
+.fg{display:flex;flex-direction:column;gap:3px}
+.fg label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+select{background:var(--bg2);border:1px solid var(--bd);color:var(--t1);padding:6px 10px;border-radius:4px;font-size:12px;outline:none;min-width:70px}
+.ck{display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.ck input{accent-color:var(--blue);width:15px;height:15px}
+.ck span{font-size:12px;font-weight:600}
+.ck-p input{accent-color:var(--pur)}.ck-p span{color:var(--pur)}
+.ck-v input{accent-color:var(--cyan)}.ck-v span{color:var(--cyan)}
+.ck-a input{accent-color:var(--org)}.ck-a span{color:var(--org)}
+.ck-x input{accent-color:var(--ylw)}.ck-x span{color:var(--ylw)}
+.ck-f input{accent-color:#ff6090}.ck-f span{color:#ff6090}
+.bts{display:flex;gap:8px;padding:12px 20px;background:var(--bg1);border-bottom:1px solid var(--bd);flex-wrap:wrap;align-items:center}
+.bt{padding:8px 20px;border:none;border-radius:5px;font-size:12px;font-weight:700;cursor:pointer}
+.bt:disabled{opacity:.35;cursor:not-allowed}
+.bgo{background:var(--grn);color:#000}
+.bst{background:var(--bg3);color:var(--t1);border:1px solid var(--bd)}
+.bsh{background:linear-gradient(135deg,#229ED9,#1668c4);color:#fff;border:none;margin-left:auto}
+.bsh:hover{filter:brightness(1.1)}
+.cpn{display:none;padding:10px 20px;background:var(--bg1);border-bottom:1px solid var(--bd)}
+.cpn.vis{display:block}
+.cpn textarea{width:100%;height:50px;background:var(--bg2);border:1px solid var(--bd);color:var(--t1);padding:8px;border-radius:4px;font-size:12px;resize:vertical}
+.cds{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--bd)}
+.cd{text-align:center;padding:14px 6px;background:var(--bg1);border-right:1px solid var(--bd)}
+.cd:last-child{border-right:none}
+.cd .n{font-size:26px;font-weight:700}
+.cd .l{font-size:9px;text-transform:uppercase;color:var(--t3);letter-spacing:1px;margin-top:3px}
+.c1{color:var(--blue)}.c2{color:var(--org)}.c3{color:var(--grn)}.c4{color:var(--red)}.c5{color:var(--ylw)}
+.pb{height:3px;background:var(--bg2);overflow:hidden}
+.pb .fl{height:100%;background:linear-gradient(90deg,var(--blue),var(--grn));width:0%;transition:width .3s}
+.rhd{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;background:var(--bg1);border-bottom:1px solid var(--bd);flex-wrap:wrap;gap:8px}
+.rhd h2{font-size:14px}
+.rhd h2 span{color:var(--t3);font-size:12px;margin-left:4px}
+.rvt{background:rgba(0,200,83,.15);color:var(--grn);padding:4px 12px;border-radius:4px;font-size:10px;font-weight:700}
+.cvt{background:rgba(187,134,252,.15);color:var(--pur);padding:4px 12px;border-radius:4px;font-size:10px;font-weight:700;margin-left:6px}
+.fvt{background:rgba(255,96,144,.15);color:#ff6090;padding:4px 12px;border-radius:4px;font-size:10px;font-weight:700;margin-left:6px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead th{background:var(--bg1);padding:10px 5px;text-align:left;font-size:8px;text-transform:uppercase;color:var(--t3);border-bottom:2px solid var(--bd);cursor:pointer;white-space:nowrap;position:sticky;top:0;z-index:2}
+thead th:hover{color:var(--blue)}
+tbody tr{border-bottom:1px solid rgba(37,53,96,.4)}
+tbody tr:hover{background:var(--bg2)}
+tbody td{padding:6px 5px;white-space:nowrap;vertical-align:middle}
+.sl{color:var(--cyan);font-weight:700;cursor:pointer;font-size:12px;text-decoration:none}
+.sl:hover{text-decoration:underline}
+.rn{color:var(--ylw);font-weight:700}
+.bdg{padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;display:inline-block}
+.bbr{background:rgba(255,23,68,.2);color:var(--red)}
+.bbl{background:rgba(0,200,83,.2);color:var(--grn)}
+.btf{background:rgba(33,150,243,.2);color:var(--blue);font-size:9px}
+.blm{background:rgba(255,255,255,.08);color:var(--wht);border:1px solid rgba(255,255,255,.2)}
+.bsr{background:rgba(255,23,68,.12);color:var(--red)}
+.bsg{background:rgba(0,200,83,.12);color:var(--grn)}
+.bcs{background:rgba(187,134,252,.15);color:var(--pur)}
+.bcn{background:rgba(24,255,255,.12);color:var(--cyan)}
+.bfb-pos{background:rgba(0,200,83,.15);color:var(--grn);border:1px solid rgba(0,200,83,.3);font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;display:inline-block}
+.bfb-neg{background:rgba(255,23,68,.15);color:var(--red);border:1px solid rgba(255,23,68,.3);font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;display:inline-block}
+.bfb-neu{background:rgba(122,139,181,.15);color:var(--t2);border:1px solid rgba(122,139,181,.3);font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;display:inline-block}
+.bmd-bot{background:rgba(33,150,243,.25);color:#64b5f6;border:1px solid rgba(33,150,243,.5);font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;display:inline-block;letter-spacing:.5px}
+.bmd-buy{background:rgba(0,200,83,.25);color:#69f0ae;border:1px solid rgba(0,200,83,.5);font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;display:inline-block;letter-spacing:.5px}
+.bmd-sel{background:rgba(255,23,68,.25);color:#ff6090;border:1px solid rgba(255,23,68,.5);font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;display:inline-block;letter-spacing:.5px}
+.bmd-skp{background:rgba(122,139,181,.15);color:var(--t3);border:1px solid rgba(122,139,181,.3);font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;display:inline-block;letter-spacing:.5px}
+body.light .bmd-bot{color:#1565c0}body.light .bmd-buy{color:#0a7d3c}body.light .bmd-sel{color:#c2185b}
+.tip{position:relative;cursor:help}
+.tip .ttt{visibility:hidden;opacity:0;width:200px;background:var(--bg3);color:var(--t1);font-size:10px;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;position:absolute;z-index:100;bottom:130%;left:50%;transform:translateX(-50%);transition:opacity .2s;pointer-events:none;white-space:normal;line-height:1.5}
+.tip:hover .ttt{visibility:visible;opacity:1}
+.mh{display:inline-flex;align-items:flex-end;gap:1px;height:28px;vertical-align:middle}
+.mh .b{width:3px;border-radius:1px;min-height:1px}
+.rcl{display:inline-flex;align-items:center;gap:3px;vertical-align:middle}
+.rlt{font-size:10px;font-weight:700}
+.chm{font-size:12px;color:var(--grn)}
+.dg{color:var(--grn)}.dy{color:var(--ylw)}.dr{color:var(--red)}.dp{color:var(--pur)}.dc{color:var(--cyan)}
+.lw{border-top:1px solid var(--bd);background:var(--bg1)}
+.lgT{padding:8px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--t2)}
+.lgT:hover{background:var(--bg2)}
+.lgT .a{transition:transform .2s}
+.lgT .a.op{transform:rotate(180deg)}
+.lgB{max-height:0;overflow:hidden;transition:max-height .3s;font-size:10px;font-family:monospace;color:var(--t3)}
+.lgB.op{max-height:300px;overflow-y:auto;padding:8px 20px}
+.lgB .ok{color:var(--grn)}.lgB .er{color:var(--red)}.lgB .wr{color:var(--ylw)}
+.foot{background:var(--bg1);border-top:1px solid var(--bd);padding:14px 20px;text-align:center;font-size:11px;color:var(--t3);line-height:1.7}
+.foot a{color:var(--cyan);text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.foot .tag{display:inline-block;background:rgba(33,150,243,.1);border:1px solid rgba(33,150,243,.25);color:var(--blue);padding:2px 6px;border-radius:3px;font-weight:700;font-size:9px}
+.foot .disclosure{margin-top:8px;padding:8px 12px;background:rgba(255,215,64,.06);border:1px solid rgba(255,215,64,.2);border-radius:5px;color:var(--t2);font-size:10px;line-height:1.55;max-width:780px;margin-left:auto;margin-right:auto;text-align:left}
+.foot .disclosure strong{color:var(--ylw)}
+.social{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 20px;background:var(--bg0);border-top:1px solid var(--bd)}
+.social a{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;text-decoration:none;padding:7px 14px;border-radius:6px;border:1px solid var(--bd);background:var(--bg1);color:var(--t1);transition:transform .15s,box-shadow .15s}
+.social a:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.social .s-tg{border-color:#229ED9;color:#229ED9}
+.social .s-gh{border-color:var(--t2);color:var(--t1)}
+.social .s-tw{border-color:#1DA1F2;color:#1DA1F2}
+.social .s-share{border-color:var(--grn);color:var(--grn)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;justify-content:center;align-items:center}
+.modal.on{display:flex}
+.mbox{width:96vw;height:93vh;background:var(--bg1);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--bd)}
+.mtp{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--bd)}
+.mtp h3{font-size:15px;color:var(--cyan)}
+.minf{font-size:10px;color:var(--t2);margin-left:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60vw}
+.mcl{background:none;border:none;color:var(--t2);font-size:24px;cursor:pointer}
+.mcl:hover{color:var(--red)}
+.mtf{display:flex;gap:3px;padding:6px 14px;background:var(--bg1);border-bottom:1px solid var(--bd);flex-wrap:wrap}
+.mcw{flex:1;position:relative}
+.mcw>div{width:100%!important;height:100%!important}
+.tv-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:13px;background:var(--bg1);z-index:1}
+.tv-loading.hide{display:none}
+.lc-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10000;justify-content:center;align-items:center;padding:16px}
+.lc-modal.on{display:flex}
+.lc-box{width:100%;max-width:560px;max-height:92vh;overflow-y:auto;background:var(--bg1);border:1px solid var(--bd);border-radius:10px}
+.lc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--bg2);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:2}
+.lc-head h3{font-size:15px;color:var(--cyan);display:flex;align-items:center;gap:8px}
+.lc-head .lc-mode-badge{font-size:11px}
+.lc-close{background:none;border:none;color:var(--t2);font-size:22px;cursor:pointer;line-height:1}
+.lc-close:hover{color:var(--red)}
+.lc-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.lc-section{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;overflow:hidden}
+.lc-sec-title{font-size:9px;text-transform:uppercase;letter-spacing:1px;font-weight:700;padding:8px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:6px}
+.lc-sec-title.blue{color:var(--blue)}.lc-sec-title.green{color:var(--grn)}.lc-sec-title.orange{color:var(--org)}.lc-sec-title.cyan{color:var(--cyan)}.lc-sec-title.purple{color:var(--pur)}.lc-sec-title.pink{color:#ff6090}
+.lc-params{padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.lc-row{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);gap:8px}
+.lc-row:hover{background:rgba(255,255,255,.06);border-color:rgba(33,150,243,.3)}
+.lc-label{font-size:10px;color:var(--t2);font-weight:600;white-space:nowrap}
+.lc-val{font-size:12px;font-weight:800;font-family:monospace;color:var(--wht);cursor:pointer;padding:2px 6px;border-radius:3px;background:rgba(33,150,243,.12);border:1px solid rgba(33,150,243,.25);transition:background .15s;white-space:nowrap}
+.lc-val:hover{background:rgba(33,150,243,.3)}
+.lc-val.green{color:var(--grn);background:rgba(0,200,83,.12);border-color:rgba(0,200,83,.25)}.lc-val.green:hover{background:rgba(0,200,83,.3)}
+.lc-val.red{color:var(--red);background:rgba(255,23,68,.12);border-color:rgba(255,23,68,.25)}.lc-val.red:hover{background:rgba(255,23,68,.3)}
+.lc-val.yellow{color:var(--ylw);background:rgba(255,215,64,.12);border-color:rgba(255,215,64,.25)}.lc-val.yellow:hover{background:rgba(255,215,64,.3)}
+.lc-val.cyan{color:var(--cyan);background:rgba(24,255,255,.12);border-color:rgba(24,255,255,.25)}.lc-val.cyan:hover{background:rgba(24,255,255,.3)}
+.lc-copy-hint{font-size:8px;color:var(--t3);text-align:right;padding:0 14px 6px}
+.lc-indicators{padding:10px 14px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lc-ind{display:flex;align-items:center;justify-content:space-between;padding:5px 10px;border-radius:4px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.lc-ind-name{font-size:9px;color:var(--t3);font-weight:600}
+.lc-ind-val{font-size:11px;font-weight:800}
+.lc-fund-warn{padding:8px 14px;font-size:11px;background:rgba(255,96,144,.08);border-top:1px solid rgba(255,96,144,.2);color:#ff6090;line-height:1.5}
+.lc-rr-bar{padding:8px 14px 12px}
+.lc-rr-label{font-size:9px;color:var(--t3);margin-bottom:4px;font-weight:600}
+.lc-rr-track{height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;position:relative}
+.lc-rr-fill{height:100%;border-radius:4px;transition:width .4s}
+.lc-steps{padding:10px 14px;display:flex;flex-direction:column;gap:5px}
+.lc-step{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:var(--t1);line-height:1.5}
+.lc-step-n{width:20px;height:20px;border-radius:50%;background:rgba(33,150,243,.25);border:1px solid var(--blue);color:var(--blue);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lc-footer{display:flex;gap:8px;padding:14px 18px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.lc-btn{flex:1;min-width:100px;padding:9px 12px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:opacity .15s;text-decoration:none}
+.lc-btn:hover{opacity:.85}
+.lc-btn-copy{background:var(--blue);color:#fff}
+.lc-btn-tv{background:var(--bg3);color:var(--t1);border:1px solid var(--bd)}
+.lc-btn-ref{background:linear-gradient(135deg,#00c853,#00b04a);color:#000}
+.lc-btn-tg{background:#229ED9;color:#fff}
+.copy-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,200,83,.9);color:#000;padding:8px 20px;border-radius:20px;font-size:12px;font-weight:700;z-index:99999;opacity:0;transition:opacity .2s;pointer-events:none}
+.copy-toast.show{opacity:1}
+.welcome-hint{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#162040,#1e2d50);border:1px solid var(--blue);border-radius:10px;padding:14px 18px;max-width:300px;z-index:9998;box-shadow:0 8px 24px rgba(0,0,0,.4);font-size:12px;line-height:1.6;color:var(--t1);animation:slideIn .3s ease-out}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.welcome-hint .wh-title{font-weight:700;color:var(--blue);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.welcome-hint .wh-close{background:none;border:none;color:var(--t3);cursor:pointer;font-size:16px;padding:0;line-height:1}
+.welcome-hint .wh-body{color:var(--t2);margin-bottom:10px}
+.welcome-hint .wh-btns{display:flex;gap:6px}
+.welcome-hint .wh-btn{flex:1;padding:5px;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center;border:none}
+.welcome-hint .wh-btn-go{background:var(--blue);color:#fff}
+.welcome-hint .wh-btn-tg{background:#229ED9;color:#fff}
+@media(max-width:900px){.pns{grid-template-columns:1fr}.pn:first-child{border-right:none;border-bottom:1px solid var(--bd)}.cds{grid-template-columns:repeat(4,1fr)}.ref-banner{gap:10px}}
+@media(max-width:500px){.cds{grid-template-columns:repeat(2,1fr)}.lc-indicators{grid-template-columns:1fr}.welcome-hint{left:12px;right:12px;max-width:none}}
+.lic-bar{background:linear-gradient(90deg,#0a0d18,#0d1529,#0a0d18);border-bottom:1px solid var(--bd);padding:6px 20px;font-size:10px;color:var(--t3);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lic-bar .lic-l{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lic-bar .lic-tag{background:rgba(33,150,243,.12);color:var(--blue);padding:2px 7px;border-radius:3px;font-weight:700;font-size:9px;border:1px solid rgba(33,150,243,.25)}
+.lic-bar a{color:var(--cyan);text-decoration:none}
+.lic-bar a:hover{text-decoration:underline}
+.lic-bar .lic-author{color:var(--t2);font-weight:600}
+.lic-bar .lic-mark{color:var(--t3);font-family:monospace;font-size:8px;opacity:.6}
+body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
+@media(max-width:500px){.lic-bar{font-size:9px}.lic-bar .lic-mark{display:none}}
+</style>
+</head>
+<body>
+<div class="lic-bar" id="licBar">
+  <div class="lic-l">
+    <span class="lic-tag">CC BY-NC-SA 4.0</span>
+    <span class="lic-author">© 2026 GridPulse Project</span>
+    <span style="color:var(--t3)">·</span>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" data-i18n="foot.licLink">License</a>
+    <span style="color:var(--t3)">·</span>
+    <a href="https://t.me/tradescoutfree" target="_blank" rel="noopener">Telegram</a>
+    <span style="color:var(--t3)">·</span>
+    <a href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <span class="lic-mark">GRDPLS-V14-1-RELEASE-2026</span>
+</div>
+
+<div class="ref-banner" id="refBanner">
+  <div class="ref-qr-wrap" id="refQrWrap"></div>
+  <div class="ref-info">
+    <div class="ref-title"><span data-i18n="ref.title">Sign up on Pionex via my referral link</span><span class="ref-badge" data-i18n="ref.badge">BONUS</span></div>
+    <div class="ref-sub" data-i18n-html="ref.sub">Pionex — exchange with 16 free trading bots · fee only <strong style="color:var(--grn)">0.05%</strong></div>
+    <div class="ref-features">
+      <span class="ref-feat ref-feat-green" data-i18n="ref.f1">✓ 16 free bots</span>
+      <span class="ref-feat ref-feat-blue" data-i18n="ref.f2">✓ Grid / Reverse / Smart Trade</span>
+      <span class="ref-feat ref-feat-ylw" data-i18n="ref.f3">✓ 0.05% fee</span>
+      <span class="ref-feat ref-feat-green" data-i18n="ref.f4">🔒 Licensed exchange · 10M+ users</span>
+    </div>
+    <div style="margin-top:6px;font-size:10px;color:var(--grn);font-weight:600" data-i18n="ref.thanks">💚 Thanks for your support — signing up via the link helps the project grow</div>
+  </div>
+  <div class="ref-cta">
+    <a class="ref-btn" id="refLink" href="#" target="_blank" rel="noopener" data-i18n="ref.btn">🚀 Sign up on Pionex</a>
+    <div class="ref-url" id="refUrlDisplay"></div>
+    <div class="ref-trust" data-i18n="ref.trust">🔒 Regulated · Cold storage · 24/7 support</div>
+  </div>
+</div>
+
+<div class="hdr">
+  <h1>⚡ GridPulse <span style="font-size:13px;color:var(--t3)">v14.2</span></h1>
+  <div class="hr">
+    <a class="gh-star-btn" href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener" title="Star on GitHub">⭐ <span data-i18n="hdr.star">Star</span></a>
+    <div class="lang-sw" id="langSw"></div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Theme">🌙</button>
+    <div class="clk" id="clk">00:00:00</div>
+    <div class="rl-warn" id="rlWarn" data-i18n="hdr.rlWarn">⚠ Proxy overloaded — retrying…</div>
+    <div class="mtg" data-i18n="hdr.modes">MACD + Reversal + VWAP + ATR + ADX + Funding + Launch Card</div>
+    <div class="mtg" style="color:var(--t3)">by GridPulse Project</div>
+  </div>
+</div>
+
+<div class="pns">
+  <div class="pn">
+    <div class="ptl" data-i18n="panel.left">Timeframes & depth</div>
+    <div class="tfg" id="tfB">
+      <div class="tf" data-tf="ALL" data-i18n="tf.all">ALL</div>
+      <div class="tf" data-tf="1m" data-i18n="tf.1m">1m</div><div class="tf" data-tf="5m" data-i18n="tf.5m">5m</div>
+      <div class="tf" data-tf="15m" data-i18n="tf.15m">15m</div><div class="tf" data-tf="30m" data-i18n="tf.30m">30m</div>
+      <div class="tf on" data-tf="1h" data-i18n="tf.1h">1h</div><div class="tf on" data-tf="4h" data-i18n="tf.4h">4h</div>
+      <div class="tf on" data-tf="1D" data-i18n="tf.1D">1D</div><div class="tf" data-tf="1W" data-i18n="tf.1W">1W</div><div class="tf" data-tf="1M" data-i18n="tf.1M">1M</div>
+    </div>
+    <div class="rw">
+      <div class="fg"><label data-i18n="lbl.depth">Search depth</label><select id="sDp"><option value="3">3</option><option value="5" selected>5</option><option value="7">7</option><option value="10">10</option><option value="15">15</option><option value="20">20</option></select></div>
+      <div class="fg"><label data-i18n="lbl.minTf">Min TF</label><select id="mnT"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></div>
+      <div class="fg"><label data-i18n="lbl.extremum">Extremum</label><select id="exL"><option value="3">3</option><option value="5" selected>5</option><option value="7">7</option><option value="10">10</option></select></div>
+    </div>
+  </div>
+  <div class="pn">
+    <div class="ptl" data-i18n="panel.right">Exchange, filters & boosters</div>
+    <div class="rw">
+      <div class="fg"><label data-i18n="lbl.exchange">Exchange</label><select id="exS"><option value="bybit">Bybit</option><option value="binance">Binance</option><option value="kucoin">KuCoin</option><option value="pionex" selected>Pionex</option><option value="okx">OKX</option></select></div>
+      <div class="fg"><label data-i18n="lbl.market">Market</label><select id="mkS"><option value="linear" data-i18n="opt.futures">USDT Futures</option><option value="spot" selected data-i18n="opt.spot">Spot</option></select></div>
+      <div class="fg"><label data-i18n="lbl.type">Type</label><select id="stS"><option value="both" data-i18n="opt.both">Both</option><option value="bullish" data-i18n="opt.bullish">Bullish</option><option value="bearish" data-i18n="opt.bearish">Bearish</option></select></div>
+    </div>
+    <div class="rw">
+      <div class="fg"><label data-i18n="lbl.topMcap">Top MCap</label><select id="mcS"><option value="50">50</option><option value="100" selected>100</option><option value="200">200</option><option value="500">500</option><option value="0" data-i18n="opt.all">All</option></select></div>
+      <div class="fg"><label data-i18n="lbl.max">Max</label><select id="mxR"><option value="50">50</option><option value="100" selected>100</option><option value="200">200</option></select></div>
+      <div class="fg" style="justify-content:flex-end">
+        <div class="ck"><input type="checkbox" id="chR" checked><span data-i18n="chk.reversal">REVERSAL FILTER</span></div>
+        <div class="ck ck-p"><input type="checkbox" id="chC"><span data-i18n="chk.consStop">CONSERVATIVE STOP</span></div>
+      </div>
+    </div>
+    <div class="rw" style="margin-top:4px;padding-top:8px;border-top:1px solid var(--bd)">
+      <div class="fg"><label style="color:var(--cyan)" data-i18n="grp.vwap">VWAP filters</label>
+        <div class="ck ck-v"><input type="checkbox" id="chVD"><span data-i18n="chk.vwapDir">VWAP DIRECTION</span></div>
+        <div class="ck ck-v"><input type="checkbox" id="chVC"><span data-i18n="chk.vwapCnf">VWAP CONFLUENCE</span></div></div>
+      <div class="fg"><label style="color:var(--org)" data-i18n="grp.candle">Candle</label>
+        <div class="ck ck-a"><input type="checkbox" id="chAT"><span data-i18n="chk.atr">ATR SIZE ×0.8</span></div>
+        <div class="ck ck-a"><input type="checkbox" id="chVL"><span data-i18n="chk.vol">VOLUME ×1.1</span></div></div>
+      <div class="fg"><label style="color:var(--ylw)" data-i18n="grp.trendRr">Trend / R:R</label>
+        <div class="ck ck-x"><input type="checkbox" id="chAD"><span data-i18n="chk.adx">ADX ≥ 18</span></div>
+        <div class="ck ck-x"><input type="checkbox" id="chRR"><span data-i18n="chk.rr">R:R ≥ 1.5</span></div></div>
+    </div>
+    <div class="rw" style="margin-top:4px;padding-top:8px;border-top:1px solid var(--bd)">
+      <div class="fg"><label style="color:#ff6090" data-i18n="grp.funding">Funding (Futures only)</label>
+        <div class="ck ck-f"><input type="checkbox" id="chFD"><span data-i18n="chk.fundOn">CONSIDER FUNDING</span></div>
+        <div class="ck ck-f"><input type="checkbox" id="chFH"><span data-i18n="chk.fundHist">USE 7-DAY HISTORY</span></div>
+        <div class="ck ck-f"><input type="checkbox" id="chFS"><span data-i18n="chk.fundSkip">SKIP IF EXCEEDS THRESHOLD</span></div>
+      </div>
+      <div class="fg"><label data-i18n="lbl.fundMax">Max daily funding</label>
+        <select id="fdMax">
+          <option value="0.05">0.05%</option>
+          <option value="0.1" selected>0.10%</option>
+          <option value="0.2">0.20%</option>
+          <option value="0.3">0.30%</option>
+          <option value="0.5">0.50%</option>
+          <option value="1">1.00%</option>
+        </select>
+      </div>
+      <div class="fg"><label data-i18n="lbl.fundHold">Hold (days)</label>
+        <select id="fdHold">
+          <option value="1">1</option>
+          <option value="3" selected>3</option>
+          <option value="7">7</option>
+          <option value="14">14</option>
+          <option value="30">30</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bts">
+  <button class="bt bgo" id="goB" onclick="startScan()" data-i18n="btn.scan">▶ Scan</button>
+  <button class="bt bst" id="stB" onclick="stopScan()" disabled data-i18n="btn.stop">● Stop</button>
+  <button class="bt bst" onclick="Q('cpn').classList.toggle('vis')" data-i18n="btn.customPairs">Custom pairs</button>
+  <button class="bt bst" onclick="doCSV()" data-i18n="btn.csv">CSV</button>
+  <a class="bt bst" id="hdrPionexBtn" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:5px" data-i18n="btn.openPionex">🤖 Open Pionex</a>
+    <button class="bt bsh" onclick="shareApp()" data-i18n="btn.share">📤 Share Screener</button>
+</div>
+<div id="binWarn" style="display:none;padding:6px 20px;background:rgba(255,145,0,.12);border-bottom:1px solid var(--bd);color:var(--org);font-size:11px;font-weight:600">⚠ Binance may ban proxy / data-center IPs — scans can fail or return partial data. Bybit and OKX are more reliable for this tool.</div>
+
+<div class="cpn" id="cpn"><textarea id="cP" data-i18n-ph="ph.customPairs" placeholder="BTCUSDT, ETHUSDT, SOLUSDT..."></textarea></div>
+
+<div class="cds">
+  <div class="cd"><div class="n c1" id="nSc">0</div><div class="l" data-i18n="cnt.scanned">Scanned</div></div>
+  <div class="cd"><div class="n c2" id="nSt">0</div><div class="l" data-i18n="cnt.setups">Setups</div></div>
+  <div class="cd"><div class="n c3" id="nBu">0</div><div class="l" data-i18n="cnt.bullish">Bullish</div></div>
+  <div class="cd"><div class="n c4" id="nBe">0</div><div class="l" data-i18n="cnt.bearish">Bearish</div></div>
+  <div class="cd"><div class="n c5" id="nRv">0</div><div class="l" data-i18n="cnt.reversal">Reversal</div></div>
+  <div class="cd"><div class="n dc" id="nVW">0</div><div class="l" data-i18n="cnt.vwap">VWAP ⭐</div></div>
+  <div class="cd"><div class="n" style="color:var(--ylw)" id="nRR">0</div><div class="l" data-i18n="cnt.rr">R:R ≥ 2</div></div>
+</div>
+
+<div class="pb"><div class="fl" id="pF"></div></div>
+
+<div class="rhd">
+  <h2><span data-i18n="res.title">Results</span> <span id="rC">(0)</span></h2>
+  <div style="display:flex;gap:4px;align-items:center">
+    <div class="rvt" id="rT" style="display:none" data-i18n="badge.reversal">REVERSAL</div>
+    <div class="cvt" id="cT2" style="display:none" data-i18n="badge.consStop">CONS.STOP</div>
+    <div class="fvt" id="fT2" style="display:none" data-i18n="badge.funding">FUNDING ON</div>
+  </div>
+</div>
+
+<div class="tw"><table><thead><tr>
+  <th onclick="srt(0)">#</th><th onclick="srt(1)" data-i18n="th.rank">Rank</th>
+  <th onclick="srt(2)" data-i18n="th.symbol">Symbol</th><th onclick="srt(3)" data-i18n="th.price">Price</th>
+  <th onclick="srt(4)" data-i18n="th.setup">Setup</th><th data-i18n="th.tf">TF</th>
+  <th onclick="srt(6)" data-i18n="th.depth">Depth</th><th data-i18n="th.rev">Rev</th>
+  <th data-i18n="th.conf">Conf</th><th data-i18n="th.macd">MACD</th>
+  <th onclick="srt(10)" data-i18n="th.limit">Limit</th><th onclick="srt(11)" data-i18n="th.limitPct">Lim%</th>
+  <th onclick="srt(12)" data-i18n="th.stop">Stop</th><th onclick="srt(13)" data-i18n="th.stopPct">Stp%</th>
+  <th onclick="srt(14)" data-i18n="th.consSl">Cons.SL</th><th onclick="srt(15)" data-i18n="th.consPct">Cons%</th>
+  <th onclick="srt(16)" data-i18n="th.vwapPct">VWAP%</th><th onclick="srt(17)" data-i18n="th.vwapStar">VWAP★</th>
+  <th onclick="srt(18)" data-i18n="th.volPct">Vol%</th><th onclick="srt(19)" data-i18n="th.atr">ATR</th>
+  <th onclick="srt(20)" data-i18n="th.adx">ADX</th><th onclick="srt(21)" data-i18n="th.rr">R:R</th>
+  <th onclick="srt(22)" data-i18n="th.fundNow">Fund%</th><th onclick="srt(23)" data-i18n="th.fundDay">Fund/d</th>
+  <th onclick="srt(24)" data-i18n="th.fundHold">Fund/H</th><th onclick="srt(25)" data-i18n="th.fundBias">F.Bias</th>
+  <th onclick="srt(26)" data-i18n="th.mode">Mode</th><th onclick="srt(27)" data-i18n="th.botRange">Bot Range</th>
+  <th onclick="srt(28)" data-i18n="th.bsRange">B/S Range</th>
+</tr></thead><tbody id="tB"></tbody></table></div>
+
+<div class="lw"><div class="lgT" onclick="togLg()"><span data-i18n="log.title">Activity log</span><span class="a" id="lA">▼</span></div><div class="lgB" id="lB"></div></div>
+
+<div class="foot" id="footAttr">
+  <div><strong style="color:var(--t2)">⚡ GridPulse v14.2</strong> — <span data-i18n="foot.free">Free open-source tool</span></div>
+  <div style="margin-top:5px">© 2026 GridPulse Project · <span data-i18n="foot.lic">License</span> <span class="tag">CC BY-NC-SA 4.0</span> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" data-i18n="foot.licLink">license terms</a> · <a href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/pro100off/gridpulse/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="foot.changelog">Changelog</a></div>
+  <div class="disclosure" data-i18n-html="foot.disclosure"><strong>💡 Transparency:</strong> GridPulse is free and open-source. I earn a referral commission from Pionex when you sign up via my link and trade — this is the project's only monetization. Forking with your own referral is fine — please keep a link back to the original. Crypto trading is risky; this tool is not financial advice.</div>
+</div>
+
+<div class="social" id="socialBar"></div>
+
+<div class="modal" id="chM"><div class="mbox"><div class="mtp"><div style="display:flex;align-items:center;overflow:hidden;flex:1;min-width:0"><h3 id="cTt">—</h3><span class="minf" id="cI"></span></div><button class="mcl" onclick="clCh()">&times;</button></div><div class="mtf" id="cTB"></div><div class="mcw" id="cW"><div class="tv-loading" id="tvLoading">⏳ Loading chart…</div></div></div></div>
+<div class="lc-modal" id="lcModal"><div class="lc-box" id="lcBox"></div></div>
+<div class="copy-toast" id="copyToast" data-i18n="toast.copied">✓ Copied!</div>
+<script>
+const REF_URL = (function(){
+  const parts = ['aHR0cHM6Ly8=','Yml0Lmx5','LzQz','YmtkYzc='];
+  try{let u=''; for(const p of parts) u+=atob(p); return u;}
+  catch(e){return 'https://bit.ly/43bkdc7';}
+})();
+function _refWatchdog(){
+  try{
+    ['refLink','hdrPionexBtn'].forEach(id=>{const el=document.getElementById(id);if(el && el.tagName==='A' && el.href!==REF_URL) el.href=REF_URL;});
+    document.querySelectorAll('.ref-btn,.lc-btn-ref').forEach(btn=>{if(btn.tagName==='A' && btn.href!==REF_URL) btn.href=REF_URL;});
+    const d=document.getElementById('refUrlDisplay');if(d && d.textContent!==REF_URL) d.textContent=REF_URL;
+  }catch(e){}
+}
+setInterval(_refWatchdog,5000);
+const SOCIAL  = {telegram:'https://t.me/tradescoutfree',github:'https://github.com/pro100off/gridpulse',twitter:'https://x.com/tradeaiscout'};
+const APP_URL = 'https://pro100off.github.io/gridpulse/';
+const CUSTOM_PROXY = 'https://gridpulse-proxy.pro100off.workers.dev/?url=';
+
+
+const I18N = {
+  en:{"ref.title":"Sign up on Pionex via my referral link","ref.badge":"BONUS","ref.sub":"Pionex — exchange with 16 free trading bots · fee only <strong style='color:var(--grn)'>0.05%</strong>","ref.f1":"✓ 16 free bots","ref.f2":"✓ Grid / Reverse / Smart Trade","ref.f3":"✓ 0.05% fee","ref.f4":"🔒 Licensed exchange · 10M+ users","ref.btn":"🚀 Sign up on Pionex","ref.trust":"🔒 Regulated · Cold storage · 24/7 support","ref.thanks":"💚 Thanks for your support — signing up via the link helps the project grow","hdr.star":"Star","hdr.modes":"MACD + Reversal + VWAP + ATR + ADX + Funding + Launch Card","hdr.rlWarn":"⚠ Proxy overloaded — retrying…","panel.left":"Timeframes & depth","panel.right":"Exchange, filters & boosters","tf.all":"ALL","lbl.depth":"Search depth","lbl.minTf":"Min TF","lbl.extremum":"Extremum","lbl.exchange":"Exchange","lbl.market":"Market","lbl.type":"Type","lbl.topMcap":"Top MCap","lbl.max":"Max","lbl.fundMax":"Max daily funding","lbl.fundHold":"Hold (days)","opt.futures":"USDT Futures","opt.spot":"Spot","opt.both":"Both","opt.bullish":"Bullish","opt.bearish":"Bearish","opt.all":"All","chk.reversal":"REVERSAL FILTER","chk.consStop":"CONSERVATIVE STOP","grp.vwap":"VWAP filters","chk.vwapDir":"VWAP DIRECTION","chk.vwapCnf":"VWAP CONFLUENCE","grp.candle":"Candle","chk.atr":"ATR SIZE ×0.8","chk.vol":"VOLUME ×1.1","grp.trendRr":"Trend / R:R","chk.adx":"ADX ≥ 18","chk.rr":"R:R ≥ 1.5","grp.funding":"Funding (Futures only)","chk.fundOn":"CONSIDER FUNDING","chk.fundHist":"USE 7-DAY HISTORY","chk.fundSkip":"SKIP IF EXCEEDS THRESHOLD","btn.scan":"▶ Scan","btn.stop":"● Stop","btn.customPairs":"Custom pairs","btn.csv":"CSV","btn.openPionex":"🤖 Open Pionex","btn.share":"📤 Share Screener","ph.customPairs":"BTCUSDT, ETHUSDT, SOLUSDT... (comma or space separated)","cnt.scanned":"Scanned","cnt.setups":"Setups","cnt.bullish":"Bullish","cnt.bearish":"Bearish","cnt.reversal":"Reversal","cnt.vwap":"VWAP ⭐","cnt.rr":"R:R ≥ 2","res.title":"Results","badge.reversal":"REVERSAL","badge.consStop":"CONS.STOP","badge.funding":"FUNDING ON","th.rank":"Rank","th.symbol":"Symbol","th.price":"Price","th.setup":"Setup","th.tf":"TF","th.depth":"Depth","th.rev":"Rev","th.conf":"Conf","th.macd":"MACD","th.limit":"Limit","th.limitPct":"Lim%","th.stop":"Stop","th.stopPct":"Stp%","th.consSl":"Cons.SL","th.consPct":"Cons%","th.vwapPct":"VWAP%","th.vwapStar":"VWAP★","th.volPct":"Vol%","th.atr":"ATR","th.adx":"ADX","th.rr":"R:R","th.fundNow":"Fund%","th.fundDay":"Fund/d","th.fundHold":"Fund/H","th.fundBias":"F.Bias","th.mode":"Mode","th.botRange":"Bot Range","th.bsRange":"B/S Range","log.title":"Activity log","toast.copied":"✓ Copied!","lc.params":"Parameters for Pionex","lc.indic":"Indicator confirmation","lc.steps":"Step-by-step guide","lc.trade":"Trade on Pionex","lc.copyHint":"👆 Click a value to copy","lc.copyAll":"📋 Copy all","lc.openChart":"📊 Open chart","lc.shareTg":"✈️ Share to Telegram","lc.refReg":"Sign up and get access to 16 free bots · 0.05% fee","lc.refThanks":"Thanks for signing up via the referral link 🙏","lc.buyPrice":"Entry (Buy Price)","lc.sellPrice":"Entry (Sell Price)","lc.sl":"Stop Loss","lc.consSl":"Conservative SL","lc.tp":"Fixed Take Profit","lc.trailUp":"Trailing trigger (+10%)","lc.trailDn":"Trailing trigger (−10%)","lc.trailDD":"Max trailing drawdown","lc.posSize":"Position size","lc.posVal":"10–20% of capital","lc.lower":"Lower Limit","lc.upper":"Upper Limit","lc.width":"Range width","lc.gridN":"Grid lines count","lc.gridMode":"Grid mode","lc.gridModeVal":"Geometric","lc.invest":"Investment","lc.investVal":"Tokens (base asset)","lc.slBot":"Stop Loss (−20% from lower)","lc.tpBot":"Take Profit (+15% from upper)","lc.curPrice":"Current price","lc.entryRef":"Entry reference","lc.warn":"⚠ Entry conditions not optimal. Wait for a better setup or check the chart.","lc.indVol":"Volume","lc.indDepth":"Depth","lc.yes":"⭐ YES","lc.no":"· NO","lc.rrLabel":"R:R ratio","lc.stBuy1":"Pionex → Trade → Smart Trade","lc.stBuy2":"{sym} · {tf}","lc.stBuy3":"Buy Price = Limit","lc.stBuy4":"Stop Loss","lc.stBuy5":"Take Profit: Fixed / Trailing","lc.stBuy6":"Check R:R ≥ 1.5","lc.stSell1":"Pionex → Trade → Smart Trade","lc.stSell2":"{sym} · {tf}","lc.stSell3":"Sell Price = Limit (resistance)","lc.stSell4":"Stop Loss above resistance","lc.stSell5":"Take Profit: Trailing","lc.stSell6":"Reinvest into Reverse Grid","lc.stBot1":"Pionex → Bots → Reverse Grid","lc.stBot2":"{sym}","lc.stBot3":"Lower/Upper from Bot Range","lc.stBot4":"Grid mode: Geometric","lc.stBot5":"30–50 grid lines","lc.stBot6":"Stop Loss (−20%)","lc.stSkip1":"Check chart on TradingView","lc.stSkip2":"Wait for higher-TF confirmation","lc.stSkip3":"ADX / VWAP / Volume not ready yet","lc.funding":"Funding (Perpetual)","lc.fundNow":"Current rate","lc.fundAvg":"Avg 7d (21 payments)","lc.fundDaily":"Per day (×3)","lc.fundAnnual":"Annualized","lc.fundHoldCost":"Cost over {n} days","lc.fundNext":"Next payment in","lc.fundSource":"Source","lc.fundFallback":"(via Binance)","lc.fundBiasLongOk":"🟢 LONG-friendly","lc.fundBiasLongBad":"🔴 LONG-costly","lc.fundBiasShortOk":"🟢 SHORT-friendly","lc.fundBiasShortBad":"🔴 SHORT-costly","lc.fundBiasNeutral":"➖ Neutral","lc.fundNA":"⚠ Funding N/A","lc.fundWarnLong":"⚠ Positive funding eats into LONG profits. Consider SHORT or spot grid.","lc.fundWarnShort":"⚠ Negative funding eats into SHORT profits. Consider LONG or spot grid.","lc.fundOk":"✓ Funding is favorable for this direction.","log.selectTf":"Select a timeframe!","log.stopped":"Stopped by user","log.noData":"No data to export","log.csvDone":"CSV exported: {n} rows","log.done":"Done: {n} setups in {s}s","log.empty":"Pair list is empty — nothing to scan","log.welcome":"Welcome! If this screener is useful — signing up to Pionex via the link supports its development 💚","log.milestone":"🎉 That was your {n}-th scan! If it's helpful — please star us on GitHub ⭐","log.cacheHit":"Cache hit: {what}","log.proxyDown":"Proxy {p} unhealthy, switching","log.fundFetch":"Funding: fetched {n}/{tot}","log.fundSkip":"Funding-SKIP: {sym} {dir} daily={d}%","log.binFutFallback":"Binance futures: exchangeInfo failed, using ticker/price fallback","log.pairsErr":"{ex} {mk}: unexpected response — {why}","foot.free":"Free open-source tool","foot.lic":"License","foot.licLink":"license terms","foot.changelog":"Changelog","foot.noSale":"commercial resale prohibited","foot.disclosure":"<strong>💡 Transparency:</strong> GridPulse is free and open-source. I earn a referral commission from Pionex when you sign up via my link and trade — this is the project's only monetization. Forking with your own referral is fine — please keep a link back to the original. Crypto trading is risky; this tool is not financial advice.","social.share":"Share","welcome.title":"👋 First time here?","welcome.body":"Click <strong style='color:var(--grn)'>▶ Scan</strong> — in ~30 seconds you'll see potential setups to analyze. Not financial advice.","welcome.go":"Got it","welcome.tg":"📢 Channel","share.title":"GridPulse — Free Crypto Screener","share.text":"⚡ Found a great free crypto reversal screener.\nMACD + VWAP + ADX + Funding setups across 5 exchanges with ready-made Launch Cards for Pionex Grid Bots.","share.setup":"⚡ {sym} / {tf} — {mode} setup\n\nPrice: {price}\n{entry}{stop}{rr}\nFound with GridPulse: {app}\nTrade on Pionex: {ref}","tv.unavailable":"Chart unavailable on TradingView for this symbol."},
+  ua:{"ref.title":"Зареєструйтесь на Pionex за моїм реферальним посиланням","ref.badge":"БОНУС","ref.sub":"Pionex — біржа з 16 безкоштовними ботами · комісія всього <strong style='color:var(--grn)'>0.05%</strong>","ref.f1":"✓ 16 безкоштовних ботів","ref.f2":"✓ Grid / Reverse / Smart Trade","ref.f3":"✓ Комісія 0.05%","ref.f4":"🔒 Ліцензована біржа · 10М+ користувачів","ref.btn":"🚀 Зареєструватись на Pionex","ref.trust":"🔒 Регульована · Cold storage · 24/7 підтримка","ref.thanks":"💚 Дякую за підтримку — реєстрація за посиланням допомагає розвитку проєкту","hdr.star":"Зірка","hdr.modes":"MACD + Реверс + VWAP + ATR + ADX + Фандинг + Launch Card","hdr.rlWarn":"⚠ Проксі перевантажений — повторюємо…","panel.left":"Часові рамки та глибина","panel.right":"Біржа, фільтри та підсилювачі","tf.all":"ВСІ","lbl.depth":"Глибина пошуку","lbl.minTf":"Мін ТФ","lbl.extremum":"Екстремум","lbl.exchange":"Біржа","lbl.market":"Ринок","lbl.type":"Тип","lbl.topMcap":"Топ MCap","lbl.max":"Макс","lbl.fundMax":"Макс. денний фандинг","lbl.fundHold":"Тримати (днів)","opt.futures":"Ф'ючерси USDT","opt.spot":"Спот","opt.both":"Обидва","opt.bullish":"Бичачий","opt.bearish":"Ведмежий","opt.all":"Всі","chk.reversal":"ФІЛЬТР РЕВЕРСУ","chk.consStop":"КОНСЕРВАТИВНИЙ СТОП","grp.vwap":"VWAP фільтри","chk.vwapDir":"VWAP НАПРЯМ","chk.vwapCnf":"VWAP КОНФЛ.","grp.candle":"Свічка","chk.atr":"ATR РОЗМІР ×0.8","chk.vol":"ОБ'ЄМ ×1.1","grp.trendRr":"Тренд / R:R","chk.adx":"ADX ≥ 18","chk.rr":"R:R ≥ 1.5","grp.funding":"Фандинг (тільки ф'ючерси)","chk.fundOn":"ВРАХОВУВАТИ ФАНДИНГ","chk.fundHist":"ІСТОРІЯ 7 ДНІВ","chk.fundSkip":"SKIP ПРИ ПЕРЕВИЩЕННІ","btn.scan":"▶ Сканувати","btn.stop":"● Стоп","btn.customPairs":"Свої пари","btn.csv":"CSV","btn.openPionex":"🤖 Відкрити Pionex","btn.share":"📤 Поділитися","ph.customPairs":"BTCUSDT, ETHUSDT, SOLUSDT... (через кому або пробіл)","cnt.scanned":"Відскановано","cnt.setups":"Сетапів","cnt.bullish":"Бичачий","cnt.bearish":"Ведмежий","cnt.reversal":"Реверс","cnt.vwap":"VWAP ⭐","cnt.rr":"R:R ≥ 2","res.title":"Результати","badge.reversal":"РЕВЕРС","badge.consStop":"КОНС.СТОП","badge.funding":"ФАНДИНГ ON","th.rank":"Ранг","th.symbol":"Символ","th.price":"Ціна","th.setup":"Сетап","th.tf":"ТФ","th.depth":"Глиб","th.rev":"Рев","th.conf":"Конф","th.macd":"MACD","th.limit":"Ліміт","th.limitPct":"Лім%","th.stop":"Стоп","th.stopPct":"Стп%","th.consSl":"Конс.SL","th.consPct":"Конс%","th.vwapPct":"VWAP%","th.vwapStar":"VWAP★","th.volPct":"Vol%","th.atr":"ATR","th.adx":"ADX","th.rr":"R:R","th.fundNow":"Фанд%","th.fundDay":"Фанд/д","th.fundHold":"Фанд/Х","th.fundBias":"Ф.Зсув","th.mode":"Режим","th.botRange":"Діап.Бот","th.bsRange":"Діап.B/S","log.title":"Журнал активності","toast.copied":"✓ Скопійовано!","lc.params":"Параметри для Pionex","lc.indic":"Підтвердження індикаторів","lc.steps":"Покрокова інструкція","lc.trade":"Торгуйте на Pionex","lc.copyHint":"👆 Натисніть на значення щоб скопіювати","lc.copyAll":"📋 Копіювати все","lc.openChart":"📊 Відкрити графік","lc.shareTg":"✈️ В Telegram","lc.refReg":"Зареєструйтесь та отримайте доступ до 16 безкоштовних ботів · комісія 0.05%","lc.refThanks":"Дякуємо за реєстрацію за реферальним посиланням 🙏","lc.buyPrice":"Ціна входу (Buy Price)","lc.sellPrice":"Ціна входу (Sell Price)","lc.sl":"Стоп-лосс (Stop Loss)","lc.consSl":"Конс. стоп","lc.tp":"Фікс. тейк-профіт","lc.trailUp":"Трейлінг тригер (+10%)","lc.trailDn":"Трейлінг тригер (−10%)","lc.trailDD":"Макс. просадка трейлінгу","lc.posSize":"Розмір позиції","lc.posVal":"10–20% капіталу","lc.lower":"Нижня межа","lc.upper":"Верхня межа","lc.width":"Ширина діапазону","lc.gridN":"Кількість грід-ліній","lc.gridMode":"Режим сітки","lc.gridModeVal":"Geometric (геометричний)","lc.invest":"Інвестиція","lc.investVal":"Токени (base asset)","lc.slBot":"Стоп-лосс (−20% від нижньої)","lc.tpBot":"Тейк-профіт (+15% від верхньої)","lc.curPrice":"Поточна ціна","lc.entryRef":"Орієнтир входу","lc.warn":"⚠ Умови входу неоптимальні. Дочекайтесь кращого сетапу або перевірте на графіку.","lc.indVol":"Об'єм","lc.indDepth":"Глибина","lc.yes":"⭐ ТАК","lc.no":"· НІ","lc.rrLabel":"R:R співвідношення","lc.stBuy1":"Pionex → Trade → Smart Trade","lc.stBuy2":"{sym} · {tf}","lc.stBuy3":"Ціна купівлі = Limit","lc.stBuy4":"Стоп-лосс","lc.stBuy5":"Тейк-профіт: Фікс. / Трейлінг","lc.stBuy6":"Перевір R:R ≥ 1.5","lc.stSell1":"Pionex → Trade → Smart Trade","lc.stSell2":"{sym} · {tf}","lc.stSell3":"Ціна продажу = Limit (опір)","lc.stSell4":"Стоп-лосс вище опору","lc.stSell5":"Тейк-профіт: Трейлінг","lc.stSell6":"Реінвестуй у Reverse Grid","lc.stBot1":"Pionex → Боти → Reverse Grid","lc.stBot2":"{sym}","lc.stBot3":"Нижня/Верхня з Bot Range","lc.stBot4":"Режим сітки: Geometric","lc.stBot5":"30–50 грід-ліній","lc.stBot6":"Стоп-лосс (−20%)","lc.stSkip1":"Перевір графік на TradingView","lc.stSkip2":"Дочекайся підтвердження на старшому ТФ","lc.stSkip3":"ADX / VWAP / Обʼєм ще не готові","lc.funding":"Фандинг (Perpetual)","lc.fundNow":"Поточна ставка","lc.fundAvg":"Середнє 7д (21 виплата)","lc.fundDaily":"За день (×3)","lc.fundAnnual":"Річний","lc.fundHoldCost":"Вартість за {n} днів","lc.fundNext":"Наступна виплата через","lc.fundSource":"Джерело","lc.fundFallback":"(через Binance)","lc.fundBiasLongOk":"🟢 LONG-вигідно","lc.fundBiasLongBad":"🔴 LONG-витратно","lc.fundBiasShortOk":"🟢 SHORT-вигідно","lc.fundBiasShortBad":"🔴 SHORT-витратно","lc.fundBiasNeutral":"➖ Нейтрально","lc.fundNA":"⚠ Фандинг н/д","lc.fundWarnLong":"⚠ Позитивний фандинг з'їдає прибуток LONG. Розгляньте SHORT або spot grid.","lc.fundWarnShort":"⚠ Негативний фандинг з'їдає прибуток SHORT. Розгляньте LONG або spot grid.","lc.fundOk":"✓ Фандинг сприятливий для цього напрямку.","log.selectTf":"Оберіть ТФ!","log.stopped":"Зупинено користувачем","log.noData":"Немає даних для експорту","log.csvDone":"CSV експортовано: {n} рядків","log.done":"Готово: {n} сетапів за {s}с","log.empty":"Список пар порожній — нема що сканувати","log.welcome":"Вітаю! Якщо скринер корисний — реєстрація на Pionex за посиланням підтримує його розвиток 💚","log.milestone":"🎉 Це твоє {n}-те сканування! Якщо корисно — постав ⭐ на GitHub","log.cacheHit":"Кеш: {what}","log.proxyDown":"Проксі {p} впав, перемикаюсь","log.fundFetch":"Фандинг: отримано {n}/{tot}","log.fundSkip":"Фандинг-SKIP: {sym} {dir} daily={d}%","log.binFutFallback":"Binance ф'ючерси: exchangeInfo не вдався, використовую ticker/price","log.pairsErr":"{ex} {mk}: неочікувана відповідь — {why}","foot.free":"Безкоштовний open-source інструмент","foot.lic":"Ліцензія","foot.licLink":"умови ліцензії","foot.changelog":"Історія змін","foot.noSale":"комерційний продаж заборонено","foot.disclosure":"<strong>💡 Прозорість:</strong> GridPulse безкоштовний і open-source. Я отримую реферальну комісію з Pionex, коли ти реєструєшся за моїм посиланням і торгуєш — це єдина монетизація проєкту. Якщо робиш свій форк зі своїм рефом, це нормально — будь ласка, збережи лінк на оригінал. Криптотрейдинг ризикований; цей інструмент не є фінансовою порадою.","social.share":"Поділитися","welcome.title":"👋 Перший раз тут?","welcome.body":"Натисни <strong style='color:var(--grn)'>▶ Сканувати</strong> — за ~30 секунд побачиш потенційні сетапи для аналізу. Не є фінансовою порадою.","welcome.go":"Зрозуміло","welcome.tg":"📢 Канал","share.title":"GridPulse — безкоштовний крипто-скринер","share.text":"⚡ Знайшов крутий безкоштовний скринер для крипти.\nMACD + VWAP + ADX + Фандинг на 5 біржах з готовими Launch Cards для Pionex.","share.setup":"⚡ {sym} / {tf} — {mode} сетап\n\nЦіна: {price}\n{entry}{stop}{rr}\nЗнайдено через GridPulse: {app}\nТоргуй на Pionex: {ref}","tv.unavailable":"Графік недоступний у TradingView для цього символу."},
+  es:{},ru:{},zh:{}
+};
+</script>
+<script>
+/* === Full ES/RU/ZH (base=EN) + footer + Launch-Card + TF labels === */
+(function(){
+  ['ua','es','ru','zh'].forEach(l=>{const o=I18N[l]||{};I18N[l]=Object.assign({},I18N.en,o);});
+
+  Object.assign(I18N.es,{
+    "ref.title":"Regístrate en Pionex con mi enlace de referido","ref.badge":"BONO","ref.f3":"✓ Comisión 0.05%","ref.f4":"🔒 Exchange con licencia · 10M+ usuarios","ref.btn":"🚀 Registrarse en Pionex","ref.trust":"🔒 Regulado · Cold storage · Soporte 24/7","ref.thanks":"💚 Gracias por tu apoyo — registrarte con el enlace ayuda al proyecto","hdr.star":"Estrella","hdr.modes":"MACD + Reversión + VWAP + ATR + ADX + Funding + Launch Card","hdr.rlWarn":"⚠ Proxy sobrecargado — reintentando…","panel.left":"Temporalidades y profundidad","panel.right":"Exchange, filtros y potenciadores","tf.all":"TODOS","lbl.depth":"Profundidad","lbl.minTf":"TF mín","lbl.extremum":"Extremo","lbl.market":"Mercado","lbl.type":"Tipo","lbl.max":"Máx","lbl.fundMax":"Max funding diario","lbl.fundHold":"Hold (días)","opt.futures":"Futuros USDT","opt.both":"Ambos","opt.bullish":"Alcista","opt.bearish":"Bajista","opt.all":"Todos","chk.reversal":"FILTRO DE REVERSIÓN","chk.consStop":"STOP CONSERVADOR","grp.vwap":"Filtros VWAP","chk.vwapDir":"DIRECCIÓN VWAP","chk.vwapCnf":"CONFLUENCIA VWAP","grp.candle":"Vela","grp.trendRr":"Tendencia / R:R","grp.funding":"Funding (solo Futuros)","chk.fundOn":"CONSIDERAR FUNDING","chk.fundHist":"USAR HISTORIAL 7D","chk.fundSkip":"SKIP SI SUPERA UMBRAL","btn.scan":"▶ Escanear","btn.stop":"● Detener","btn.customPairs":"Pares propios","btn.openPionex":"🤖 Abrir Pionex","btn.share":"📤 Compartir","cnt.scanned":"Escaneados","cnt.setups":"Setups","cnt.bullish":"Alcista","cnt.bearish":"Bajista","cnt.reversal":"Reversión","res.title":"Resultados","badge.reversal":"REVERSIÓN","badge.consStop":"STOP CONS.","badge.funding":"FUNDING ON","th.rank":"Rango","th.symbol":"Símbolo","th.price":"Precio","th.depth":"Prof","th.mode":"Modo","th.botRange":"Rango Bot","th.bsRange":"Rango B/S","log.title":"Registro de actividad","toast.copied":"✓ ¡Copiado!","lc.params":"Parámetros para Pionex","lc.indic":"Confirmación de indicadores","lc.steps":"Guía paso a paso","lc.trade":"Opera en Pionex","lc.copyHint":"👆 Haz clic en un valor para copiar","lc.copyAll":"📋 Copiar todo","lc.openChart":"📊 Abrir gráfico","lc.shareTg":"✈️ A Telegram","lc.refReg":"Regístrate y accede a 16 bots gratis · comisión 0.05%","lc.refThanks":"Gracias por registrarte con el enlace de referido 🙏","lc.buyPrice":"Entrada (precio de compra)","lc.sellPrice":"Entrada (precio de venta)","lc.sl":"Stop Loss","lc.consSl":"SL conservador","lc.tp":"Take Profit fijo","lc.trailUp":"Disparador trailing (+10%)","lc.trailDn":"Disparador trailing (−10%)","lc.trailDD":"Drawdown máx. trailing","lc.posSize":"Tamaño de posición","lc.posVal":"10–20% del capital","lc.lower":"Límite inferior","lc.upper":"Límite superior","lc.width":"Ancho del rango","lc.gridN":"Número de líneas grid","lc.gridMode":"Modo de grid","lc.gridModeVal":"Geométrico","lc.invest":"Inversión","lc.investVal":"Tokens (activo base)","lc.slBot":"Stop Loss (−20% del inferior)","lc.tpBot":"Take Profit (+15% del superior)","lc.curPrice":"Precio actual","lc.entryRef":"Referencia de entrada","lc.warn":"⚠ Condiciones de entrada no óptimas. Espera un mejor setup o revisa el gráfico.","lc.indVol":"Volumen","lc.indDepth":"Profundidad","lc.yes":"⭐ SÍ","lc.no":"· NO","lc.rrLabel":"Ratio R:R","lc.stBuy1":"Pionex → Trade → Smart Trade","lc.stBuy2":"{sym} · {tf}","lc.stBuy3":"Precio de compra = Límite","lc.stBuy4":"Stop Loss","lc.stBuy5":"Take Profit: Fijo / Trailing","lc.stBuy6":"Verifica R:R ≥ 1.5","lc.stSell1":"Pionex → Trade → Smart Trade","lc.stSell2":"{sym} · {tf}","lc.stSell3":"Precio de venta = Límite (resistencia)","lc.stSell4":"Stop Loss sobre la resistencia","lc.stSell5":"Take Profit: Trailing","lc.stSell6":"Reinvierte en Reverse Grid","lc.stBot1":"Pionex → Bots → Reverse Grid","lc.stBot2":"{sym}","lc.stBot3":"Inferior/Superior del Rango Bot","lc.stBot4":"Modo de grid: Geométrico","lc.stBot5":"30–50 líneas de grid","lc.stBot6":"Stop Loss (−20%)","lc.stSkip1":"Revisa el gráfico en TradingView","lc.stSkip2":"Espera confirmación en TF mayor","lc.stSkip3":"ADX / VWAP / Volumen aún no listos","lc.funding":"Funding (Perpetual)","lc.fundNow":"Tasa actual","lc.fundAvg":"Media 7d (21 pagos)","lc.fundDaily":"Por día (×3)","lc.fundAnnual":"Anualizado","lc.fundHoldCost":"Coste sobre {n} días","lc.fundNext":"Próximo pago en","lc.fundSource":"Fuente","lc.fundWarnLong":"⚠ El funding positivo consume ganancias LONG. Considera SHORT o grid spot.","lc.fundWarnShort":"⚠ El funding negativo consume ganancias SHORT. Considera LONG o grid spot.","lc.fundOk":"✓ El funding es favorable para esta dirección.","log.selectTf":"¡Selecciona una temporalidad!","log.stopped":"Detenido por el usuario","log.noData":"Sin datos para exportar","log.csvDone":"CSV exportado: {n} filas","log.done":"Listo: {n} setups en {s}s","log.empty":"La lista de pares está vacía — nada que escanear","log.welcome":"¡Bienvenido! Si el screener te resulta útil — registrarte en Pionex con el enlace apoya su desarrollo 💚","foot.free":"Herramienta gratuita de código abierto","foot.lic":"Licencia","foot.licLink":"términos de licencia","foot.changelog":"Registro de cambios","foot.disclosure":"<strong>💡 Transparencia:</strong> GridPulse es gratuito y de código abierto. Gano una comisión de referido de Pionex cuando te registras con mi enlace y operas — es la única monetización del proyecto. Puedes hacer un fork con tu propio referido, pero por favor conserva un enlace al original. El trading de cripto es arriesgado; esta herramienta no es asesoramiento financiero.","share.title":"GridPulse — Screener cripto gratuito","share.text":"⚡ Encontré un gran screener cripto gratuito.\nMACD + VWAP + ADX + Funding en 5 exchanges con Launch Cards para Pionex.","tv.unavailable":"Gráfico no disponible en TradingView para este símbolo."
+  });
+
+  Object.assign(I18N.ru,{
+    "ref.title":"Зарегистрируйтесь на Pionex по моей реферальной ссылке","ref.badge":"БОНУС","ref.f3":"✓ Комиссия 0.05%","ref.f4":"🔒 Лицензированная биржа · 10М+ пользователей","ref.btn":"🚀 Зарегистрироваться на Pionex","ref.trust":"🔒 Регулируемая · Cold storage · Поддержка 24/7","ref.thanks":"💚 Спасибо за поддержку — регистрация по ссылке помогает проекту","hdr.star":"Звезда","hdr.modes":"MACD + Разворот + VWAP + ATR + ADX + Фандинг + Launch Card","hdr.rlWarn":"⚠ Прокси перегружен — повторяем…","panel.left":"Таймфреймы и глубина","panel.right":"Биржа, фильтры и усилители","tf.all":"ВСЕ","lbl.depth":"Глубина поиска","lbl.minTf":"Мин ТФ","lbl.extremum":"Экстремум","lbl.market":"Рынок","lbl.type":"Тип","lbl.max":"Макс","lbl.fundMax":"Макс. дневной фандинг","lbl.fundHold":"Держать (дней)","opt.futures":"Фьючерсы USDT","opt.both":"Оба","opt.bullish":"Бычий","opt.bearish":"Медвежий","opt.all":"Все","chk.reversal":"ФИЛЬТР РАЗВОРОТА","chk.consStop":"КОНСЕРВАТИВНЫЙ СТОП","grp.vwap":"VWAP фильтры","chk.vwapDir":"VWAP НАПРАВЛЕНИЕ","chk.vwapCnf":"VWAP КОНФЛ.","grp.candle":"Свеча","grp.trendRr":"Тренд / R:R","grp.funding":"Фандинг (только фьючерсы)","chk.fundOn":"УЧИТЫВАТЬ ФАНДИНГ","chk.fundHist":"ИСТОРИЯ 7 ДНЕЙ","chk.fundSkip":"SKIP ПРИ ПРЕВЫШЕНИИ","btn.scan":"▶ Сканировать","btn.stop":"● Стоп","btn.customPairs":"Свои пары","btn.openPionex":"🤖 Открыть Pionex","btn.share":"📤 Поделиться","cnt.scanned":"Просканировано","cnt.setups":"Сетапов","cnt.bullish":"Бычий","cnt.bearish":"Медвежий","cnt.reversal":"Разворот","res.title":"Результаты","badge.reversal":"РАЗВОРОТ","badge.consStop":"КОНС.СТОП","badge.funding":"ФАНДИНГ ON","th.rank":"Ранг","th.symbol":"Символ","th.price":"Цена","th.depth":"Глуб","th.mode":"Режим","th.botRange":"Диап.Бот","th.bsRange":"Диап.B/S","log.title":"Журнал активности","toast.copied":"✓ Скопировано!","lc.params":"Параметры для Pionex","lc.indic":"Подтверждение индикаторов","lc.steps":"Пошаговая инструкция","lc.trade":"Торгуйте на Pionex","lc.copyHint":"👆 Нажмите на значение чтобы скопировать","lc.copyAll":"📋 Копировать всё","lc.openChart":"📊 Открыть график","lc.shareTg":"✈️ В Telegram","lc.refReg":"Зарегистрируйтесь и получите доступ к 16 бесплатным ботам · комиссия 0.05%","lc.refThanks":"Спасибо за регистрацию по реферальной ссылке 🙏","lc.buyPrice":"Вход (цена покупки)","lc.sellPrice":"Вход (цена продажи)","lc.sl":"Стоп-лосс","lc.consSl":"Конс. стоп","lc.tp":"Фикс. тейк-профит","lc.trailUp":"Трейлинг триггер (+10%)","lc.trailDn":"Трейлинг триггер (−10%)","lc.trailDD":"Макс. просадка трейлинга","lc.posSize":"Размер позиции","lc.posVal":"10–20% капитала","lc.lower":"Нижняя граница","lc.upper":"Верхняя граница","lc.width":"Ширина диапазона","lc.gridN":"Кол-во грид-линий","lc.gridMode":"Режим сетки","lc.gridModeVal":"Геометрический","lc.invest":"Инвестиция","lc.investVal":"Токены (base asset)","lc.slBot":"Стоп-лосс (−20% от нижней)","lc.tpBot":"Тейк-профит (+15% от верхней)","lc.curPrice":"Текущая цена","lc.entryRef":"Ориентир входа","lc.warn":"⚠ Условия входа неоптимальны. Дождитесь лучшего сетапа или проверьте на графике.","lc.indVol":"Объём","lc.indDepth":"Глубина","lc.yes":"⭐ ДА","lc.no":"· НЕТ","lc.rrLabel":"Соотношение R:R","lc.stBuy1":"Pionex → Trade → Smart Trade","lc.stBuy2":"{sym} · {tf}","lc.stBuy3":"Цена покупки = Limit","lc.stBuy4":"Стоп-лосс","lc.stBuy5":"Тейк-профит: Фикс. / Трейлинг","lc.stBuy6":"Проверь R:R ≥ 1.5","lc.stSell1":"Pionex → Trade → Smart Trade","lc.stSell2":"{sym} · {tf}","lc.stSell3":"Цена продажи = Limit (сопротивление)","lc.stSell4":"Стоп-лосс выше сопротивления","lc.stSell5":"Тейк-профит: Трейлинг","lc.stSell6":"Реинвестируй в Reverse Grid","lc.stBot1":"Pionex → Боты → Reverse Grid","lc.stBot2":"{sym}","lc.stBot3":"Нижняя/Верхняя из Bot Range","lc.stBot4":"Режим сетки: Geometric","lc.stBot5":"30–50 грид-линий","lc.stBot6":"Стоп-лосс (−20%)","lc.stSkip1":"Проверь график на TradingView","lc.stSkip2":"Дождись подтверждения на старшем ТФ","lc.stSkip3":"ADX / VWAP / Объём ещё не готовы","lc.funding":"Фандинг (Perpetual)","lc.fundNow":"Текущая ставка","lc.fundAvg":"Среднее 7д (21 выплата)","lc.fundDaily":"За день (×3)","lc.fundAnnual":"Годовой","lc.fundHoldCost":"Стоимость за {n} дней","lc.fundNext":"Следующая выплата через","lc.fundSource":"Источник","lc.fundWarnLong":"⚠ Положительный фандинг съедает прибыль LONG. Рассмотрите SHORT или spot grid.","lc.fundWarnShort":"⚠ Отрицательный фандинг съедает прибыль SHORT. Рассмотрите LONG или spot grid.","lc.fundOk":"✓ Фандинг благоприятен для этого направления.","log.selectTf":"Выберите ТФ!","log.stopped":"Остановлено пользователем","log.noData":"Нет данных для экспорта","log.csvDone":"CSV экспортировано: {n} строк","log.done":"Готово: {n} сетапов за {s}с","log.empty":"Список пар пуст — нечего сканировать","log.welcome":"Добро пожаловать! Если скринер полезен — регистрация на Pionex по ссылке поддерживает его развитие 💚","foot.free":"Бесплатный инструмент с открытым кодом","foot.lic":"Лицензия","foot.licLink":"условия лицензии","foot.changelog":"История изменений","foot.disclosure":"<strong>💡 Прозрачность:</strong> GridPulse бесплатный и с открытым кодом. Я получаю реферальную комиссию от Pionex, когда вы регистрируетесь по моей ссылке и торгуете — это единственная монетизация проекта. Можно сделать форк со своим рефералом, но, пожалуйста, сохраните ссылку на оригинал. Криптотрейдинг рискован; этот инструмент не является финансовым советом.","share.title":"GridPulse — бесплатный крипто-скринер","share.text":"⚡ Нашёл крутой бесплатный скринер для крипты.\nMACD + VWAP + ADX + Фандинг на 5 биржах с Launch Cards для Pionex.","tv.unavailable":"График недоступен в TradingView для этого символа."
+  });
+
+  Object.assign(I18N.zh,{
+    "ref.title":"通过我的推荐链接注册 Pionex","ref.badge":"奖励","ref.f3":"✓ 手续费0.05%","ref.f4":"🔒 持牌交易所 · 1000万+用户","ref.btn":"🚀 注册 Pionex","ref.trust":"🔒 受监管 · 冷存储 · 24/7支持","ref.thanks":"💚 感谢支持 — 通过链接注册有助于项目成长","hdr.star":"收藏","hdr.modes":"MACD + 反转 + VWAP + ATR + ADX + 资金费率 + 启动卡","hdr.rlWarn":"⚠ 代理过载 — 正在重试…","panel.left":"时间周期与深度","panel.right":"交易所、筛选与增强","tf.all":"全部","lbl.depth":"搜索深度","lbl.minTf":"最小周期","lbl.extremum":"极值","lbl.market":"市场","lbl.type":"类型","lbl.max":"最大","lbl.fundMax":"最大日资金费率","lbl.fundHold":"持有(天)","opt.futures":"USDT 合约","opt.both":"两者","opt.bullish":"看涨","opt.bearish":"看跌","opt.all":"全部","chk.reversal":"反转过滤器","chk.consStop":"保守止损","grp.vwap":"VWAP 过滤","chk.vwapDir":"VWAP 方向","chk.vwapCnf":"VWAP 汇合","grp.candle":"K线","grp.trendRr":"趋势 / 盈亏比","grp.funding":"资金费率(仅合约)","chk.fundOn":"考虑资金费率","chk.fundHist":"使用7天历史","chk.fundSkip":"超阈值则跳过","btn.scan":"▶ 扫描","btn.stop":"● 停止","btn.customPairs":"自定义交易对","btn.openPionex":"🤖 打开 Pionex","btn.share":"📤 分享","cnt.scanned":"已扫描","cnt.setups":"形态","cnt.bullish":"看涨","cnt.bearish":"看跌","cnt.reversal":"反转","res.title":"结果","badge.reversal":"反转","badge.consStop":"保守止损","badge.funding":"资金费率开启","th.rank":"排名","th.symbol":"符号","th.price":"价格","th.depth":"深度","th.mode":"模式","th.botRange":"网格范围","th.bsRange":"买卖范围","log.title":"活动日志","toast.copied":"✓ 已复制！","lc.params":"Pionex 参数","lc.indic":"指标确认","lc.steps":"分步指南","lc.trade":"在 Pionex 交易","lc.copyHint":"👆 点击数值即可复制","lc.copyAll":"📋 复制全部","lc.openChart":"📊 打开图表","lc.shareTg":"✈️ 分享到Telegram","lc.refReg":"注册即可使用16个免费机器人 · 手续费0.05%","lc.refThanks":"感谢通过推荐链接注册 🙏","lc.buyPrice":"入场(买入价)","lc.sellPrice":"入场(卖出价)","lc.sl":"止损","lc.consSl":"保守止损","lc.tp":"固定止盈","lc.trailUp":"追踪触发(+10%)","lc.trailDn":"追踪触发(−10%)","lc.trailDD":"最大追踪回撤","lc.posSize":"仓位大小","lc.posVal":"资金的10–20%","lc.lower":"下限","lc.upper":"上限","lc.width":"区间宽度","lc.gridN":"网格数量","lc.gridMode":"网格模式","lc.gridModeVal":"等比","lc.invest":"投资额","lc.investVal":"代币(基础资产)","lc.slBot":"止损(下限−20%)","lc.tpBot":"止盈(上限+15%)","lc.curPrice":"当前价格","lc.entryRef":"入场参考","lc.warn":"⚠ 入场条件不理想。请等待更好的形态或查看图表。","lc.indVol":"成交量","lc.indDepth":"深度","lc.yes":"⭐ 是","lc.no":"· 否","lc.rrLabel":"盈亏比","lc.stBuy1":"Pionex → Trade → Smart Trade","lc.stBuy2":"{sym} · {tf}","lc.stBuy3":"买入价 = 限价","lc.stBuy4":"止损","lc.stBuy5":"止盈：固定 / 追踪","lc.stBuy6":"检查 R:R ≥ 1.5","lc.stSell1":"Pionex → Trade → Smart Trade","lc.stSell2":"{sym} · {tf}","lc.stSell3":"卖出价 = 限价(阻力位)","lc.stSell4":"止损设在阻力位上方","lc.stSell5":"止盈：追踪","lc.stSell6":"再投入反向网格","lc.stBot1":"Pionex → 机器人 → 反向网格","lc.stBot2":"{sym}","lc.stBot3":"从网格范围取上/下限","lc.stBot4":"网格模式：等比","lc.stBot5":"30–50 条网格","lc.stBot6":"止损(−20%)","lc.stSkip1":"在 TradingView 查看图表","lc.stSkip2":"等待更大周期确认","lc.stSkip3":"ADX / VWAP / 成交量尚未就绪","lc.funding":"资金费率(永续)","lc.fundNow":"当前费率","lc.fundAvg":"7日均值(21次)","lc.fundDaily":"每日(×3)","lc.fundAnnual":"年化","lc.fundHoldCost":"持仓{n}天成本","lc.fundNext":"下次结算","lc.fundSource":"来源","lc.fundWarnLong":"⚠ 正资金费率消耗LONG利润。考虑SHORT或现货网格。","lc.fundWarnShort":"⚠ 负资金费率消耗SHORT利润。考虑LONG或现货网格。","lc.fundOk":"✓ 资金费率对此方向有利。","log.selectTf":"请选择周期！","log.stopped":"用户已停止","log.noData":"无数据可导出","log.csvDone":"CSV 已导出：{n} 行","log.done":"完成：{n} 个形态，用时 {s}秒","log.empty":"交易对列表为空 — 无可扫描","log.welcome":"欢迎！如果此筛选器对你有用 — 通过链接注册 Pionex 有助于其开发 💚","foot.free":"免费开源工具","foot.lic":"许可证","foot.licLink":"许可条款","foot.changelog":"更新日志","foot.disclosure":"<strong>💡 透明声明：</strong> GridPulse 是免费开源的。当你通过我的链接注册并交易时，我会从 Pionex 获得推荐佣金 — 这是本项目唯一的盈利方式。你可以用自己的推荐码 fork，但请保留指向原始项目的链接。加密货币交易有风险；本工具不构成投资建议。","share.title":"GridPulse — 免费加密筛选器","share.text":"⚡ 发现了一个很棒的免费加密反转筛选器。\n5个交易所的 MACD + VWAP + ADX + 资金费率形态，附带 Pionex Grid Bot 的启动卡。","tv.unavailable":"TradingView 上没有此符号的图表。"
+  });
+
+  const TF={
+    ua:{"tf.1m":"1хв","tf.5m":"5хв","tf.15m":"15хв","tf.30m":"30хв","tf.1h":"1год","tf.4h":"4год","tf.1D":"1Д","tf.1W":"1Т","tf.1M":"1М"},
+    en:{"tf.1m":"1m","tf.5m":"5m","tf.15m":"15m","tf.30m":"30m","tf.1h":"1h","tf.4h":"4h","tf.1D":"1D","tf.1W":"1W","tf.1M":"1M"},
+    es:{"tf.1m":"1m","tf.5m":"5m","tf.15m":"15m","tf.30m":"30m","tf.1h":"1h","tf.4h":"4h","tf.1D":"1D","tf.1W":"1S","tf.1M":"1M"},
+    ru:{"tf.1m":"1м","tf.5m":"5м","tf.15m":"15м","tf.30m":"30м","tf.1h":"1ч","tf.4h":"4ч","tf.1D":"1Д","tf.1W":"1Н","tf.1M":"1М"},
+    zh:{"tf.1m":"1分","tf.5m":"5分","tf.15m":"15分","tf.30m":"30分","tf.1h":"1时","tf.4h":"4时","tf.1D":"1日","tf.1W":"1周","tf.1M":"1月"}
+  };
+  for(const l in TF) Object.assign(I18N[l], TF[l]);
+})();
+
+const FLAGS={en:'🇬🇧',ua:'🇺🇦',es:'🇪🇸',ru:'🇷🇺',zh:'🇨🇳'},LANGS=['en','ua','es','ru','zh'];
+let LANG=(function(){try{const s=localStorage.getItem('gp_lang');if(s&&LANGS.includes(s))return s;}catch(e){}const n=(navigator.language||'en').toLowerCase();if(n.startsWith('uk'))return'ua';if(n.startsWith('ru'))return'ru';if(n.startsWith('es'))return'es';if(n.startsWith('zh'))return'zh';return'en';})();
+function t(k,vars){let s=(I18N[LANG]&&I18N[LANG][k])??(I18N.en[k])??k;if(vars)for(const p in vars)s=s.replace('{'+p+'}',vars[p]);return s;}
+function applyI18n(){document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.getAttribute('data-i18n')));document.querySelectorAll('[data-i18n-html]').forEach(el=>el.innerHTML=t(el.getAttribute('data-i18n-html')));document.querySelectorAll('[data-i18n-ph]').forEach(el=>el.setAttribute('placeholder',t(el.getAttribute('data-i18n-ph'))));document.documentElement.setAttribute('lang',LANG==='ua'?'uk':LANG);renderSocial();}
+function setLang(l){if(!LANGS.includes(l))return;LANG=l;try{localStorage.setItem('gp_lang',l);}catch(e){}applyI18n();renderLangSw();if(Array.isArray(RES)&&RES.length){try{render();}catch(e){}}}
+function renderLangSw(){const h=Q('langSw');if(!h)return;h.innerHTML='';LANGS.forEach(l=>{const b=document.createElement('button');b.textContent=FLAGS[l]+' '+l.toUpperCase();if(l===LANG)b.className='on';b.onclick=()=>setLang(l);h.appendChild(b);});}
+
+const Q=id=>document.getElementById(id);
+let scanning=false,RES=[],MC={},sCol=-1,sAsc=true,INIT_DONE=false;
+const ATF=['1m','5m','15m','30m','1h','4h','1D','1W','1M'];
+setInterval(()=>{const c=Q('clk');if(c)c.textContent=new Date().toLocaleTimeString();},1000);
+
+const PROXIES=[
+  ...(CUSTOM_PROXY?[{id:'custom',wrap:u=>CUSTOM_PROXY+encodeURIComponent(u),transform:async r=>await r.json()}]:[]),
+  {id:'codetabs',wrap:u=>'https://api.codetabs.com/v1/proxy/?quest='+encodeURIComponent(u),transform:async r=>await r.json()},
+  {id:'allorigins',wrap:u=>'https://api.allorigins.win/get?url='+encodeURIComponent(u),transform:async r=>{const j=await r.json();if(!j.contents)throw new Error('empty contents');return JSON.parse(j.contents);}},
+  {id:'corslol',wrap:u=>'https://api.cors.lol/?url='+encodeURIComponent(u),transform:async r=>await r.json()},
+  {id:'thingproxy',wrap:u=>'https://thingproxy.freeboard.io/fetch/'+u,transform:async r=>await r.json()}
+];
+const PROXY_HEALTH=Object.fromEntries(PROXIES.map(p=>[p.id,{lastFailMs:0,consecutiveFails:0}]));
+const PROXY_BAN_MS=30_000,PROXY_HARD_BAN_MS=120_000;
+function isProxyHealthy(id){const h=PROXY_HEALTH[id];if(!h)return true;const now=Date.now();const banMs=h.consecutiveFails>=3?PROXY_HARD_BAN_MS:PROXY_BAN_MS;if(h.lastFailMs&&(now-h.lastFailMs)<banMs)return false;return true;}
+function markProxyFail(id){const h=PROXY_HEALTH[id];if(!h)return;h.lastFailMs=Date.now();h.consecutiveFails=(h.consecutiveFails||0)+1;recordRateLimitEvent();}
+function markProxySuccess(id){const h=PROXY_HEALTH[id];if(!h)return;h.consecutiveFails=0;}
+const RL_EVENTS=[];
+function recordRateLimitEvent(){const now=Date.now();RL_EVENTS.push(now);while(RL_EVENTS.length&&(now-RL_EVENTS[0])>10_000)RL_EVENTS.shift();const el=Q('rlWarn');if(!el)return;if(RL_EVENTS.length>=3){el.classList.add('on');clearTimeout(window._rlHideTimer);window._rlHideTimer=setTimeout(()=>el.classList.remove('on'),8000);}}
+const CACHE_TTL_MS=60_000;
+function cacheGet(key){try{const raw=sessionStorage.getItem('gp_c_'+key);if(!raw)return null;const o=JSON.parse(raw);if(Date.now()-o.t>CACHE_TTL_MS){sessionStorage.removeItem('gp_c_'+key);return null;}return o.v;}catch(e){return null;}}
+function cacheSet(key,value){try{sessionStorage.setItem('gp_c_'+key,JSON.stringify({t:Date.now(),v:value}));}catch(e){try{for(let i=sessionStorage.length-1;i>=0;i--){const k=sessionStorage.key(i);if(k&&k.startsWith('gp_c_')){sessionStorage.removeItem(k);break;}}sessionStorage.setItem('gp_c_'+key,JSON.stringify({t:Date.now(),v:value}));}catch(e2){}}}
+const FETCH_TIMEOUT_MS=12_000;
+async function fetchWithTimeout(url,ms=FETCH_TIMEOUT_MS){const ctrl=new AbortController();const tm=setTimeout(()=>ctrl.abort(),ms);try{return await fetch(url,{signal:ctrl.signal});}finally{clearTimeout(tm);}}
+async function safeFetch(url,ex){
+  const direct=(ex==='bybit'||ex==='pionex');
+  if(direct){try{const r=await fetchWithTimeout(url);if(r.ok)return await r.json();throw new Error('HTTP '+r.status);}catch(e){}}
+  let lastErr=null;
+  for(const p of PROXIES){if(!isProxyHealthy(p.id))continue;try{const r=await fetchWithTimeout(p.wrap(url));if(!r.ok){markProxyFail(p.id);lastErr=new Error(`${p.id}: HTTP ${r.status}`);if(r.status===429)lg(t('log.proxyDown',{p:p.id}),'wr');continue;}const j=await p.transform(r);markProxySuccess(p.id);return j;}catch(e){markProxyFail(p.id);lastErr=e;lg(t('log.proxyDown',{p:p.id}),'wr');}}
+  for(const p of PROXIES){try{const r=await fetchWithTimeout(p.wrap(url));if(!r.ok){lastErr=new Error(`${p.id}: HTTP ${r.status}`);continue;}const j=await p.transform(r);markProxySuccess(p.id);return j;}catch(e){lastErr=e;}}
+  throw lastErr||new Error('All proxies failed');
+}
+
+function initRefLinks(){['refLink','hdrPionexBtn'].forEach(id=>{const el=Q(id);if(el)el.href=REF_URL;});const d=Q('refUrlDisplay');if(d)d.textContent=REF_URL;}
+function initRefQR(){const wrap=Q('refQrWrap');if(!wrap)return;wrap.innerHTML='';try{new QRCode(wrap,{text:REF_URL,width:64,height:64,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){wrap.innerHTML='<div style="font-size:8px;color:#999;text-align:center;padding:4px">QR</div>';}}
+function shareApp(){const title=t('share.title');const text=t('share.text')+'\n\n'+APP_URL;if(navigator.share){navigator.share({title,text,url:APP_URL}).catch(()=>{});}else copyText(text);}
+function shareSetup(sym,tf,mode){const r=RES.find(x=>x.sym===sym&&x.tf===tf);if(!r)return;const entry=r.limL!=null?`Entry: ${fmP(r.limL)}\n`:'';const stop=r.stopL!=null?`Stop: ${fmP(r.stopL)}\n`:'';const rr=r.rr!=null?`R:R: ${r.rr.toFixed(2)}x\n`:'';const text=t('share.setup',{sym,tf,mode,price:fmP(r.price),entry,stop,rr,app:APP_URL,ref:REF_URL});const url=`https://t.me/share/url?url=${encodeURIComponent(APP_URL)}&text=${encodeURIComponent(text)}`;window.open(url,'_blank','noopener');}
+function renderSocial(){const h=Q('socialBar');if(!h)return;let html='';if(SOCIAL.telegram)html+=`<a class="s-tg" href="${SOCIAL.telegram}" target="_blank" rel="noopener">✈️ Telegram</a>`;if(SOCIAL.github)html+=`<a class="s-gh" href="${SOCIAL.github}" target="_blank" rel="noopener">🐙 GitHub</a>`;if(SOCIAL.twitter)html+=`<a class="s-tw" href="${SOCIAL.twitter}" target="_blank" rel="noopener">🐦 Twitter / X</a>`;html+=`<a class="s-share" href="#" onclick="shareApp();return false;">🔗 ${t('social.share')}</a>`;h.innerHTML=html;}
+
+const SET_KEY='gp_settings_v14_1';
+const SET_SELECTS=['sDp','mnT','exL','exS','mkS','stS','mcS','mxR','fdMax','fdHold'];
+const SET_CHECKS=['chR','chC','chVD','chVC','chAT','chVL','chAD','chRR','chFD','chFH','chFS'];
+function saveSettings(){if(!INIT_DONE)return;try{const s={selects:{},checks:{},tfs:gTFs(),theme:document.body.classList.contains('light')?'light':'dark'};SET_SELECTS.forEach(id=>{const el=Q(id);if(el)s.selects[id]=el.value;});SET_CHECKS.forEach(id=>{const el=Q(id);if(el)s.checks[id]=el.checked;});localStorage.setItem(SET_KEY,JSON.stringify(s));}catch(e){}}
+function loadSettings(){let s;try{s=JSON.parse(localStorage.getItem(SET_KEY));}catch(e){}if(!s)return;if(s.theme==='light')document.body.classList.add('light');SET_SELECTS.forEach(id=>{const el=Q(id);if(el&&s.selects&&s.selects[id]!=null)el.value=s.selects[id];});SET_CHECKS.forEach(id=>{const el=Q(id);if(el&&s.checks&&s.checks[id]!=null)el.checked=s.checks[id];});if(Array.isArray(s.tfs)&&s.tfs.length)document.querySelectorAll('#tfB .tf').forEach(b=>{if(b.dataset.tf!=='ALL')b.classList.toggle('on',s.tfs.includes(b.dataset.tf));});updateThemeBtn();}
+function toggleTheme(){document.body.classList.toggle('light');updateThemeBtn();saveSettings();}
+function updateThemeBtn(){const b=Q('themeBtn');if(b)b.textContent=document.body.classList.contains('light')?'☀️':'🌙';}
+function bumpScanCount(){try{const n=(parseInt(localStorage.getItem('gp_scan_count')||'0')+1);localStorage.setItem('gp_scan_count',String(n));return n;}catch(e){return 0;}}
+function showWelcomeHint(){try{if(localStorage.getItem('gp_visited'))return;localStorage.setItem('gp_visited','1');}catch(e){}setTimeout(()=>{const hint=document.createElement('div');hint.className='welcome-hint';hint.innerHTML=`<div class="wh-title"><span>${t('welcome.title')}</span><button class="wh-close" onclick="this.closest('.welcome-hint').remove()">×</button></div><div class="wh-body">${t('welcome.body')}</div><div class="wh-btns"><button class="wh-btn wh-btn-go" onclick="this.closest('.welcome-hint').remove()">${t('welcome.go')}</button><a class="wh-btn wh-btn-tg" href="${SOCIAL.telegram}" target="_blank" rel="noopener">${t('welcome.tg')}</a></div>`;document.body.appendChild(hint);setTimeout(()=>{if(hint.parentNode)hint.remove();},20000);},1500);}
+
+window.addEventListener('load',()=>{
+  loadSettings();initRefLinks();initRefQR();applyI18n();renderLangSw();renderSocial();
+  refreshTFAvail();updateThemeBtn();bindTFButtons();syncAllBtn();
+  [...SET_SELECTS,...SET_CHECKS].forEach(id=>{const el=Q(id);if(el)el.addEventListener('change',saveSettings);});
+    Q('exS').addEventListener('change',()=>{refreshTFAvail();saveSettings();const bw=Q('binWarn');if(bw)bw.style.display=Q('exS').value==='binance'?'block':'none';});
+  (function(){const bw=Q('binWarn');if(bw)bw.style.display=Q('exS').value==='binance'?'block':'none';})();
+  INIT_DONE=true;setTimeout(()=>lg(t('log.welcome'),'ok'),300);showWelcomeHint();
+});
+function syncAllBtn(){const single=[...document.querySelectorAll('#tfB .tf:not([data-tf="ALL"]):not(.disabled)')];const allOn=single.length>0&&single.every(x=>x.classList.contains('on'));const allBtn=document.querySelector('.tf[data-tf="ALL"]');if(allBtn)allBtn.classList.toggle('on',allOn);}
+function bindTFButtons(){document.querySelectorAll('#tfB .tf').forEach(b=>{b.onclick=()=>{if(b.classList.contains('disabled'))return;if(b.dataset.tf==='ALL'){const turnOn=!b.classList.contains('on');document.querySelectorAll('#tfB .tf').forEach(x=>{if(!x.classList.contains('disabled'))x.classList.toggle('on',turnOn);});}else{b.classList.toggle('on');syncAllBtn();}saveSettings();};});}
+function gTFs(){return [...document.querySelectorAll('#tfB .tf.on:not(.disabled)')].map(b=>b.dataset.tf).filter(x=>x!=='ALL');}
+function refreshTFAvail(){const ex=Q('exS').value;document.querySelectorAll('#tfB .tf').forEach(b=>{const tf=b.dataset.tf;if(tf==='ALL')return;const sup=ivM(ex,tf)!==null;b.classList.toggle('disabled',!sup);if(!sup)b.classList.remove('on');});syncAllBtn();}
+function lg(m,c=''){const d=document.createElement('div');d.className=c;d.textContent=`[${new Date().toLocaleTimeString()}] ${m}`;Q('lB').prepend(d);if(Q('lB').children.length>500)Q('lB').removeChild(Q('lB').lastChild);}
+function togLg(){Q('lB').classList.toggle('op');Q('lA').classList.toggle('op');}
+const W=ms=>new Promise(r=>setTimeout(r,ms));
+
+function _isDatedContract(sym){
+  if(!sym)return true;
+  const s=String(sym).toUpperCase();
+  // датовані ф'ючерси / опціони: ...-12JUN26, ...-26JUN26, ...-240628, ...-C-..., ...-P-...
+  if(/-\d{1,2}[A-Z]{3}\d{2}$/.test(s))return true;      // -12JUN26
+  if(/-\d{6}$/.test(s))return true;                      // -240628
+  if(/-\d{1,2}[A-Z]{3}\d{2}-/.test(s))return true;       // опціони з датою всередині
+  if(/-[CP]$/.test(s)||/-[CP]-/.test(s))return true;     // call/put опціони
+  if(/\d{6,8}-[CP]/.test(s))return true;                 // OKX опціони BTC-USD-240628-50000-C
+  return false;
+}
+async function fPairs(ex,mk){
+  const cacheKey=`pairs_${ex}_${mk}`;const cached=cacheGet(cacheKey);if(cached){lg(t('log.cacheHit',{what:`pairs ${ex}/${mk}`}),'ok');return cached;}
+  let p=[];
+  try{
+    if(ex==='bybit'){
+      const c=mk==='spot'?'spot':'linear';let cu='';
+      do{const j=await safeFetch(`https://api.bybit.com/v5/market/instruments-info?category=${c}&limit=1000${cu?'&cursor='+cu:''}`,ex);if(!j||j.retCode!==0||!j.result||!Array.isArray(j.result.list)){lg(t('log.pairsErr',{ex,mk,why:(j&&j.retMsg)||'no result.list'}),'er');break;}for(const s of j.result.list)if(s.quoteCoin==='USDT'&&s.status==='Trading')p.push(s.symbol);cu=j.result.nextPageCursor||'';}while(cu);
+    }
+    else if(ex==='binance'){
+      if(mk==='spot'){const j=await safeFetch('https://api.binance.com/api/v3/exchangeInfo',ex);if(j&&Array.isArray(j.symbols)){for(const s of j.symbols)if(s.quoteAsset==='USDT'&&s.status==='TRADING')p.push(s.symbol);}else lg(t('log.pairsErr',{ex,mk,why:(j&&j.msg)||'no symbols[]'}),'er');}
+      else{
+        let j=await safeFetch('https://fapi.binance.com/fapi/v1/exchangeInfo',ex);
+        if(j&&Array.isArray(j.symbols)){for(const s of j.symbols)if(s.quoteAsset==='USDT'&&s.contractType==='PERPETUAL'&&s.status==='TRADING')p.push(s.symbol);}
+        else{if(j&&j.code)lg(t('log.pairsErr',{ex,mk,why:`API ${j.code} ${j.msg||''}`}),'wr');lg(t('log.binFutFallback'),'wr');let tk=await safeFetch('https://fapi.binance.com/fapi/v1/ticker/price',ex);if(Array.isArray(tk)){for(const it of tk){const sym=it&&it.symbol?String(it.symbol):'';if(sym.endsWith('USDT')&&!sym.includes('_'))p.push(sym);}}else if(tk&&tk.code){lg(t('log.pairsErr',{ex,mk,why:`API ${tk.code} ${tk.msg||''} — set CUSTOM_PROXY`}),'er');}else{lg(t('log.pairsErr',{ex,mk,why:'no array from ticker/price'}),'er');}}
+      }
+    }
+    else if(ex==='kucoin'){
+      if(mk==='spot'){const j=await safeFetch('https://api.kucoin.com/api/v2/symbols',ex);if(j&&j.code==='200000'&&Array.isArray(j.data)){for(const s of j.data)if(s.quoteCurrency==='USDT'&&s.enableTrading)p.push(s.symbol);}else lg(t('log.pairsErr',{ex,mk,why:(j&&j.msg)||'no data[]'}),'er');}
+      else{const j=await safeFetch('https://api-futures.kucoin.com/api/v1/contracts/active',ex);if(j&&j.code==='200000'&&Array.isArray(j.data)){for(const s of j.data)if(s.quoteCurrency==='USDT'&&!s.isInverse&&(s.status==='Open'||s.status==='Trading'))p.push(s.symbol);}else lg(t('log.pairsErr',{ex,mk,why:(j&&j.msg)||'no data[]'}),'er');}
+    }
+    else if(ex==='pionex'){
+      if(mk==='spot'){const j=await safeFetch('https://api.pionex.com/api/v1/common/symbols',ex);if(j&&j.result&&j.data&&Array.isArray(j.data.symbols)){for(const s of j.data.symbols){const isSpot=(s.type==='SPOT'||s.type===undefined);const tradable=(s.enable!==false);if(isSpot&&s.quoteCurrency==='USDT'&&tradable)p.push(s.symbol);}}else lg(t('log.pairsErr',{ex,mk,why:'no data.symbols[]'}),'er');}
+      else{let ok=false;try{const j=await safeFetch('https://api.pionex.com/api/v1/common/symbols?type=PERP',ex);if(j&&j.result&&j.data&&Array.isArray(j.data.symbols)){for(const s of j.data.symbols){const isPerp=(s.contractType==='PERPETUAL'||(s.symbol&&s.symbol.endsWith('_PERP')));const tr=(s.status==='TRADING'||s.enable===true||s.enable===undefined);if(isPerp&&s.quoteCurrency==='USDT'&&tr)p.push(s.symbol);}ok=true;}}catch(e){}if(!ok||p.length===0)lg('Pionex futures unavailable publicly — switch to Spot','wr');}
+    }
+    else if(ex==='okx'){
+      const it=mk==='spot'?'SPOT':'SWAP';const j=await safeFetch(`https://www.okx.com/api/v5/public/instruments?instType=${it}`,ex);if(j&&j.code==='0'&&Array.isArray(j.data)){for(const s of j.data)if(mk==='spot'?(s.quoteCcy==='USDT'&&s.state==='live'):(s.settleCcy==='USDT'&&s.state==='live'))p.push(s.instId);}else lg(t('log.pairsErr',{ex,mk,why:(j&&j.msg)||'no data[]'}),'er');
+    }
+  }catch(e){lg(`${ex}: ${e.message}`,'er');}
+    p=[...new Set(p)].filter(s=>!_isDatedContract(s));lg(`${ex}(${mk}): ${p.length} pairs`,'ok');if(p.length)cacheSet(cacheKey,p);return p;
+}
+
+function ivM(ex,tf){
+  const mk=Q('mkS')?Q('mkS').value:'spot';
+  const m={bybit:{'1m':'1','5m':'5','15m':'15','30m':'30','1h':'60','4h':'240','1D':'D','1W':'W','1M':'M'},binance:{'1m':'1m','5m':'5m','15m':'15m','30m':'30m','1h':'1h','4h':'4h','1D':'1d','1W':'1w','1M':'1M'},kucoin_spot:{'1m':'1min','5m':'5min','15m':'15min','30m':'30min','1h':'1hour','4h':'4hour','1D':'1day','1W':'1week'},kucoin_futures:{'1m':'1','5m':'5','15m':'15','30m':'30','1h':'60','4h':'240','1D':'1440','1W':'10080'},pionex:{'1m':'1M','5m':'5M','15m':'15M','30m':'30M','1h':'60M','4h':'4H','1D':'1D'},okx:{'1m':'1m','5m':'5m','15m':'15m','30m':'30m','1h':'1H','4h':'4H','1D':'1D','1W':'1W','1M':'1M'}};
+  let key=ex;if(ex==='kucoin')key=mk==='spot'?'kucoin_spot':'kucoin_futures';return (m[key]||{})[tf]||null;
+}
+
+async function fK(ex,sy,tf,lim=200){
+  const iv=ivM(ex,tf);if(!iv)return[];const mk=Q('mkS').value;const cacheKey=`kl_${ex}_${mk}_${sy}_${tf}_${lim}`;const cached=cacheGet(cacheKey);if(cached)return cached;let c=[];
+  try{
+    if(ex==='bybit'){const ca=mk==='spot'?'spot':'linear';const j=await safeFetch(`https://api.bybit.com/v5/market/kline?category=${ca}&symbol=${sy}&interval=${iv}&limit=${lim}`,ex);if(j&&j.retCode===0&&j.result&&Array.isArray(j.result.list))c=j.result.list.map(x=>({t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]})).reverse();}
+    else if(ex==='binance'){const ba=mk==='spot'?'https://api.binance.com/api/v3/klines':'https://fapi.binance.com/fapi/v1/klines';const j=await safeFetch(`${ba}?symbol=${sy}&interval=${iv}&limit=${lim}`,ex);if(Array.isArray(j))c=j.map(x=>({t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]}));}
+    else if(ex==='kucoin'){
+      if(mk==='spot'){const nw=Math.floor(Date.now()/1000);const sc={'1min':60,'5min':300,'15min':900,'30min':1800,'1hour':3600,'4hour':14400,'1day':86400,'1week':604800}[iv]||3600;const j=await safeFetch(`https://api.kucoin.com/api/v1/market/candles?type=${iv}&symbol=${sy}&startAt=${nw-sc*lim}&endAt=${nw}`,ex);if(j&&j.code==='200000'&&Array.isArray(j.data))c=j.data.map(x=>({t:+x[0]*1000,o:+x[1],h:+x[3],l:+x[4],c:+x[2],v:+x[5]})).reverse();}
+      else{const granMin=+iv;const toMs=Date.now();const fromMs=toMs-granMin*60*1000*lim;const j=await safeFetch(`https://api-futures.kucoin.com/api/v1/kline/query?symbol=${sy}&granularity=${iv}&from=${fromMs}&to=${toMs}`,ex);if(j&&j.code==='200000'&&Array.isArray(j.data))c=j.data.map(x=>({t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]}));else if(j&&j.msg)lg(`KuCoin futures ${sy}/${tf}: ${j.msg}`,'wr');}
+    }
+    else if(ex==='pionex'){const useLim=Math.min(500,Math.max(10,lim));const j=await safeFetch(`https://api.pionex.com/api/v1/market/klines?symbol=${encodeURIComponent(sy)}&interval=${iv}&limit=${useLim}`,ex);if(j&&j.result===true&&j.data&&Array.isArray(j.data.klines)){c=j.data.klines.map(x=>({t:+x.time,o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+x.volume}));if(c.length>=2&&c[0].t>c[c.length-1].t)c.reverse();c=c.filter(k=>isFinite(k.o)&&isFinite(k.h)&&isFinite(k.l)&&isFinite(k.c)&&k.o>0&&k.h>0&&k.l>0&&k.c>0);}else if(j&&(j.message||j.error)){lg(`Pionex ${sy}/${tf}: ${j.message||JSON.stringify(j.error)}`,'wr');}}
+    else if(ex==='okx'){const j=await safeFetch(`https://www.okx.com/api/v5/market/candles?instId=${sy}&bar=${iv}&limit=${lim}`,ex);if(j&&j.code==='0'&&Array.isArray(j.data))c=j.data.map(x=>({t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]})).reverse();}
+  }catch(e){lg(`${sy}/${tf}: ${e.message}`,'er');}
+  if(c.length>=35)cacheSet(cacheKey,c);return c;
+}
+
+function _baseFor(sym,ex){if(ex==='kucoin'){let base=sym.replace(/USDTM$/,'').replace(/M$/,'');if(base==='XBT')base='BTC';return base;}if(ex==='pionex')return sym.split('_')[0];if(ex==='okx')return sym.split('-')[0];return sym.replace(/USDT$/,'');}
+async function fFunding(ex,sym,useHistory){
+  const cacheKey=`fr_${ex}_${sym}_${useHistory?'h':'n'}`;const cached=cacheGet(cacheKey);if(cached)return cached;
+  const result={now:null,avg7d:null,daily:null,annual:null,nextMs:null,source:ex,paymentsPerDay:3};
+  try{
+    if(ex==='bybit'){const j=await safeFetch(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${sym}`,ex);if(j&&j.retCode===0&&j.result&&j.result.list&&j.result.list[0]){const tk=j.result.list[0];result.now=parseFloat(tk.fundingRate);if(tk.nextFundingTime)result.nextMs=+tk.nextFundingTime;}if(useHistory){const h=await safeFetch(`https://api.bybit.com/v5/market/funding/history?category=linear&symbol=${sym}&limit=21`,ex);if(h&&h.retCode===0&&Array.isArray(h.result&&h.result.list)&&h.result.list.length){const arr=h.result.list.map(x=>parseFloat(x.fundingRate)).filter(x=>isFinite(x));if(arr.length)result.avg7d=arr.reduce((s,x)=>s+x,0)/arr.length;}}}
+    else if(ex==='binance'){const j=await safeFetch(`https://fapi.binance.com/fapi/v1/premiumIndex?symbol=${sym}`,ex);if(j&&j.lastFundingRate!==undefined){result.now=parseFloat(j.lastFundingRate);if(j.nextFundingTime)result.nextMs=+j.nextFundingTime;}if(useHistory){const h=await safeFetch(`https://fapi.binance.com/fapi/v1/fundingRate?symbol=${sym}&limit=21`,ex);if(Array.isArray(h)&&h.length){const arr=h.map(x=>parseFloat(x.fundingRate)).filter(x=>isFinite(x));if(arr.length)result.avg7d=arr.reduce((s,x)=>s+x,0)/arr.length;}}}
+    else if(ex==='kucoin'){const j=await safeFetch(`https://api-futures.kucoin.com/api/v1/funding-rate/${sym}/current`,ex);if(j&&j.code==='200000'&&j.data){result.now=parseFloat(j.data.value);if(j.data.timePoint)result.nextMs=+j.data.timePoint+8*3600*1000;}}
+    else if(ex==='okx'){const j=await safeFetch(`https://www.okx.com/api/v5/public/funding-rate?instId=${sym}`,ex);if(j&&j.code==='0'&&j.data&&j.data[0]){result.now=parseFloat(j.data[0].fundingRate);if(j.data[0].nextFundingTime)result.nextMs=+j.data[0].nextFundingTime;}if(useHistory){const h=await safeFetch(`https://www.okx.com/api/v5/public/funding-rate-history?instId=${sym}&limit=21`,ex);if(h&&h.code==='0'&&Array.isArray(h.data)&&h.data.length){const arr=h.data.map(x=>parseFloat(x.fundingRate)).filter(x=>isFinite(x));if(arr.length)result.avg7d=arr.reduce((s,x)=>s+x,0)/arr.length;}}}
+    else if(ex==='pionex'){try{const j=await safeFetch(`https://api.pionex.com/api/v1/market/tickers?symbol=${encodeURIComponent(sym)}`,ex);if(j&&j.result===true&&j.data&&j.data.tickers&&j.data.tickers[0]&&j.data.tickers[0].fundingRate!==undefined){result.now=parseFloat(j.data.tickers[0].fundingRate);result.source='pionex';}}catch(e){}if(result.now===null||!isFinite(result.now)){const base=_baseFor(sym,'pionex');const bsym=`${base}USDT`;const j=await safeFetch(`https://fapi.binance.com/fapi/v1/premiumIndex?symbol=${bsym}`,'binance');if(j&&j.lastFundingRate!==undefined){result.now=parseFloat(j.lastFundingRate);if(j.nextFundingTime)result.nextMs=+j.nextFundingTime;result.source='binance-fallback';}if(result.now===null||!isFinite(result.now)){const b=await safeFetch(`https://api.bybit.com/v5/market/tickers?category=linear&symbol=${bsym}`,'bybit');if(b&&b.retCode===0&&b.result&&b.result.list&&b.result.list[0]){result.now=parseFloat(b.result.list[0].fundingRate);if(b.result.list[0].nextFundingTime)result.nextMs=+b.result.list[0].nextFundingTime;result.source='bybit-fallback';}}if(useHistory&&result.source==='binance-fallback'){const h=await safeFetch(`https://fapi.binance.com/fapi/v1/fundingRate?symbol=${bsym}&limit=21`,'binance');if(Array.isArray(h)&&h.length){const arr=h.map(x=>parseFloat(x.fundingRate)).filter(x=>isFinite(x));if(arr.length)result.avg7d=arr.reduce((s,x)=>s+x,0)/arr.length;}}}}
+  }catch(e){lg(`Funding ${sym}: ${e.message}`,'wr');}
+  if(result.now!==null&&isFinite(result.now)){const base=(useHistory&&result.avg7d!==null&&isFinite(result.avg7d))?result.avg7d:result.now;result.daily=base*result.paymentsPerDay;result.annual=result.daily*365;cacheSet(cacheKey,result);}
+  return result;
+}
+
+function fundingBias(direction,fundingDaily){
+  if(fundingDaily===null||!isFinite(fundingDaily))return{bias:'neutral',label:t('lc.fundBiasNeutral'),cls:'bfb-neu'};
+  const eps=0.0001;if(Math.abs(fundingDaily)<eps)return{bias:'neutral',label:t('lc.fundBiasNeutral'),cls:'bfb-neu'};
+  if(direction==='long'){return fundingDaily>0?{bias:'long-costly',label:t('lc.fundBiasLongBad'),cls:'bfb-neg'}:{bias:'long-friendly',label:t('lc.fundBiasLongOk'),cls:'bfb-pos'};}
+  else{return fundingDaily>0?{bias:'short-friendly',label:t('lc.fundBiasShortOk'),cls:'bfb-pos'}:{bias:'short-costly',label:t('lc.fundBiasShortBad'),cls:'bfb-neg'};}
+}
+
+function ema(a,p){const k=2/(p+1);let r=[a[0]];for(let i=1;i<a.length;i++)r.push(a[i]*k+r[i-1]*(1-k));return r;}
+function calcMACD(cn){if(cn.length<35)return null;const cl=cn.map(c=>c.c);const e12=ema(cl,12),e26=ema(cl,26);const ml=e12.map((v,i)=>v-e26[i]);const sg=ema(ml,9);const h=ml.map((v,i)=>v-sg[i]);return{ml,sg,h};}
+function hCol(h,i){if(i===0)return h[0]>=0?'#26a69a':'#ef5350';const c=h[i],p=h[i-1];if(c>=0)return c>=p?'#26a69a':'#b2dfdb';return c<=p?'#ef5350':'#ffd740';}
+function calcVWAP(cd,period=50){if(!cd||cd.length===0)return null;const st=Math.max(0,cd.length-period);let pv=0,vv=0;for(let i=st;i<cd.length;i++){const tp=(cd[i].h+cd[i].l+cd[i].c)/3;pv+=tp*cd[i].v;vv+=cd[i].v;}return vv>0?pv/vv:null;}
+function calcVWAPBands(cd,vwap,period=50){if(!cd||vwap==null)return null;const st=Math.max(0,cd.length-period);let sd=0,vv=0;for(let i=st;i<cd.length;i++){const tp=(cd[i].h+cd[i].l+cd[i].c)/3;sd+=cd[i].v*Math.pow(tp-vwap,2);vv+=cd[i].v;}const sig=vv>0?Math.sqrt(sd/vv):0;return{upper1:vwap+sig,upper2:vwap+2*sig,lower1:vwap-sig,lower2:vwap-2*sig,sigma:sig};}
+function calcATR(cd,period=14){if(!cd||cd.length<period+1)return null;const trs=[];for(let i=1;i<cd.length;i++)trs.push(Math.max(cd[i].h-cd[i].l,Math.abs(cd[i].h-cd[i-1].c),Math.abs(cd[i].l-cd[i-1].c)));let atr=0;for(let i=0;i<period;i++)atr+=trs[i];atr/=period;for(let i=period;i<trs.length;i++)atr=(atr*(period-1)+trs[i])/period;return atr;}
+function calcADX(cd,period=14){if(!cd||cd.length<period*2+1)return null;const pdm=[],mdm=[],tr=[];for(let i=1;i<cd.length;i++){const up=cd[i].h-cd[i-1].h,dn=cd[i-1].l-cd[i].l;pdm.push(up>dn&&up>0?up:0);mdm.push(dn>up&&dn>0?dn:0);tr.push(Math.max(cd[i].h-cd[i].l,Math.abs(cd[i].h-cd[i-1].c),Math.abs(cd[i].l-cd[i-1].c)));}if(tr.length<period+1)return null;function ws(a,p){let s=0;for(let i=0;i<p;i++)s+=a[i];const r=[s];for(let i=p;i<a.length;i++){s=s-s/p+a[i];r.push(s);}return r;}const sT=ws(tr,period),sP=ws(pdm,period),sM=ws(mdm,period);const dx=[];for(let i=0;i<sT.length;i++){if(sT[i]===0){dx.push(0);continue;}const pdi=100*sP[i]/sT[i],mdi=100*sM[i]/sT[i],sum=pdi+mdi;dx.push(sum===0?0:100*Math.abs(pdi-mdi)/sum);}if(dx.length<period)return null;let adx=0;for(let i=0;i<period;i++)adx+=dx[i];adx/=period;for(let i=period;i<dx.length;i++)adx=(adx*(period-1)+dx[i])/period;const last=sT.length-1;const pdi=sT[last]>0?100*sP[last]/sT[last]:0,mdi=sT[last]>0?100*sM[last]/sT[last]:0;return{adx,pdi,mdi};}
+function avgVol(cd,lb=20){const sl=cd.slice(Math.max(0,cd.length-lb));if(sl.length===0)return 0;return sl.reduce((s,c)=>s+c.v,0)/sl.length;}
+
+function decideMode(r){
+  if(!r)return{mode:'SKIP',modeLabel:'SKIP',modeClass:'bmd-skp',reason:'no data',gridBotRange:null,gridBSRange:null};
+  const adx=r.adx??null,vwapDist=r.vwapDist??null,volRatio=r.volRatio??null,rr=r.rr??null,depth=r.depth??0,vwapStar=r.vwapConfluence??false,atr=r.atr??null,price=r.price??0,type=r.type;
+  let gridBotRange=null,gridBSRange=null;
+  if(atr!==null&&price>0){const botMult=(adx!==null&&adx>=18)?18:10;const halfBot=atr*botMult/2;const botLow=Math.max(0,price-halfBot),botHigh=price+halfBot;const bsHalf=atr*5/2;const bsLow=Math.max(0,price-bsHalf),bsHigh=price+bsHalf;gridBotRange={low:botLow,high:botHigh,widthPct:((botHigh-botLow)/price*100)};gridBSRange={low:bsLow,high:bsHigh,widthPct:((bsHigh-bsLow)/price*100)};}
+  const strongTrend=(adx!==null&&adx>=28)&&(vwapDist!==null&&Math.abs(vwapDist)>7);
+  const hasReversalCandle=!!r.rc;
+  const isBuy=type==='bullish'&&hasReversalCandle&&(adx!==null&&adx>=25)&&(vwapDist!==null&&vwapDist<-5)&&(volRatio!==null&&volRatio>=1.5)&&(depth>=5)&&(rr!==null&&rr>=2.0);
+  const isSell=type==='bearish'&&hasReversalCandle&&(adx!==null&&adx>=25)&&(vwapDist!==null&&vwapDist>5)&&(volRatio!==null&&volRatio>=1.5)&&(depth>=5)&&(rr!==null&&rr>=2.0);
+  const isBot=!strongTrend&&(adx===null||adx<28)&&(vwapDist===null||Math.abs(vwapDist)<=5)&&(rr===null||rr>=1.5);
+  let baseMode={mode:'SKIP',modeLabel:'⚠ SKIP',modeClass:'bmd-skp',reason:`trend too strong (ADX=${adx?.toFixed(1)??'?'}, VWAP=${vwapDist?.toFixed(1)??'?'}%)`,gridBotRange,gridBSRange};
+  if(isBuy)baseMode={mode:'BUY',modeLabel:'📥 GRID BUY',modeClass:'bmd-buy',reason:`Bull ADX=${adx?.toFixed(1)} VWAP=${vwapDist?.toFixed(1)}% Vol=${volRatio?.toFixed(2)}x R:R=${rr?.toFixed(2)} d=${depth}`,gridBotRange,gridBSRange};
+  else if(isSell)baseMode={mode:'SELL',modeLabel:'📤 GRID SELL',modeClass:'bmd-sel',reason:`Bear ADX=${adx?.toFixed(1)} VWAP=${vwapDist?.toFixed(1)}% Vol=${volRatio?.toFixed(2)}x R:R=${rr?.toFixed(2)} d=${depth}`,gridBotRange,gridBSRange};
+  else if(isBot)baseMode={mode:'BOT',modeLabel:'🤖 GRID BOT',modeClass:'bmd-bot',reason:`${vwapStar?'⭐ VWAP confluence':'moderate volatility'}: ADX=${adx?.toFixed(1)??'?'} VWAP=${vwapDist?.toFixed(1)??'?'}% R:R=${rr?.toFixed(2)??'?'}`,gridBotRange,gridBSRange};
+  if(r.funding&&r.fundingApplied){const dir=(baseMode.mode==='BUY'||baseMode.mode==='BOT')?'long':(baseMode.mode==='SELL'?'short':null);if(dir&&r.funding.daily!==null&&isFinite(r.funding.daily)){const dailyPct=r.funding.daily*100;baseMode.reason+=` · Fund/d ${dailyPct>=0?'+':''}${dailyPct.toFixed(3)}%`;}}
+  return baseMode;
+}
+
+function findSetup(candles,ml,sg,hist,searchDepth,extLook,setupFilter,useRev){
+  const n=hist.length;if(n<10)return null;
+  const atr=calcATR(candles,14),vwap=calcVWAP(candles,50),bands=(vwap!==null)?calcVWAPBands(candles,vwap,50):null,adxResult=calcADX(candles,14),avgVolume=avgVol(candles,20);
+  const FVD=Q('chVD')?.checked,FVC=Q('chVC')?.checked,FAT=Q('chAT')?.checked,FVL=Q('chVL')?.checked,FAD=Q('chAD')?.checked,FRR=Q('chRR')?.checked;
+  if(FAD&&adxResult!==null&&adxResult.adx<18)return null;
+  const from=Math.max(2,n-searchDepth);
+  for(let i=n-1;i>=from;i--){
+    const cur=hist[i],prev=hist[i-1];if(cur===0||prev===0)continue;
+    if(cur>0&&prev>0&&cur<prev){
+      if(i>=2&&hist[i-2]>prev)continue;
+      let ws=i;while(ws>0&&hist[ws-1]>0)ws--;let pkI=ws,pkV=hist[ws];for(let j=ws;j<=i;j++)if(hist[j]>pkV){pkV=hist[j];pkI=j;}
+      if(ml[pkI]<=0||sg[pkI]<=0)continue;if(setupFilter==='bullish')continue;
+      const depth=i-ws+1,price=candles[n-1].c;
+      if(FVD&&vwap!==null&&price>=vwap*1.005)continue;
+      if(!useRev){const vwapDist=vwap!==null?(price-vwap)/vwap*100:null;return{type:'bearish',depth,rc:null,cc:null,limL:null,stopL:null,stopC:null,limD:null,stopD:null,stopCD:null,h20:hist.slice(Math.max(0,n-20)),price,atr,vwap,vwapBands:bands,adx:adxResult?adxResult.adx:null,pdi:adxResult?adxResult.pdi:null,mdi:adxResult?adxResult.mdi:null,avgVol:avgVolume,rcVol:null,volRatio:null,vwapDist,vwapConfluence:false,rr:null};}
+      if(i>=n-1)continue;const rc=candles[i],cc=candles[i+1];if(rc.c>=rc.o)continue;
+      let ok=true;for(let j=Math.max(0,i-extLook);j<i;j++)if(candles[j].h>=rc.h){ok=false;break;}if(!ok)continue;
+      if(cc.c>=cc.o||cc.h>rc.h)continue;if(FAT&&atr!==null&&(rc.h-rc.l)<atr*0.8)continue;
+      const volRatio=avgVolume>0?rc.v/avgVolume:null;if(FVL&&volRatio!==null&&volRatio<1.1)continue;
+      const limL=rc.h;let stopL=rc.h;for(let j=Math.max(0,i-7);j<i;j++)stopL=Math.max(stopL,candles[j].h);if(stopL<=limL)stopL=limL*1.005;
+      const stopC=rc.h+((rc.h-rc.l)*2);const limD=Math.abs((price-limL)/price*100),stopD=Math.abs((price-stopL)/price*100),stopCD=Math.abs((price-stopC)/price*100);
+      const rr=((stopL-limL)>0&&(limL-rc.l)>0)?(limL-rc.l)/(stopL-limL):null;if(FRR&&rr!==null&&rr<1.5)continue;
+      const vwapDist=vwap!==null?(price-vwap)/vwap*100:null;const vwapConfluence=(vwap!==null&&bands!==null)&&(Math.abs(limL-vwap)/(vwap||1)<0.005||Math.abs(limL-bands.upper1)/(vwap||1)<0.003||Math.abs(limL-bands.upper2)/(vwap||1)<0.003);
+      if(FVC&&!vwapConfluence)continue;
+      return{type:'bearish',depth,rc,cc,limL,stopL,stopC,limD,stopD,stopCD,h20:hist.slice(Math.max(0,n-20)),price,atr,vwap,vwapBands:bands,adx:adxResult?adxResult.adx:null,pdi:adxResult?adxResult.pdi:null,mdi:adxResult?adxResult.mdi:null,avgVol:avgVolume,rcVol:rc.v,volRatio,vwapDist,vwapConfluence,rr};
+    }
+    if(cur<0&&prev<0&&cur>prev){
+      if(i>=2&&hist[i-2]<prev)continue;
+      let ws=i;while(ws>0&&hist[ws-1]<0)ws--;let trI=ws,trV=hist[ws];for(let j=ws;j<=i;j++)if(hist[j]<trV){trV=hist[j];trI=j;}
+      if(ml[trI]>=0||sg[trI]>=0)continue;if(setupFilter==='bearish')continue;
+      const depth=i-ws+1,price=candles[n-1].c;
+      if(FVD&&vwap!==null&&price<=vwap*0.995)continue;
+      if(!useRev){const vwapDist=vwap!==null?(price-vwap)/vwap*100:null;return{type:'bullish',depth,rc:null,cc:null,limL:null,stopL:null,stopC:null,limD:null,stopD:null,stopCD:null,h20:hist.slice(Math.max(0,n-20)),price,atr,vwap,vwapBands:bands,adx:adxResult?adxResult.adx:null,pdi:adxResult?adxResult.pdi:null,mdi:adxResult?adxResult.mdi:null,avgVol:avgVolume,rcVol:null,volRatio:null,vwapDist,vwapConfluence:false,rr:null};}
+      if(i>=n-1)continue;const rc=candles[i],cc=candles[i+1];if(rc.c<=rc.o)continue;
+      let ok=true;for(let j=Math.max(0,i-extLook);j<i;j++)if(candles[j].l<=rc.l){ok=false;break;}if(!ok)continue;
+      if(cc.c<=cc.o||cc.l<rc.l)continue;if(FAT&&atr!==null&&(rc.h-rc.l)<atr*0.8)continue;
+      const volRatio=avgVolume>0?rc.v/avgVolume:null;if(FVL&&volRatio!==null&&volRatio<1.1)continue;
+      const limL=rc.l;let stopL=rc.l;for(let j=Math.max(0,i-7);j<i;j++)stopL=Math.min(stopL,candles[j].l);if(stopL>=limL)stopL=limL*0.995;
+      const stopC=rc.l-((rc.h-rc.l)*2);const limD=Math.abs((price-limL)/price*100),stopD=Math.abs((price-stopL)/price*100),stopCD=Math.abs((price-stopC)/price*100);
+      const rr=((limL-stopL)>0&&(rc.h-limL)>0)?(rc.h-limL)/(limL-stopL):null;if(FRR&&rr!==null&&rr<1.5)continue;
+      const vwapDist=vwap!==null?(price-vwap)/vwap*100:null;const vwapConfluence=(vwap!==null&&bands!==null)&&(Math.abs(limL-vwap)/(vwap||1)<0.005||Math.abs(limL-bands.lower1)/(vwap||1)<0.003||Math.abs(limL-bands.lower2)/(vwap||1)<0.003);
+      if(FVC&&!vwapConfluence)continue;
+      return{type:'bullish',depth,rc,cc,limL,stopL,stopC,limD,stopD,stopCD,h20:hist.slice(Math.max(0,n-20)),price,atr,vwap,vwapBands:bands,adx:adxResult?adxResult.adx:null,pdi:adxResult?adxResult.pdi:null,mdi:adxResult?adxResult.mdi:null,avgVol:avgVolume,rcVol:rc.v,volRatio,vwapDist,vwapConfluence,rr};
+    }
+  }
+  return null;
+}
+
+async function fMC(lim){
+  MC={};if(lim<=0)return;const cacheKey=`mc_${lim}`;const cached=cacheGet(cacheKey);if(cached){MC=cached;lg(t('log.cacheHit',{what:`MCap top ${lim}`}),'ok');return;}
+  for(let p=1;p<=Math.ceil(lim/250);p++){let tries=0;while(tries<3){try{const r=await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${p}`);if(r.status===429){tries++;lg(`MCap: 429, backoff ${tries*2}s`,'wr');await W(tries*2000);continue;}const j=await r.json();if(!Array.isArray(j))break;for(const c of j){const s=(c.symbol||'').toUpperCase();if(!MC[s])MC[s]=c.market_cap_rank||9999;}if(j.length<250){tries=99;break;}break;}catch(e){lg(`MCap: ${e.message}`,'wr');tries++;await W(1500);}}await W(1500);}
+  lg(`MCap: ${Object.keys(MC).length}`,'ok');if(Object.keys(MC).length)cacheSet(cacheKey,MC);
+}
+function bOf(s,e){if(!s)return'';if(e==='kucoin'){if(s.includes('-'))return s.split('-')[0];let base=s.replace(/USDTM$/,'').replace(/M$/,'');if(base==='XBT')base='BTC';return base;}if(e==='pionex')return s.split('_')[0];if(e==='okx')return s.split('-')[0];return s.replace(/USDT$/,'');}
+function rOf(s,e){return MC[bOf(s,e)]||9999;}
+function normalizePair(raw,ex,mk){let s=raw.toUpperCase().replace(/[\/\-_]/g,'');let base=s.endsWith('USDT')?s.slice(0,-4):s;if(ex==='bybit'||ex==='binance')return base+'USDT';if(ex==='kucoin'){if(mk==='spot'){if(base==='XBT')base='BTC';return `${base}-USDT`;}if(base==='BTC')base='XBT';return `${base}USDTM`;}if(ex==='pionex')return mk==='linear'?`${base}_USDT_PERP`:`${base}_USDT`;if(ex==='okx')return mk==='linear'?`${base}-USDT-SWAP`:`${base}-USDT`;return base+'USDT';}
+
+async function startScan(){
+  if(scanning)return;scanning=true;RES=[];
+  Q('goB').disabled=true;Q('stB').disabled=false;Q('tB').innerHTML='';Q('pF').style.width='0%';
+  ['nSc','nSt','nBu','nBe','nRv','nVW','nRR'].forEach(id=>Q(id).textContent='0');Q('rC').textContent='(0)';
+  Q('rT').style.display=Q('chR').checked?'block':'none';Q('cT2').style.display=Q('chC').checked?'block':'none';
+  const ex=Q('exS').value,mk=Q('mkS').value,sf=Q('stS').value,mcL=+Q('mcS').value,mxR=+Q('mxR').value,ur=Q('chR').checked,eL=+Q('exL').value,sD=+Q('sDp').value,mnT=+Q('mnT').value,tfs=gTFs();
+  const useFunding=Q('chFD').checked&&mk==='linear';const useFundHist=Q('chFH').checked&&useFunding;const fundSkip=Q('chFS').checked&&useFunding;
+  const fundMaxDaily=parseFloat(Q('fdMax').value)/100;const fundHold=+Q('fdHold').value;
+  Q('fT2').style.display=useFunding?'block':'none';
+  if(!tfs.length){lg(t('log.selectTf'),'er');done();return;}
+  const validTFs=tfs.filter(x=>ivM(ex,x));if(!validTFs.length){lg('No supported TF for '+ex,'er');done();return;}
+  const t0=Date.now();
+  lg(`Scan: ${ex}/${mk} TF=[${validTFs}] depth=${sD} ext=${eL} rev=${ur}${useFunding?' fund='+(useFundHist?'7d':'now')+(fundSkip?' skip>'+(fundMaxDaily*100).toFixed(2)+'%':''):''}`,'ok');
+  await fMC(mcL);
+  let pairs=[];const isCustom=Q('cpn').classList.contains('vis')&&Q('cP').value.trim();
+  if(isCustom){pairs=Q('cP').value.split(/[,;\s\n]+/).filter(Boolean).map(s=>normalizePair(s.trim().toUpperCase(),ex,mk));pairs=[...new Set(pairs)];lg(`Custom: ${pairs.length}`,'ok');}
+  else{pairs=await fPairs(ex,mk);}
+  if(!scanning){done();return;}
+  if(mcL>0&&!isCustom){pairs=pairs.filter(p=>rOf(p,ex)<=mcL);lg(`MCap Top ${mcL}: ${pairs.length}`,'ok');}
+  if(pairs.length===0){lg(t('log.empty'),'er');done();return;}
+  let sc=0,nS=0,nBl=0,nBr=0,nRv=0,nVW=0,nRR=0;
+  let klOk=0, klFail=0;
+  const reqDelay=(ex==='bybit'||ex==='pionex')?80:350;
+  for(const sym of pairs){
+    if(!scanning)break;let hits=[];
+    for(const tf of validTFs){
+      if(!scanning)break;
+      try{const cn=await fK(ex,sym,tf);if(!cn||cn.length<35){klFail++;continue;}klOk++;const m=calcMACD(cn);if(!m)continue;const s=findSetup(cn,m.ml,m.sg,m.h,sD,eL,sf,ur);if(s){hits.push({sym,exch:ex,tf,...s,rank:rOf(sym,ex)});lg(`✓ ${sym}/${tf}: ${s.type} d=${s.depth}${s.rc?' REV':''}${s.vwapConfluence?' ⭐':''}${s.adx!=null?' ADX='+s.adx.toFixed(1):''}${s.rr!=null?' R:R='+s.rr.toFixed(2):''}`,'ok');}}catch(e){lg(`${sym}/${tf}: ${e.message}`,'er');}
+      await W(reqDelay);
+    }
+    if(hits.length>=mnT){
+      let fundingData=null;
+      if(useFunding&&hits.length>0){try{fundingData=await fFunding(ex,sym,useFundHist);}catch(e){lg(`Funding ${sym}: ${e.message}`,'wr');}await W(120);}
+      for(const h of hits){
+        if(fundingData){h.funding=fundingData;h.fundingApplied=true;h.fundingHoldPct=(fundingData.daily!==null&&isFinite(fundingData.daily))?fundingData.daily*fundHold:null;}
+        if(fundSkip&&fundingData&&fundingData.daily!==null&&isFinite(fundingData.daily)){const dir=h.type==='bullish'?'long':'short';const adverse=(dir==='long'&&fundingData.daily>0)||(dir==='short'&&fundingData.daily<0);if(adverse&&Math.abs(fundingData.daily)>fundMaxDaily){lg(t('log.fundSkip',{sym,dir:dir.toUpperCase(),d:(fundingData.daily*100).toFixed(3)}),'wr');continue;}}
+        RES.push(h);nS++;if(h.type==='bullish')nBl++;else nBr++;if(h.rc)nRv++;if(h.vwapConfluence)nVW++;if(h.rr!=null&&h.rr>=2)nRR++;
+      }
+    }
+    sc++;Q('nSc').textContent=sc;Q('nSt').textContent=nS;Q('nBu').textContent=nBl;Q('nBe').textContent=nBr;Q('nRv').textContent=nRv;Q('nVW').textContent=nVW;Q('nRR').textContent=nRR;Q('pF').style.width=((sc/pairs.length)*100)+'%';
+  }
+  RES.sort((a,b)=>a.rank-b.rank);if(RES.length>mxR)RES=RES.slice(0,mxR);
+  render();Q('rC').textContent=`(${RES.length})`;if(klOk===0&&klFail>0)lg(`⚠ ${ex}: 0 klines loaded (${klFail} failed) — proxy/exchange blocked. Set CUSTOM_PROXY.`,'er');
+  const scanN=bumpScanCount();if(scanN===5||scanN===10||scanN===25||scanN===50||scanN===100)lg(t('log.milestone',{n:scanN}),'ok');
+  done();
+}
+function done(){scanning=false;Q('goB').disabled=false;Q('stB').disabled=true;Q('pF').style.width='100%';}
+function stopScan(){scanning=false;lg(t('log.stopped'),'wr');render();done();}
+
+function fmP(p){if(p==null||!isFinite(p))return'—';if(p>=1e4)return p.toFixed(1);if(p>=100)return p.toFixed(2);if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8);}
+function dCl(d){if(d==null)return'';return d<2?'dg':d<5?'dy':'dr';}
+function miniH(a){if(!a?.length)return'—';const mx=Math.max(...a.map(Math.abs),1e-12);let h='<div class="mh">';a.forEach((v,i)=>{h+=`<div class="b" style="height:${Math.max(1,Math.round(Math.abs(v)/mx*24))}px;background:${hCol(a,i)}"></div>`;});return h+'</div>';}
+function miniC(c,lt){if(!c)return'—';const g=c.c>=c.o,cl=g?'var(--grn)':'var(--red)',rn=c.h-c.l||1,bT=Math.max(c.o,c.c),bB=Math.min(c.o,c.c),wT=(c.h-bT)/rn*18,bH=Math.max(2,(bT-bB)/rn*18),wB=(bB-c.l)/rn*18;const s=`<svg width="8" height="24" viewBox="0 0 8 24"><line x1="4" y1="2" x2="4" y2="${2+wT}" stroke="${cl}"/><rect x="1" y="${2+wT}" width="6" height="${bH}" fill="${cl}" rx="1"/><line x1="4" y1="${2+wT+bH}" x2="4" y2="${2+wT+bH+wB}" stroke="${cl}"/></svg>`;return lt?`<span class="rcl">${s}<span class="rlt" style="color:${cl}">${lt}</span></span>`:s;}
+function fmFP(r){if(r==null||!isFinite(r))return'—';const p=r*100;const sign=p>0?'+':'';return sign+p.toFixed(p===0?2:(Math.abs(p)>=0.1?3:4))+'%';}
+
+function render(){
+  let h='';
+  RES.forEach((r,i)=>{
+    const sb=r.type==='bullish'?'<span class="bdg bbl">BULL</span>':'<span class="bdg bbr">BEAR</span>';
+    const lt=r.type==='bullish'?'B':'S',sc=r.type==='bullish'?'bsr':'bsg';
+    let vwapDistCell='—';if(r.vwapDist!=null){let vcl=r.type==='bullish'?(r.vwapDist>0?'dg':'dr'):(r.vwapDist<0?'dg':'dr');vwapDistCell=`<span class="${vcl}">${r.vwapDist.toFixed(2)}%</span>`;}
+    const vwapStarCell=r.vwapConfluence?'<span class="bdg bcn">⭐</span>':'<span style="color:var(--t3)">·</span>';
+    let volCell='—';if(r.volRatio!=null){const vcl=r.volRatio>=1.2?'dg':r.volRatio>=0.8?'dy':'dr';volCell=`<span class="${vcl}">${(r.volRatio*100).toFixed(0)}%</span>`;}
+    const atrCell=r.atr!=null?`<span style="color:var(--t2)">${fmP(r.atr)}</span>`:'—';
+    let adxCell='—';if(r.adx!=null){const acl=r.adx>=25?'dg':r.adx>=18?'dy':'dr';adxCell=`<span class="${acl}">${r.adx.toFixed(1)}</span>`;}
+    let rrCell='—';if(r.rr!=null){const rcl=r.rr>=2?'dg':r.rr>=1.5?'dy':'dr';rrCell=`<span class="${rcl}">${r.rr.toFixed(2)}x</span>`;}
+    let fundNowCell='—',fundDayCell='—',fundHoldCell='—',fundBiasCell='—';
+    if(r.funding&&r.fundingApplied){const fd=r.funding;if(fd.now!==null&&isFinite(fd.now)){const cls=fd.now>0?'dg':fd.now<0?'dr':'';fundNowCell=`<span class="${cls}" style="font-size:10px">${fmFP(fd.now)}</span>`;}if(fd.daily!==null&&isFinite(fd.daily)){const cls=Math.abs(fd.daily)>0.003?'dr':Math.abs(fd.daily)>0.001?'dy':'dg';fundDayCell=`<span class="${cls}" style="font-size:10px">${fmFP(fd.daily)}</span>`;}if(r.fundingHoldPct!==null&&r.fundingHoldPct!==undefined&&isFinite(r.fundingHoldPct)){const cls=Math.abs(r.fundingHoldPct)>0.02?'dr':Math.abs(r.fundingHoldPct)>0.005?'dy':'dg';fundHoldCell=`<span class="${cls}" style="font-size:10px">${fmFP(r.fundingHoldPct)}</span>`;}const dir=r.type==='bullish'?'long':'short';if(fd.now===null||!isFinite(fd.now)){fundBiasCell=`<span class="bfb-neu" title="Funding unavailable (proxy/Binance blocked)">${t('lc.fundNA')}</span>`;}else{const bias=fundingBias(dir,fd.daily);fundBiasCell=`<span class="${bias.cls}">${bias.label}</span>`;}}
+    const md=decideMode(r);
+    const modeCell=`<div class="tip"><span class="${md.modeClass}">${md.modeLabel}</span><span class="ttt">${md.reason}</span></div>`;
+    let botRangeCell='—';if(md.gridBotRange){const{low,high,widthPct}=md.gridBotRange;const cl=md.mode==='BOT'?'dg':'dy';botRangeCell=`<div class="tip"><span class="${cl}" style="font-size:10px">${fmP(low)}–${fmP(high)}<br><span style="color:var(--t3)">${widthPct.toFixed(1)}%</span></span><span class="ttt">ATR×${r.adx>=18?18:10}<br>${fmP(low)} – ${fmP(high)}<br>${widthPct.toFixed(2)}%</span></div>`;}
+    let bsRangeCell='—';if(md.gridBSRange){const{low,high,widthPct}=md.gridBSRange;const cl=(md.mode==='BUY'||md.mode==='SELL')?'dg':'dy';bsRangeCell=`<div class="tip"><span class="${cl}" style="font-size:10px">${fmP(low)}–${fmP(high)}<br><span style="color:var(--t3)">${widthPct.toFixed(1)}%</span></span><span class="ttt">ATR×5<br>${fmP(low)} – ${fmP(high)}<br>${widthPct.toFixed(2)}%</span></div>`;}
+    const lcBtn=`<span onclick="showLaunchCard('${r.sym}','${r.exch}','${r.tf}')" title="Launch Card" style="cursor:pointer;margin-left:5px;font-size:13px;opacity:.7" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=.7">📋</span>`;
+    const dispSym=(sy,ex)=>{if(ex==='okx')return sy.replace(/-SWAP$/,'').replace(/-/g,'');if(ex==='pionex')return sy.replace(/_PERP$/,'').replace(/_/g,'');return sy;};
+    h+=`<tr><td>${i+1}</td><td class="rn">${r.rank<9999?r.rank:'—'}</td><td><a class="sl" onclick="opCh('${r.sym}','${r.exch}','${r.tf}')">${dispSym(r.sym,r.exch)}</a>${lcBtn}</td><td>${fmP(r.price)}</td><td>${sb}</td><td><span class="bdg btf">${r.tf}</span></td><td>${r.depth}</td><td>${r.rc?miniC(r.rc,lt):'—'}</td><td>${r.cc?`<span class="rcl">${miniC(r.cc,null)}<span class="chm">✓</span></span>`:'—'}</td><td>${miniH(r.h20)}</td><td>${r.limL!=null?`<span class="bdg blm">${fmP(r.limL)}</span>`:'—'}</td><td class="${dCl(r.limD)}">${r.limD!=null?r.limD.toFixed(2)+'%':'—'}</td><td>${r.stopL!=null?`<span class="bdg ${sc}">${fmP(r.stopL)}</span>`:'—'}</td><td class="${dCl(r.stopD)}">${r.stopD!=null?r.stopD.toFixed(2)+'%':'—'}</td><td>${r.stopC!=null?`<span class="bdg bcs">${fmP(r.stopC)}</span>`:'—'}</td><td class="${dCl(r.stopCD)}">${r.stopCD!=null?r.stopCD.toFixed(2)+'%':'—'}</td><td>${vwapDistCell}</td><td>${vwapStarCell}</td><td>${volCell}</td><td>${atrCell}</td><td>${adxCell}</td><td>${rrCell}</td><td>${fundNowCell}</td><td>${fundDayCell}</td><td>${fundHoldCell}</td><td>${fundBiasCell}</td><td>${modeCell}</td><td>${botRangeCell}</td><td>${bsRangeCell}</td></tr>`;
+  });
+  Q('tB').innerHTML=h;
+}
+
+function srt(c){
+  if(sCol===c)sAsc=!sAsc;else{sCol=c;sAsc=true;}
+  const keys=['_','rank','sym','price','type','_','depth','_','_','_','limL','limD','stopL','stopD','stopC','stopCD','vwapDist','vwapConfluence','volRatio','atr','adx','rr','_fnow','_fday','_fhold','_fbias','_mode','_botW','_bsW'];
+  const k=keys[c];if(!k||k==='_')return;
+  if(k==='_fnow'||k==='_fday'||k==='_fhold'||k==='_fbias'||k==='_mode'||k==='_botW'||k==='_bsW')RES.forEach(r=>{const md=decideMode(r);r._mode=['BUY','SELL','BOT','SKIP'].indexOf(md.mode);r._botW=md.gridBotRange?md.gridBotRange.widthPct:null;r._bsW=md.gridBSRange?md.gridBSRange.widthPct:null;r._fnow=(r.funding&&isFinite(r.funding.now))?r.funding.now:null;r._fday=(r.funding&&isFinite(r.funding.daily))?r.funding.daily:null;r._fhold=isFinite(r.fundingHoldPct)?r.fundingHoldPct:null;if(r.funding&&isFinite(r.funding.daily)){const dir=r.type==='bullish'?'long':'short';const adverse=(dir==='long'&&r.funding.daily>0)||(dir==='short'&&r.funding.daily<0);r._fbias=adverse?Math.abs(r.funding.daily):-Math.abs(r.funding.daily);}else r._fbias=null;});
+  RES.sort((a,b)=>{let va=a[k],vb=b[k];if(va==null)va=sAsc?Infinity:-Infinity;if(vb==null)vb=sAsc?Infinity:-Infinity;if(typeof va==='string')return sAsc?va.localeCompare(vb):vb.localeCompare(va);if(typeof va==='boolean')return sAsc?(va===vb?0:va?1:-1):(va===vb?0:va?-1:1);return sAsc?va-vb:vb-va;});
+  render();
+}
+
+let TV_LOADED=false,TV_LOADING=null,TV_CURRENT_ID=null;
+function tvSymbolCandidates(s,e){
+  const m=Q('mkS').value;const candidates=[];
+  if(e==='bybit'){candidates.push(m==='spot'?`BYBIT:${s}`:`BYBIT:${s}.P`);candidates.push(m==='spot'?`BINANCE:${s}`:`BINANCE:${s}.P`);}
+  else if(e==='binance'){candidates.push(m==='spot'?`BINANCE:${s}`:`BINANCE:${s}.P`);candidates.push(m==='spot'?`BYBIT:${s}`:`BYBIT:${s}.P`);}
+  else if(e==='kucoin'){if(m==='spot'){const flat=s.replace(/-/g,'');candidates.push(`KUCOIN:${flat}`);candidates.push(`BINANCE:${flat}`);candidates.push(`BYBIT:${flat}`);}else{let base=s.replace(/USDTM$/,'').replace(/M$/,'');if(base==='XBT')base='BTC';candidates.push(`KUCOIN:${base}USDT.P`);candidates.push(`BINANCE:${base}USDT.P`);candidates.push(`BYBIT:${base}USDT.P`);}}
+  else if(e==='pionex'){const isPerp=s.endsWith('_PERP');const clean=s.replace(/_PERP$/,'').replace(/_/g,'');if(isPerp){candidates.push(`BINANCE:${clean}.P`);candidates.push(`BYBIT:${clean}.P`);candidates.push(`PIONEX:${clean}.P`);}else{candidates.push(`BINANCE:${clean}`);candidates.push(`BYBIT:${clean}`);candidates.push(`KUCOIN:${clean}`);candidates.push(`PIONEX:${clean}`);}}
+  else if(e==='okx'){if(m==='spot'){const flat=s.replace(/-/g,'');candidates.push(`OKX:${flat}`);candidates.push(`BINANCE:${flat}`);}else{const base=s.replace(/-SWAP/,'').replace(/-/g,'');candidates.push(`OKX:${base}.P`);candidates.push(`BINANCE:${base}.P`);candidates.push(`BYBIT:${base}.P`);}}
+  else candidates.push(s);
+  return [...new Set(candidates)];
+}
+function tvI(tf){return{'1m':'1','5m':'5','15m':'15','30m':'30','1h':'60','4h':'240','1D':'D','1W':'W','1M':'M'}[tf]||'60';}
+function loadTVScript(){if(TV_LOADED||(typeof TradingView!=='undefined'&&TradingView.widget)){TV_LOADED=true;return Promise.resolve();}if(TV_LOADING)return TV_LOADING;TV_LOADING=new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://s3.tradingview.com/tv.js';s.async=true;s.onload=()=>{TV_LOADED=true;res();};s.onerror=()=>{lg('TV: script load failed','er');TV_LOADING=null;rej(new Error('script load failed'));};document.head.appendChild(s);});return TV_LOADING;}
+function ldTV(candidates,iv){
+  const w=Q('cW');w.innerHTML='<div class="tv-loading" id="tvLoading">⏳ Loading chart…</div>';
+  const id='tv_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);TV_CURRENT_ID=id;
+  const d=document.createElement('div');d.id=id;d.style.cssText='width:100%;height:100%';w.appendChild(d);
+  const mount=()=>{if(TV_CURRENT_ID!==id)return;if(!document.getElementById(id))return;if(typeof TradingView==='undefined'||!TradingView.widget){lg('TV: library missing after load','er');return;}const symbol=candidates[0];try{new TradingView.widget({autosize:true,symbol,interval:iv,timezone:'Etc/UTC',theme:document.body.classList.contains('light')?'light':'dark',style:'1',locale:'en',toolbar_bg:document.body.classList.contains('light')?'#f3f6fc':'#162040',enable_publishing:false,allow_symbol_change:true,hide_side_toolbar:false,withdateranges:true,hide_volume:false,studies:['STD;MACD','VWAP@tv-basicstudies'],container_id:id});setTimeout(()=>{const ld=document.getElementById('tvLoading');if(ld)ld.classList.add('hide');},800);if(candidates.length>1)lg(`TV: symbol fallback chain — ${candidates.join(' → ')}`,'wr');}catch(e){lg('TV: '+e.message,'er');const ld=document.getElementById('tvLoading');if(ld){ld.textContent='⚠ '+e.message;ld.classList.remove('hide');}}};
+  loadTVScript().then(mount).catch(()=>{const ld=document.getElementById('tvLoading');if(ld){ld.textContent='⚠ '+t('tv.unavailable');ld.classList.remove('hide');}});
+}
+function opCh(sy,ex,tf){
+  Q('cTt').textContent=sy;const r=RES.find(x=>x.sym===sy&&x.tf===tf);let info='';
+  if(r){const md=decideMode(r);info=`${(r.type||'').toUpperCase()} | d:${r.depth??'?'}`;if(r.limL!=null)info+=` | Lim:${fmP(r.limL)}`;if(r.stopL!=null)info+=` | SL:${fmP(r.stopL)}`;if(r.adx!=null)info+=` | ADX:${r.adx.toFixed(1)}`;if(r.rr!=null)info+=` | R:R:${r.rr.toFixed(2)}x`;if(r.funding&&isFinite(r.funding.daily))info+=` | F/d:${fmFP(r.funding.daily)}`;info+=` | ${md.modeLabel}`;}
+  Q('cI').textContent=info;const bar=Q('cTB');bar.innerHTML='';const candidates=tvSymbolCandidates(sy,ex);
+  ATF.forEach(tt=>{const b=document.createElement('div');b.className='tf'+(tt===tf?' on':'');b.textContent=tt;b.onclick=()=>{bar.querySelectorAll('.tf').forEach(x=>x.classList.remove('on'));b.classList.add('on');ldTV(candidates,tvI(tt));};bar.appendChild(b);});
+  ldTV(candidates,tvI(tf));Q('chM').classList.add('on');
+}
+function clCh(){Q('chM').classList.remove('on');TV_CURRENT_ID=null;Q('cW').innerHTML='<div class="tv-loading" id="tvLoading">⏳ Loading chart…</div>';}
+
+function csvCell(v){if(v==null)return'""';let s=String(v).replace(/\r?\n/g,' ').replace(/"/g,'""');return `"${s}"`;}
+function doCSV(){
+  if(!RES.length){lg(t('log.noData'),'wr');return;}
+  const headers=['#','Rank','Symbol','Exchange','TF','Price','Setup','Depth','Limit','Lim%','Stop','Stp%','ConsSL','Cons%','VWAP','VWAP%','VWAP_Star','Vol%','ATR','ADX','R:R','Fund_Now%','Fund_Avg7d%','Fund_Daily%','Fund_Annual%','Fund_HoldCost%','Fund_Source','Fund_Bias','Mode','Reason','BotLow','BotHigh','Bot%','BSLow','BSHigh','BS%'];
+  const rows=RES.map((r,i)=>{const md=decideMode(r);const fd=r.funding||{};const dir=r.type==='bullish'?'long':'short';const bias=fd.daily!=null?fundingBias(dir,fd.daily):null;return[i+1,r.rank<9999?r.rank:'',r.sym,r.exch,r.tf,r.price,r.type,r.depth,r.limL!=null?fmP(r.limL):'',r.limD!=null?r.limD.toFixed(2):'',r.stopL!=null?fmP(r.stopL):'',r.stopD!=null?r.stopD.toFixed(2):'',r.stopC!=null?fmP(r.stopC):'',r.stopCD!=null?r.stopCD.toFixed(2):'',r.vwap!=null?fmP(r.vwap):'',r.vwapDist!=null?r.vwapDist.toFixed(2):'',r.vwapConfluence?'YES':'',r.volRatio!=null?(r.volRatio*100).toFixed(0)+'%':'',r.atr!=null?fmP(r.atr):'',r.adx!=null?r.adx.toFixed(1):'',r.rr!=null?r.rr.toFixed(2):'',fd.now!=null&&isFinite(fd.now)?(fd.now*100).toFixed(4):'',fd.avg7d!=null&&isFinite(fd.avg7d)?(fd.avg7d*100).toFixed(4):'',fd.daily!=null&&isFinite(fd.daily)?(fd.daily*100).toFixed(4):'',fd.annual!=null&&isFinite(fd.annual)?(fd.annual*100).toFixed(2):'',r.fundingHoldPct!=null&&isFinite(r.fundingHoldPct)?(r.fundingHoldPct*100).toFixed(3):'',fd.source||'',bias?bias.bias:'',md.mode,md.reason,md.gridBotRange?fmP(md.gridBotRange.low):'',md.gridBotRange?fmP(md.gridBotRange.high):'',md.gridBotRange?md.gridBotRange.widthPct.toFixed(2):'',md.gridBSRange?fmP(md.gridBSRange.low):'',md.gridBSRange?fmP(md.gridBSRange.high):'',md.gridBSRange?md.gridBSRange.widthPct.toFixed(2):''];});
+  const csv=[headers,...rows].map(row=>row.map(csvCell).join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));a.download=`gridpulse_v14_1_${new Date().toISOString().slice(0,10)}.csv`;a.click();lg(t('log.csvDone',{n:RES.length}),'ok');
+}
+
+function copyText(text){const show=()=>{const tt=Q('copyToast');tt.textContent=t('toast.copied');tt.classList.add('show');setTimeout(()=>tt.classList.remove('show'),1600);};if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(show).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);show();});}else{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);show();}}
+
+function lcRow(label,value,cc=''){if(value==null||value==='—')return'';const sv=String(value);return`<div class="lc-row"><span class="lc-label">${label}</span><span class="lc-val ${cc}" onclick="copyText('${sv.replace(/'/g,"\\'")}')">${sv}</span></div>`;}
+function lcInd(label,value,cc=''){if(value==null)return'';return`<div class="lc-ind"><span class="lc-ind-name">${label}</span><span class="lc-ind-val ${cc}">${value}</span></div>`;}
+function buildFundingSection(r,fundHold){
+  if(!r.funding||!r.fundingApplied)return'';
+  const fd=r.funding;if(fd.now===null||!isFinite(fd.now))return '<div class="lc-section" style="border-color:rgba(255,96,144,.3)"><div class="lc-sec-title pink">💰 '+t('lc.funding')+'</div><div class="lc-fund-warn">'+t('lc.fundNA')+'</div></div>';
+  const dir=r.type==='bullish'?'long':'short';const bias=fundingBias(dir,fd.daily);const holdCost=(fd.daily!==null&&isFinite(fd.daily))?fd.daily*fundHold:null;
+  let nextStr=null;if(fd.nextMs&&isFinite(fd.nextMs)){const diff=fd.nextMs-Date.now();if(diff>0){const hh=Math.floor(diff/3600000);const mm=Math.floor((diff%3600000)/60000);nextStr=`${hh}h ${mm}m`;}}
+  let warnHTML='';
+  if(fd.daily!==null&&isFinite(fd.daily)&&Math.abs(fd.daily)>0.001){const adverseLong=dir==='long'&&fd.daily>0;const adverseShort=dir==='short'&&fd.daily<0;if(adverseLong)warnHTML=`<div class="lc-fund-warn">${t('lc.fundWarnLong')}</div>`;else if(adverseShort)warnHTML=`<div class="lc-fund-warn">${t('lc.fundWarnShort')}</div>`;else warnHTML=`<div class="lc-fund-warn" style="color:var(--grn);background:rgba(0,200,83,.06);border-color:rgba(0,200,83,.2)">${t('lc.fundOk')}</div>`;}
+  else warnHTML=`<div class="lc-fund-warn" style="color:var(--t2);background:rgba(122,139,181,.06);border-color:rgba(122,139,181,.2)">${t('lc.fundOk')}</div>`;
+  const sourceLabel=fd.source==='binance-fallback'?`binance ${t('lc.fundFallback')}`:(fd.source==='bybit-fallback'?'bybit (fallback)':fd.source);
+  const biasCls=(bias.bias==='long-friendly'||bias.bias==='short-friendly')?'green':(bias.bias==='neutral'?'':'red');
+  const rows=[lcRow(t('lc.fundNow'),fmFP(fd.now),fd.now>0?'red':fd.now<0?'green':''),(fd.avg7d!==null&&isFinite(fd.avg7d))?lcRow(t('lc.fundAvg'),fmFP(fd.avg7d),fd.avg7d>0?'red':'green'):'',(fd.daily!==null&&isFinite(fd.daily))?lcRow(t('lc.fundDaily'),fmFP(fd.daily),Math.abs(fd.daily)>0.003?'red':Math.abs(fd.daily)>0.001?'yellow':'green'):'',(fd.annual!==null&&isFinite(fd.annual))?lcRow(t('lc.fundAnnual'),fmFP(fd.annual),Math.abs(fd.annual)>0.5?'red':Math.abs(fd.annual)>0.1?'yellow':'green'):'',(holdCost!==null&&isFinite(holdCost))?lcRow(t('lc.fundHoldCost',{n:fundHold}),fmFP(holdCost),Math.abs(holdCost)>0.02?'red':Math.abs(holdCost)>0.005?'yellow':'green'):'',nextStr?lcRow(t('lc.fundNext'),nextStr,'cyan'):'',sourceLabel?lcRow(t('lc.fundSource'),sourceLabel,''):'',lcRow('Bias',bias.label,biasCls)].filter(Boolean).join('');
+  return `<div class="lc-section" style="border-color:rgba(255,96,144,.3)"><div class="lc-sec-title pink">💰 ${t('lc.funding')}</div><div class="lc-params">${rows}</div>${warnHTML}</div>`;
+}
+function showLaunchCard(sym,exch,tf){
+  const r=RES.find(x=>x.sym===sym&&x.tf===tf&&x.exch===exch);if(!r)return;
+  const md=decideMode(r),isBull=r.type==='bullish',price=fmP(r.price),headColor=isBull?'var(--grn)':'var(--red)',typeLabel=isBull?'🟢 BULL':'🔴 BEAR';
+  const fundHold=+Q('fdHold').value||3;
+  let paramsHTML='';
+  if(md.mode==='BUY'){const risk=(r.limL!=null&&r.stopL!=null)?(r.limL-r.stopL):null;const tp=(r.limL!=null&&risk!=null&&r.rr!=null)?fmP(r.limL+risk*r.rr):null;const tr=r.limL?fmP(r.limL*1.10):null;paramsHTML=`<div class="lc-params">${lcRow(t('lc.buyPrice'),fmP(r.limL),'green')}${lcRow(t('lc.sl'),fmP(r.stopL),'red')}${lcRow(t('lc.consSl'),fmP(r.stopC),'red')}${lcRow(t('lc.tp'),tp,'cyan')}${lcRow(t('lc.trailUp'),tr,'yellow')}${lcRow(t('lc.trailDD'),'5–7%','yellow')}${lcRow(t('lc.posSize'),t('lc.posVal'),'')}</div><div class="lc-copy-hint">${t('lc.copyHint')}</div>`;}
+  else if(md.mode==='SELL'){const risk=(r.limL!=null&&r.stopL!=null)?(r.stopL-r.limL):null;const tp=(r.limL!=null&&risk!=null&&r.rr!=null)?fmP(r.limL-risk*r.rr):null;const tr=r.limL?fmP(r.limL*0.90):null;paramsHTML=`<div class="lc-params">${lcRow(t('lc.sellPrice'),fmP(r.limL),'red')}${lcRow(t('lc.sl'),fmP(r.stopL),'green')}${lcRow(t('lc.consSl'),fmP(r.stopC),'green')}${lcRow(t('lc.tp'),tp,'cyan')}${lcRow(t('lc.trailDn'),tr,'yellow')}${lcRow(t('lc.trailDD'),'5–7%','yellow')}${lcRow(t('lc.posSize'),t('lc.posVal'),'')}</div><div class="lc-copy-hint">${t('lc.copyHint')}</div>`;}
+  else if(md.mode==='BOT'){const bR=md.gridBotRange;const gc=bR?(bR.widthPct>40?50:bR.widthPct>20?40:30):40;const sl=bR?fmP(bR.low*0.80):null;const tp=bR?fmP(bR.high*1.15):null;paramsHTML=`<div class="lc-params">${bR?lcRow(t('lc.lower'),fmP(bR.low),'green'):''}${bR?lcRow(t('lc.upper'),fmP(bR.high),'red'):''}${bR?lcRow(t('lc.width'),bR.widthPct.toFixed(1)+'%','cyan'):''}${lcRow(t('lc.gridN'),String(gc),'yellow')}${lcRow(t('lc.gridMode'),t('lc.gridModeVal'),'')}${lcRow(t('lc.invest'),t('lc.investVal'),'')}${sl?lcRow(t('lc.slBot'),sl,'red'):''}${tp?lcRow(t('lc.tpBot'),tp,'cyan'):''}</div><div class="lc-copy-hint">${t('lc.copyHint')}</div>`;}
+  else{paramsHTML=`<div class="lc-params">${lcRow(t('lc.curPrice'),price,'')}${r.limL!=null?lcRow(t('lc.entryRef'),fmP(r.limL),isBull?'green':'red'):''}${r.stopL!=null?lcRow(t('lc.sl'),fmP(r.stopL),isBull?'red':'green'):''}</div><div style="padding:8px 14px;font-size:11px;color:var(--ylw)">${t('lc.warn')}</div>`;}
+  const adxCl=r.adx!=null?(r.adx>=25?'dg':r.adx>=18?'dy':'dr'):'',volCl=r.volRatio!=null?(r.volRatio>=1.2?'dg':r.volRatio>=0.8?'dy':'dr'):'',vwCl=r.vwapDist!=null?(isBull?(r.vwapDist<0?'dg':'dr'):(r.vwapDist>0?'dg':'dr')):'';
+  const rrBarW=r.rr!=null?Math.min(100,r.rr/4*100):0,rrBarCl=r.rr!=null?(r.rr>=2?'#00c853':r.rr>=1.5?'#ffd740':'#ff1744'):'#ff1744';
+  const indicHTML=`<div class="lc-indicators">${lcInd('ADX',r.adx!=null?r.adx.toFixed(1):'—',adxCl)}${lcInd(t('lc.indVol'),r.volRatio!=null?(r.volRatio*100).toFixed(0)+'%':'—',volCl)}${lcInd('VWAP%',r.vwapDist!=null?r.vwapDist.toFixed(2)+'%':'—',vwCl)}${lcInd('VWAP⭐',r.vwapConfluence?t('lc.yes'):t('lc.no'),r.vwapConfluence?'dc':'')}${lcInd(t('lc.indDepth'),String(r.depth),r.depth>=5?'dg':'dy')}${lcInd('TF',r.tf,'')}</div><div class="lc-rr-bar"><div class="lc-rr-label">${t('lc.rrLabel')}: ${r.rr!=null?r.rr.toFixed(2)+'x':'—'}</div><div class="lc-rr-track"><div class="lc-rr-fill" style="width:${rrBarW}%;background:${rrBarCl}"></div></div></div>`;
+  const stepTexts={BUY:[t('lc.stBuy1'),t('lc.stBuy2',{sym,tf}),t('lc.stBuy3'),t('lc.stBuy4'),t('lc.stBuy5'),t('lc.stBuy6')],SELL:[t('lc.stSell1'),t('lc.stSell2',{sym,tf}),t('lc.stSell3'),t('lc.stSell4'),t('lc.stSell5'),t('lc.stSell6')],BOT:[t('lc.stBot1'),t('lc.stBot2',{sym}),t('lc.stBot3'),t('lc.stBot4'),t('lc.stBot5'),t('lc.stBot6')],SKIP:[t('lc.stSkip1'),t('lc.stSkip2'),t('lc.stSkip3')]}[md.mode];
+  let stepsHTML='<div class="lc-steps">';stepTexts.forEach((txt,idx)=>{stepsHTML+=`<div class="lc-step"><div class="lc-step-n">${idx+1}</div><div>${txt}</div></div>`;});stepsHTML+='</div>';
+  const fundingHTML=buildFundingSection(r,fundHold);
+  const fd=r.funding||{};const fundingLines=[];
+  if(r.fundingApplied&&fd.now!==null&&isFinite(fd.now)){fundingLines.push(`Funding now: ${fmFP(fd.now)}`);if(fd.avg7d!==null&&isFinite(fd.avg7d))fundingLines.push(`Funding avg 7d: ${fmFP(fd.avg7d)}`);if(fd.daily!==null&&isFinite(fd.daily))fundingLines.push(`Funding daily: ${fmFP(fd.daily)}`);if(r.fundingHoldPct!==null&&isFinite(r.fundingHoldPct))fundingLines.push(`Funding ${fundHold}d cost: ${fmFP(r.fundingHoldPct)}`);if(fd.source)fundingLines.push(`Funding source: ${fd.source}`);}
+  const allText=[`=== ${sym} | ${tf} | ${md.modeLabel} ===`,`Price: ${price} | ${(r.type||'').toUpperCase()} | d:${r.depth}`,`Limit:${r.limL!=null?fmP(r.limL):'—'} SL:${r.stopL!=null?fmP(r.stopL):'—'} Cons:${r.stopC!=null?fmP(r.stopC):'—'}`,`VWAP:${r.vwap!=null?fmP(r.vwap):'—'}(${r.vwapDist!=null?r.vwapDist.toFixed(2)+'%':'—'})${r.vwapConfluence?'⭐':''}`,`ADX:${r.adx!=null?r.adx.toFixed(1):'—'} Vol:${r.volRatio!=null?(r.volRatio*100).toFixed(0)+'%':'—'} R:R:${r.rr!=null?r.rr.toFixed(2)+'x':'—'}`,md.gridBotRange?`Bot:${fmP(md.gridBotRange.low)}–${fmP(md.gridBotRange.high)}`:'',md.gridBSRange?`B/S:${fmP(md.gridBSRange.low)}–${fmP(md.gridBSRange.high)}`:'',...fundingLines,`Pionex: ${REF_URL}`].filter(Boolean).join('\n');
+  const scTc=md.mode==='BUY'?'green':md.mode==='SELL'?'orange':md.mode==='BOT'?'blue':'purple';const qrId='lcQr_'+sym.replace(/[^a-z0-9]/gi,'')+'_'+tf;
+  Q('lcBox').innerHTML=`<div class="lc-head"><h3><span style="color:${headColor}">${sym}</span><span style="color:var(--t3);font-size:12px;font-weight:400"> / ${tf}</span><span class="${md.modeClass} lc-mode-badge">${md.modeLabel}</span></h3><button class="lc-close" onclick="closeLaunchCard()">×</button></div><div class="lc-body"><div class="lc-section"><div class="lc-sec-title ${scTc}">📊 ${t('lc.params')}<span style="margin-left:auto;font-size:10px;color:var(--t3);text-transform:none;letter-spacing:0">${typeLabel} · ${price}</span></div>${paramsHTML}</div><div class="lc-section"><div class="lc-sec-title cyan">📈 ${t('lc.indic')}</div>${indicHTML}</div>${fundingHTML}<div class="lc-section"><div class="lc-sec-title purple">📝 ${t('lc.steps')}</div>${stepsHTML}</div><div class="lc-section" style="border-color:rgba(0,200,83,.3)"><div class="lc-sec-title green">🚀 ${t('lc.trade')}</div><div style="display:flex;align-items:center;gap:12px;padding:10px 14px;flex-wrap:wrap"><div style="background:#fff;border-radius:5px;padding:3px;width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center" id="${qrId}"></div><div style="flex:1;min-width:160px"><div style="font-size:11px;color:var(--t1);margin-bottom:6px">${t('lc.refReg')}</div><div style="font-size:9px;color:var(--t3)">${t('lc.refThanks')}</div></div></div></div></div><div class="lc-footer"><button class="lc-btn lc-btn-copy" onclick="copyText(${JSON.stringify(allText)})">${t('lc.copyAll')}</button><button class="lc-btn lc-btn-tg" onclick="shareSetup('${sym}','${tf}','${md.mode}')">${t('lc.shareTg')}</button><button class="lc-btn lc-btn-tv" onclick="closeLaunchCard();opCh('${sym}','${exch}','${tf}')">${t('lc.openChart')}</button><a class="lc-btn lc-btn-ref" href="${REF_URL}" target="_blank" rel="noopener">${t('btn.openPionex')}</a></div>`;
+  Q('lcModal').classList.add('on');
+  setTimeout(()=>{const qrEl=Q(qrId);if(qrEl&&typeof QRCode!=='undefined'){qrEl.innerHTML='';try{new QRCode(qrEl,{text:REF_URL,width:46,height:46,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){qrEl.innerHTML='<div style="font-size:8px;color:#999">QR</div>';}}},50);
+}
+function closeLaunchCard(){Q('lcModal').classList.remove('on');}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(Q('lcModal').classList.contains('on')){closeLaunchCard();return;}if(Q('chM').classList.contains('on'))clCh();}});
+Q('lcModal').addEventListener('click',e=>{if(e.target===Q('lcModal'))closeLaunchCard();});
+Q('chM').addEventListener('click',e=>{if(e.target===Q('chM'))clCh();});
+</script>
+</body>
+</html>
