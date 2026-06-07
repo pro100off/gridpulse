@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <!--
-  GridPulse v14.2 — Multi-Exchange Crypto Reversal Screener
+  GridPulse v14.3 — Multi-Exchange Crypto Reversal Screener
   © 2026 GridPulse Project · CC BY-NC-SA 4.0
-  Release: v14.2 (2026-06-04) — Dated-contract filter + Binance IP-ban notice
-  Canary : GRDPLS-V14-2-RELEASE-2026
+  Release: v14.3 (2026-06-06) — Launch-Card Copy-All button fix
+  Canary : GRDPLS-V14-3-RELEASE-2026
   Source of truth : github.com/pro100off/gridpulse
   Live demo       : pro100off.github.io/gridpulse/
   Telegram        : t.me/tradescoutfree
   License         : creativecommons.org/licenses/by-nc-sa/4.0/
 
-  FIXES in this build:
+  FIXES in v14.3:
+   * Launch Card "📋 Copy all" button now works reliably
+     (was broken due to inline onclick + JSON.stringify escaping
+      collisions with newlines and double-quotes inside the HTML
+      attribute). Replaced with post-mount addEventListener that
+      reads allText directly from the closure.
+   * JSON-LD softwareVersion bumped to 14.3 (was stuck at 14.1).
+   * Lic-bar canary string bumped to GRDPLS-V14-3-RELEASE-2026.
+
+  Carried over from v14.2:
    * render() syntax error fixed (duplicated/broken funding block)
    * fPairs() hardened with Array.isArray() guards for ALL exchanges
    * Binance futures: lightweight ticker/price fallback when exchangeInfo is rate-limited
@@ -18,6 +27,8 @@
    * i18n: full Launch-Card translation for es/ru/zh (steps, params, indicators)
    * i18n: footer/disclosure translated for all 5 languages
    * i18n: 'ua' now inherits full EN base (no partial fallback gaps)
+   * Dated-contract filter (futures expiry/options)
+   * Binance IP-ban notice
 
   DISCLAIMER: analytical tool, NOT financial advice. Crypto is risky. DYOR.
 -->
@@ -31,13 +42,13 @@
 <meta name="theme-color" content="#0b0f1a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GridPulse">
-<meta property="og:title" content="⚡ GridPulse v14.2 — Free Crypto Reversal Screener">
+<meta property="og:title" content="⚡ GridPulse v14.3 — Free Crypto Reversal Screener">
 <meta property="og:description" content="Multi-exchange MACD + VWAP + ATR + ADX + Funding-aware screener with one-click Launch Cards for Pionex Grid Bots. Free, open-source, no signup.">
 <meta property="og:url" content="https://pro100off.github.io/gridpulse/">
 <meta property="og:image" content="https://pro100off.github.io/gridpulse/docs/screenshot.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="GridPulse v14.2 — Multi-Exchange Crypto Reversal Screener">
+<meta property="og:image:alt" content="GridPulse v14.3 — Multi-Exchange Crypto Reversal Screener">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="uk_UA">
 <meta property="og:locale:alternate" content="ru_RU">
@@ -51,7 +62,7 @@
 <meta name="twitter:image" content="https://pro100off.github.io/gridpulse/docs/screenshot.png">
 <link rel="canonical" href="https://pro100off.github.io/gridpulse/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-<title>⚡ GridPulse v14.2 — Multi-Exchange Crypto Reversal Screener</title>
+<title>⚡ GridPulse v14.3 — Multi-Exchange Crypto Reversal Screener</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -66,7 +77,7 @@
   "browserRequirements": "Requires JavaScript. Modern browser (Chrome, Firefox, Safari, Edge).",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "author": { "@type": "Organization", "name": "GridPulse Project", "url": "https://github.com/pro100off/gridpulse" },
-  "softwareVersion": "14.1",
+  "softwareVersion": "14.3",
   "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
   "inLanguage": ["en","uk","es","ru","zh"],
   "image": "https://pro100off.github.io/gridpulse/docs/screenshot.png",
@@ -317,7 +328,7 @@ body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
     <span style="color:var(--t3)">·</span>
     <a href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener">GitHub</a>
   </div>
-  <span class="lic-mark">GRDPLS-V14-1-RELEASE-2026</span>
+  <span class="lic-mark">GRDPLS-V14-3-RELEASE-2026</span>
 </div>
 
 <div class="ref-banner" id="refBanner">
@@ -341,7 +352,7 @@ body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
 </div>
 
 <div class="hdr">
-  <h1>⚡ GridPulse <span style="font-size:13px;color:var(--t3)">v14.2</span></h1>
+  <h1>⚡ GridPulse <span style="font-size:13px;color:var(--t3)">v14.3</span></h1>
   <div class="hr">
     <a class="gh-star-btn" href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener" title="Star on GitHub">⭐ <span data-i18n="hdr.star">Star</span></a>
     <div class="lang-sw" id="langSw"></div>
@@ -478,7 +489,7 @@ body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
 <div class="lw"><div class="lgT" onclick="togLg()"><span data-i18n="log.title">Activity log</span><span class="a" id="lA">▼</span></div><div class="lgB" id="lB"></div></div>
 
 <div class="foot" id="footAttr">
-  <div><strong style="color:var(--t2)">⚡ GridPulse v14.2</strong> — <span data-i18n="foot.free">Free open-source tool</span></div>
+  <div><strong style="color:var(--t2)">⚡ GridPulse v14.3</strong> — <span data-i18n="foot.free">Free open-source tool</span></div>
   <div style="margin-top:5px">© 2026 GridPulse Project · <span data-i18n="foot.lic">License</span> <span class="tag">CC BY-NC-SA 4.0</span> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" data-i18n="foot.licLink">license terms</a> · <a href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/pro100off/gridpulse/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="foot.changelog">Changelog</a></div>
   <div class="disclosure" data-i18n-html="foot.disclosure"><strong>💡 Transparency:</strong> GridPulse is free and open-source. I earn a referral commission from Pionex when you sign up via my link and trade — this is the project's only monetization. Forking with your own referral is fine — please keep a link back to the original. Crypto trading is risky; this tool is not financial advice.</div>
 </div>
@@ -615,12 +626,11 @@ const W=ms=>new Promise(r=>setTimeout(r,ms));
 function _isDatedContract(sym){
   if(!sym)return true;
   const s=String(sym).toUpperCase();
-  // датовані ф'ючерси / опціони: ...-12JUN26, ...-26JUN26, ...-240628, ...-C-..., ...-P-...
-  if(/-\d{1,2}[A-Z]{3}\d{2}$/.test(s))return true;      // -12JUN26
-  if(/-\d{6}$/.test(s))return true;                      // -240628
-  if(/-\d{1,2}[A-Z]{3}\d{2}-/.test(s))return true;       // опціони з датою всередині
-  if(/-[CP]$/.test(s)||/-[CP]-/.test(s))return true;     // call/put опціони
-  if(/\d{6,8}-[CP]/.test(s))return true;                 // OKX опціони BTC-USD-240628-50000-C
+  if(/-\d{1,2}[A-Z]{3}\d{2}$/.test(s))return true;
+  if(/-\d{6}$/.test(s))return true;
+  if(/-\d{1,2}[A-Z]{3}\d{2}-/.test(s))return true;
+  if(/-[CP]$/.test(s)||/-[CP]-/.test(s))return true;
+  if(/\d{6,8}-[CP]/.test(s))return true;
   return false;
 }
 async function fPairs(ex,mk){
@@ -904,7 +914,7 @@ function doCSV(){
   const headers=['#','Rank','Symbol','Exchange','TF','Price','Setup','Depth','Limit','Lim%','Stop','Stp%','ConsSL','Cons%','VWAP','VWAP%','VWAP_Star','Vol%','ATR','ADX','R:R','Fund_Now%','Fund_Avg7d%','Fund_Daily%','Fund_Annual%','Fund_HoldCost%','Fund_Source','Fund_Bias','Mode','Reason','BotLow','BotHigh','Bot%','BSLow','BSHigh','BS%'];
   const rows=RES.map((r,i)=>{const md=decideMode(r);const fd=r.funding||{};const dir=r.type==='bullish'?'long':'short';const bias=fd.daily!=null?fundingBias(dir,fd.daily):null;return[i+1,r.rank<9999?r.rank:'',r.sym,r.exch,r.tf,r.price,r.type,r.depth,r.limL!=null?fmP(r.limL):'',r.limD!=null?r.limD.toFixed(2):'',r.stopL!=null?fmP(r.stopL):'',r.stopD!=null?r.stopD.toFixed(2):'',r.stopC!=null?fmP(r.stopC):'',r.stopCD!=null?r.stopCD.toFixed(2):'',r.vwap!=null?fmP(r.vwap):'',r.vwapDist!=null?r.vwapDist.toFixed(2):'',r.vwapConfluence?'YES':'',r.volRatio!=null?(r.volRatio*100).toFixed(0)+'%':'',r.atr!=null?fmP(r.atr):'',r.adx!=null?r.adx.toFixed(1):'',r.rr!=null?r.rr.toFixed(2):'',fd.now!=null&&isFinite(fd.now)?(fd.now*100).toFixed(4):'',fd.avg7d!=null&&isFinite(fd.avg7d)?(fd.avg7d*100).toFixed(4):'',fd.daily!=null&&isFinite(fd.daily)?(fd.daily*100).toFixed(4):'',fd.annual!=null&&isFinite(fd.annual)?(fd.annual*100).toFixed(2):'',r.fundingHoldPct!=null&&isFinite(r.fundingHoldPct)?(r.fundingHoldPct*100).toFixed(3):'',fd.source||'',bias?bias.bias:'',md.mode,md.reason,md.gridBotRange?fmP(md.gridBotRange.low):'',md.gridBotRange?fmP(md.gridBotRange.high):'',md.gridBotRange?md.gridBotRange.widthPct.toFixed(2):'',md.gridBSRange?fmP(md.gridBSRange.low):'',md.gridBSRange?fmP(md.gridBSRange.high):'',md.gridBSRange?md.gridBSRange.widthPct.toFixed(2):''];});
   const csv=[headers,...rows].map(row=>row.map(csvCell).join(',')).join('\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));a.download=`gridpulse_v14_1_${new Date().toISOString().slice(0,10)}.csv`;a.click();lg(t('log.csvDone',{n:RES.length}),'ok');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));a.download=`gridpulse_v14_3_${new Date().toISOString().slice(0,10)}.csv`;a.click();lg(t('log.csvDone',{n:RES.length}),'ok');
 }
 
 function copyText(text){const show=()=>{const tt=Q('copyToast');tt.textContent=t('toast.copied');tt.classList.add('show');setTimeout(()=>tt.classList.remove('show'),1600);};if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(show).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);show();});}else{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);show();}}
@@ -943,8 +953,12 @@ function showLaunchCard(sym,exch,tf){
   if(r.fundingApplied&&fd.now!==null&&isFinite(fd.now)){fundingLines.push(`Funding now: ${fmFP(fd.now)}`);if(fd.avg7d!==null&&isFinite(fd.avg7d))fundingLines.push(`Funding avg 7d: ${fmFP(fd.avg7d)}`);if(fd.daily!==null&&isFinite(fd.daily))fundingLines.push(`Funding daily: ${fmFP(fd.daily)}`);if(r.fundingHoldPct!==null&&isFinite(r.fundingHoldPct))fundingLines.push(`Funding ${fundHold}d cost: ${fmFP(r.fundingHoldPct)}`);if(fd.source)fundingLines.push(`Funding source: ${fd.source}`);}
   const allText=[`=== ${sym} | ${tf} | ${md.modeLabel} ===`,`Price: ${price} | ${(r.type||'').toUpperCase()} | d:${r.depth}`,`Limit:${r.limL!=null?fmP(r.limL):'—'} SL:${r.stopL!=null?fmP(r.stopL):'—'} Cons:${r.stopC!=null?fmP(r.stopC):'—'}`,`VWAP:${r.vwap!=null?fmP(r.vwap):'—'}(${r.vwapDist!=null?r.vwapDist.toFixed(2)+'%':'—'})${r.vwapConfluence?'⭐':''}`,`ADX:${r.adx!=null?r.adx.toFixed(1):'—'} Vol:${r.volRatio!=null?(r.volRatio*100).toFixed(0)+'%':'—'} R:R:${r.rr!=null?r.rr.toFixed(2)+'x':'—'}`,md.gridBotRange?`Bot:${fmP(md.gridBotRange.low)}–${fmP(md.gridBotRange.high)}`:'',md.gridBSRange?`B/S:${fmP(md.gridBSRange.low)}–${fmP(md.gridBSRange.high)}`:'',...fundingLines,`Pionex: ${REF_URL}`].filter(Boolean).join('\n');
   const scTc=md.mode==='BUY'?'green':md.mode==='SELL'?'orange':md.mode==='BOT'?'blue':'purple';const qrId='lcQr_'+sym.replace(/[^a-z0-9]/gi,'')+'_'+tf;
-  Q('lcBox').innerHTML=`<div class="lc-head"><h3><span style="color:${headColor}">${sym}</span><span style="color:var(--t3);font-size:12px;font-weight:400"> / ${tf}</span><span class="${md.modeClass} lc-mode-badge">${md.modeLabel}</span></h3><button class="lc-close" onclick="closeLaunchCard()">×</button></div><div class="lc-body"><div class="lc-section"><div class="lc-sec-title ${scTc}">📊 ${t('lc.params')}<span style="margin-left:auto;font-size:10px;color:var(--t3);text-transform:none;letter-spacing:0">${typeLabel} · ${price}</span></div>${paramsHTML}</div><div class="lc-section"><div class="lc-sec-title cyan">📈 ${t('lc.indic')}</div>${indicHTML}</div>${fundingHTML}<div class="lc-section"><div class="lc-sec-title purple">📝 ${t('lc.steps')}</div>${stepsHTML}</div><div class="lc-section" style="border-color:rgba(0,200,83,.3)"><div class="lc-sec-title green">🚀 ${t('lc.trade')}</div><div style="display:flex;align-items:center;gap:12px;padding:10px 14px;flex-wrap:wrap"><div style="background:#fff;border-radius:5px;padding:3px;width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center" id="${qrId}"></div><div style="flex:1;min-width:160px"><div style="font-size:11px;color:var(--t1);margin-bottom:6px">${t('lc.refReg')}</div><div style="font-size:9px;color:var(--t3)">${t('lc.refThanks')}</div></div></div></div></div><div class="lc-footer"><button class="lc-btn lc-btn-copy" onclick="copyText(${JSON.stringify(allText)})">${t('lc.copyAll')}</button><button class="lc-btn lc-btn-tg" onclick="shareSetup('${sym}','${tf}','${md.mode}')">${t('lc.shareTg')}</button><button class="lc-btn lc-btn-tv" onclick="closeLaunchCard();opCh('${sym}','${exch}','${tf}')">${t('lc.openChart')}</button><a class="lc-btn lc-btn-ref" href="${REF_URL}" target="_blank" rel="noopener">${t('btn.openPionex')}</a></div>`;
+  /* v14.3 FIX: replaced inline onclick on Copy-All button with id + addEventListener (see below) */
+  Q('lcBox').innerHTML=`<div class="lc-head"><h3><span style="color:${headColor}">${sym}</span><span style="color:var(--t3);font-size:12px;font-weight:400"> / ${tf}</span><span class="${md.modeClass} lc-mode-badge">${md.modeLabel}</span></h3><button class="lc-close" onclick="closeLaunchCard()">×</button></div><div class="lc-body"><div class="lc-section"><div class="lc-sec-title ${scTc}">📊 ${t('lc.params')}<span style="margin-left:auto;font-size:10px;color:var(--t3);text-transform:none;letter-spacing:0">${typeLabel} · ${price}</span></div>${paramsHTML}</div><div class="lc-section"><div class="lc-sec-title cyan">📈 ${t('lc.indic')}</div>${indicHTML}</div>${fundingHTML}<div class="lc-section"><div class="lc-sec-title purple">📝 ${t('lc.steps')}</div>${stepsHTML}</div><div class="lc-section" style="border-color:rgba(0,200,83,.3)"><div class="lc-sec-title green">🚀 ${t('lc.trade')}</div><div style="display:flex;align-items:center;gap:12px;padding:10px 14px;flex-wrap:wrap"><div style="background:#fff;border-radius:5px;padding:3px;width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center" id="${qrId}"></div><div style="flex:1;min-width:160px"><div style="font-size:11px;color:var(--t1);margin-bottom:6px">${t('lc.refReg')}</div><div style="font-size:9px;color:var(--t3)">${t('lc.refThanks')}</div></div></div></div></div><div class="lc-footer"><button class="lc-btn lc-btn-copy" id="lcCopyAllBtn">${t('lc.copyAll')}</button><button class="lc-btn lc-btn-tg" onclick="shareSetup('${sym}','${tf}','${md.mode}')">${t('lc.shareTg')}</button><button class="lc-btn lc-btn-tv" onclick="closeLaunchCard();opCh('${sym}','${exch}','${tf}')">${t('lc.openChart')}</button><a class="lc-btn lc-btn-ref" href="${REF_URL}" target="_blank" rel="noopener">${t('btn.openPionex')}</a></div>`;
   Q('lcModal').classList.add('on');
+  /* v14.3 FIX: bind Copy-All handler after innerHTML mount — reads allText from closure */
+  const _copyBtn=Q('lcCopyAllBtn');
+  if(_copyBtn) _copyBtn.addEventListener('click',()=>copyText(allText));
   setTimeout(()=>{const qrEl=Q(qrId);if(qrEl&&typeof QRCode!=='undefined'){qrEl.innerHTML='';try{new QRCode(qrEl,{text:REF_URL,width:46,height:46,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){qrEl.innerHTML='<div style="font-size:8px;color:#999">QR</div>';}}},50);
 }
 function closeLaunchCard(){Q('lcModal').classList.remove('on');}
