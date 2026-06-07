@@ -1,14 +1,36 @@
-
----
-
-## 5️⃣ `CHANGELOG.md`
-
-```markdown
 # Changelog
 
 All notable changes to GridPulse are documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning based on [Semantic Versioning](https://semver.org/).
+
+---
+
+## [14.3] — 2026-06-06 — Launch Card Hotfix
+
+### Fixed
+- 🐛 **Launch Card → «Copy all» button**: the button silently failed on click
+  due to quote and newline escaping inside the inline
+  `onclick="copyText(${JSON.stringify(allText)})"`. The attribute string broke,
+  and the browser threw a silent syntax error.
+- ✅ Replaced the inline `onclick` with `addEventListener('click', …)` attached
+  **after** the HTML is mounted into the DOM. The handler now closes over the
+  local `allText` variable — no escaping, no global buffers.
+
+### Changed
+- 🔖 `softwareVersion` in JSON-LD bumped: `14.2` → `14.3`.
+- 🏷 Canary tag in HTML comment: `GRDPLS-V14-3-RELEASE-2026`.
+- 📁 CSV export filename pattern: `gridpulse_v14_3_YYYY-MM-DD.csv`.
+- 🔑 `localStorage` settings key: `gp_settings_v14_3`
+  (legacy v14.2 settings auto-migrate on first launch).
+- 🏷 Open-Graph / Twitter-card meta and the visible version label in the UI
+  header updated to **v14.3**.
+
+### Migration
+- ✅ No action required for end users — a hard reload (`Ctrl+Shift+R`) is
+  enough to flush the browser cache.
+- 🗂 v14.2 is preserved at `/legacy/index-v14.2.html` for historical reference.
+
 
 ---
 
