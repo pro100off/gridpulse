@@ -1,95 +1,136 @@
 # Changelog
 
-All notable changes to GridPulse are documented here.
-Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-versioning based on [Semantic Versioning](https://semver.org/).
+All notable changes to GridPulse are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-## [14.3] — 2026-06-06 — Launch Card Hotfix
+## [14.5] — 2026-06-11
+
+Major stability release fixing critical issues with Binance Futures and Pionex Futures support, plus anonymous traffic analytics integration.
 
 ### Fixed
-- 🐛 **Launch Card → «Copy all» button**: the button silently failed on click
-  due to quote and newline escaping inside the inline
-  `onclick="copyText(${JSON.stringify(allText)})"`. The attribute string broke,
-  and the browser threw a silent syntax error.
-- ✅ Replaced the inline `onclick` with `addEventListener('click', …)` attached
-  **after** the HTML is mounted into the DOM. The handler now closes over the
-  local `allText` variable — no escaping, no global buffers.
 
-### Changed
-- 🔖 `softwareVersion` in JSON-LD bumped: `14.2` → `14.3`.
-- 🏷 Canary tag in HTML comment: `GRDPLS-V14-3-RELEASE-2026`.
-- 📁 CSV export filename pattern: `gridpulse_v14_3_YYYY-MM-DD.csv`.
-- 🔑 `localStorage` settings key: `gp_settings_v14_3`
-  (legacy v14.2 settings auto-migrate on first launch).
-- 🏷 Open-Graph / Twitter-card meta and the visible version label in the UI
-  header updated to **v14.3**.
-
-### Migration
-- ✅ No action required for end users — a hard reload (`Ctrl+Shift+R`) is
-  enough to flush the browser cache.
-- 🗂 v14.2 is preserved at `/legacy/index-v14.2.html` for historical reference.
-
-
----
-
-## [14.2] — 2026-06-04 — Open Edition
+- **Binance Futures 451 / GeoIP restriction** — explicit detection of "restricted location" payloads via `isBinanceBlockedPayload()`. On block, transparently falls back to Bybit linear market-data as a mirror so the scan still completes for users behind GeoIP restrictions.
+- **Pionex Futures PERP discovery** — switched to `/common/symbols?type=PERP&status=TRADING` with correct filtering by `s.type==='PERP' || s.contractType==='PERPETUAL'`. Previously returned 0 pairs.
+- **Pionex Funding** — now uses `/market/indexes` (nextFundingRate) for current rate and `/market/fundingRates` for 7-day history. Bybit fallback retained when Pionex returns null.
+- **Pionex 1M interval** explicitly mapped to `null` — Pionex public API does not expose monthly candles. The TF button now auto-disables via `refreshTFAvail()` instead of silently returning 1-minute candles (v14.4 misbehavior, silent data corruption).
+- **KuCoin restored** in `safeFetch` direct-fetch list — has working CORS headers, routing through proxies in v14.4-hotfix added unnecessary 100-300ms per request.
+- **safeFetch early-return** when first proxy loop produces a valid API-error payload — no point retrying 4 more proxies when the upstream API has already given us a structured error (saves up to 30 seconds on full GeoIP-bans).
 
 ### Added
-- 🌍 Full i18n: Ukrainian, English, Spanish, Russian, Chinese — auto-detected
-  from `navigator.language`, switchable at runtime, persisted in `localStorage`.
-- 🌗 Light / dark theme toggle with persistence.
-- 💾 All UI settings (timeframes, depth, filters, exchange, market) persist
-  across sessions via `localStorage`.
-- 🔗 Social bar: Telegram / GitHub / Twitter / native Share API.
-- 📱 Native `navigator.share()` support on mobile browsers.
-- 🏷 Open-Graph meta tags for richer link previews.
-- 📜 Lineage comment block in `index.html` referencing both v13.2 and v14.2
-  canary markers (passive proof-of-authorship via git blame; no runtime checks).
-- 💡 Transparent affiliate-disclosure block in the footer (FTC/EU compliant).
+
+- `readJsonResponse` + `isApiErrorPayload` — extracted as single source of truth for parsing and error detection across all exchange calls.
+- **Cloudflare Web Analytics** integration for anonymous traffic statistics (page views, countries, referrers). No cookies, no individual user tracking, GDPR-friendly.
+- `log.binFutMirror` i18n key in all 5 languages.
+- Project infrastructure files: `LICENSE`, expanded `README.md`, `legacy/README.md`.
+- Proxy log throttling — `shouldLogProxy()` limits noise to 1 message per proxy per 5 seconds.
 
 ### Changed
-- 📄 Re-licensed footer with a calm, community-first tone instead of legal threats.
-- 📚 README rewritten from scratch (UA + EN). CHANGELOG and CONTRIBUTING added.
-- 🗂 Repo restructured: `LICENSE`, `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`,
-  `docs/screenshot.png` and `legacy/` directory.
+
+- `SET_KEY` bumped to `gp_settings_v14_5` (old v14.4 user settings will be re-initialized to defaults — clean migration).
+- All version markers updated: JSON-LD `softwareVersion` → 14.5, lic-bar canary → `GRDPLS-V14-5-RELEASE-2026`, `og:title`, `twitter:title`, CSV filename (`gridpulse_v14_5_*.csv`), footer badge, header version display.
+- Binance warning banner text refined — now mentions auto-fallback to Bybit instead of just warning about scan failures.
 
 ### Removed
-- 🚫 Anti-tamper watchdog (MutationObserver hijack detection).
-- 🚫 Base64-XOR obfuscation of the referral URL.
-- 🚫 Aggressive license modal with DMCA / civil-liability language.
 
-### Reasoning
-The protection layer in v13.2 was optimized for per-user retention of the
-referral link. Empirically, this trade-off is wrong for an open-source project:
-it kills GitHub stars, scares away forks, and prevents the community feedback
-loop that ultimately drives adoption. v14.2 reverses the trade-off — community
-growth > per-fork retention. Honest disclosure + a clear, single-line fork
-instruction (`const REF_URL = '...'`) is the new social contract.
+- Accidental duplicate `<!DOCTYPE>` block from v14.4-hotfix scratch file.
 
-### Migration
-- No action required for end users — the URL is identical.
-- v13.2 remains permanently available at `/legacy/v13.2.html` and as
-  the `v13.2` git tag for historical reference.
+### Migration notes
+
+- Previous v14.3 archived to [`legacy/index-v14.3.html`](legacy/index-v14.3.html) alongside the existing v14.2 archive.
+- **v14.4 was an internal intermediate revision and was never publicly released.** Its fixes are consolidated into v14.5. If you see references to v14.4 in commit history, they refer to development snapshots, not deployed versions.
 
 ---
 
-## [13.2] — 2026-05-30 — Initial Release · archived
+## [14.3] — 2026-06-09
+
+### Fixed
+
+- **Launch Card "📋 Copy all"** now works reliably — switched from inline `onclick` to `addEventListener` mount to avoid HTML-attribute escaping collisions with complex multi-line text containing quotes and backslashes.
+
+---
+
+## [14.2] — 2026-06-08
+
+### Fixed
+
+- `render()` function syntax error that broke result table generation.
+- `fPairs()` hardened with `Array.isArray()` guards — previously could throw `TypeError: not iterable` on unexpected API responses.
+- **Binance Futures** ticker/price fallback when `exchangeInfo` endpoint is rate-limited or blocked.
+- `fundingBias()` SHORT-direction labels and logic — previously showed misleading labels for short setups with positive funding.
 
 ### Added
-- 🚀 Initial public release on GitHub Pages.
-- 📊 Multi-exchange scanner: Bybit, Binance, KuCoin, OKX, Pionex.
-- 🔍 MACD reversal detector with extremum / depth controls.
-- 💧 VWAP + ±1σ / ±2σ bands.
-- 🌪 ATR-14 candle-size filter.
-- 📐 ADX-14 trend-strength filter (DMI+ / DMI-).
-- 🎯 R:R filter.
-- 🪪 Launch Card per setup (Pionex Smart Trade / Reverse Grid Bot params).
-- 📈 Inline TradingView chart with MACD + VWAP overlays.
-- 📥 CSV export.
 
-### Notes
-- v13.2 shipped with an anti-tamper protection layer; deprecated and removed
-  in v14.2 in favour of community openness. See v14.2 reasoning above.
-- Archived URL: `/legacy/v13.2.html`. Git tag: `v13.2`.
+- SHORT funding-bias i18n strings for all 5 languages (`lc.fundBiasShortOk`, `lc.fundBiasShortBad`).
+- Full Launch-Card translation for Spanish, Russian, Chinese (previously partial fallback to English).
+- Footer/disclosure translated for all 5 languages.
+- Dated-contract filter (`_isDatedContract()`) — excludes expiring futures like `BTC-26DEC25` from scan results.
+- Binance IP-ban notice banner — visible warning when Binance is selected as exchange.
+
+### Changed
+
+- `ua` (Ukrainian) locale now inherits full EN base for any missing keys.
+
+---
+
+## [14.1] — 2026-06-05
+
+### Added
+
+- VWAP confluence detection (⭐ marker for setups where entry aligns with VWAP or its standard-deviation bands).
+- ATR-based grid range calculation for Bot Range and Buy/Sell Range columns.
+- Mode classification (BUY / SELL / BOT / SKIP) with reasoning tooltip.
+- R:R ratio calculation and filter (≥ 1.5 or ≥ 2.0).
+- ADX trend strength filter and column.
+
+---
+
+## [14.0] — 2026-06-01
+
+### Added
+
+- Multi-exchange support: Bybit, Binance, KuCoin, OKX, Pionex.
+- USDT Futures market type with funding rate awareness.
+- 5-language i18n (en, ua, es, ru, zh).
+- Launch Card modal with copy-paste-ready Grid Bot parameters.
+- TradingView chart integration.
+- CSV export.
+- Light/Dark theme.
+
+---
+
+## [13.x] — 2026-05
+
+Initial public releases. MACD divergence screener for Bybit Spot only.
+
+For versions before v13.2, see git commit history.
+
+---
+
+## Conventions
+
+This changelog follows these conventions:
+
+- **Fixed** — bug fixes that resolve incorrect behavior
+- **Added** — new features or capabilities
+- **Changed** — modifications to existing behavior (potentially breaking)
+- **Removed** — features that were deleted
+- **Deprecated** — features marked for future removal but still functional
+- **Security** — fixes related to security vulnerabilities
+
+Version numbers follow [Semantic Versioning](https://semver.org/):
+- **MAJOR** version for incompatible changes
+- **MINOR** version for new functionality (backwards-compatible)
+- **PATCH** version for backwards-compatible bug fixes
+
+---
+
+## Links
+
+- [Live demo](https://pro100off.github.io/gridpulse/)
+- [GitHub repository](https://github.com/pro100off/gridpulse)
+- [Latest release](https://github.com/pro100off/gridpulse/releases/latest)
+- [All releases](https://github.com/pro100off/gridpulse/releases)
