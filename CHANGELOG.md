@@ -4,7 +4,64 @@ All notable changes to GridPulse are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [14.7.5] — 2026-06-17 — Directional Grid Modes + UX polish
 
+### Added
+- **Directional Grid Modes** — replaced unified `BOT` mode with four directional modes:
+  `STRONG_BUY` / `GRID_BUY` / `STRONG_SELL` / `GRID_SELL` / `SKIP`. Each mode has
+  mirrored strict/relaxed entry rules and a dedicated Launch Card layout.
+- **Hotkeys panel** — floating ⌨ button (bottom-left) listing all keyboard shortcuts:
+  `Shift+T` vertical mode · `Shift+P` PNG 1080×1350 · `Shift+C` 5-slide carousel ·
+  `Esc` close modals · double-click row highlight.
+- **Light theme contrast boost** — zebra-striped rows, accent-coloured badges
+  with visible borders, removed text-shadow blur, contrast-compliant numeric cells.
+- **Light TikTok mode** — vertical layout no longer forces black background
+  when light theme is active.
+- **Breakout entry logic** — `limL` now points at the *opposite* extreme of the
+  reversal candle (bearish: `rc.l`, bullish: `rc.h`), matching the directional
+  setup naming (sell-stop / buy-stop on breakout).
+- **`computeBotStop()` / `computeBotTP()`** helpers with directional fallback when
+  `stopC` is null (bullish lower×0.80, bearish upper×1.20; TP bullish upper×1.15,
+  bearish lower×0.85).
+- **Diagnostic logging** in `showLaunchCard` (`console.log` / `console.warn`) wrapped
+  in `try/catch` to surface any future Launch Card failure gracefully.
+- **Cross-version settings migration** — `loadSettings()` now falls through
+  v14_7_4 → v14_7_3 → v14_7_2 → v14_7 → v14_6 → v14_5 keys.
+
+### Changed
+- **TikTok-branded UI hidden** — TikTok PNG button, Carousel button, vertical-mode
+  toggle, and Launch Card "Export for TikTok" are no longer visible. All functions
+  retained and accessible via hotkeys (`Shift+P` / `Shift+C` / `Shift+T`).
+- **Header tagline** simplified: `MACD + Reversal + VWAP + ATR + ADX + Funding`
+  (removed `+ TikTok`).
+- **Mode CSV column** now emits `STRONG BUY` / `GRID BUY` / `STRONG SELL` /
+  `GRID SELL` / `SKIP`.
+- **STRONG badges** in dark theme get inset glow + text-shadow to visually
+  separate strict signals from relaxed grid signals.
+
+### Fixed
+- **STRONG SELL Launch Card** — previously failed to open due to a stray Cyrillic
+  letter introduced during merge. The card now opens consistently for all
+  directional modes.
+- **Carousel `indicators` array** — VWAP% cell was concatenated with a duplicate
+  fragment, throwing `SyntaxError` and breaking the entire `<script>` block.
+- **Symbol with underscores/dashes** (Pionex `_PERP`, OKX `-SWAP`) in `onclick`
+  handlers — moved to `data-*` attributes; row buttons now stable for all
+  exchange-specific symbol formats.
+
+### Notes
+- `SET_KEY` bumped to `gp_settings_v14_7_5` with migration from all prior 14.7.x keys.
+- Lic-bar canary tag updated to `GRDPLS-V14-7-5-RELEASE-2026`.
+- All version markers updated (title, meta, JSON-LD, ready log, CSV filename,
+  screenshot filename, carousel watermark).
+- **`.bmd-bot` CSS retained** for backward visual compatibility but no longer
+  rendered — the new directional badges (`.bmd-buy` / `.bmd-sel` ± `.strong`)
+  fully replace the old unified BOT pill.
+
+### Migration
+- End users: hard-reload (`Ctrl+Shift+R`) to flush the browser cache.
+- Settings auto-migrate from any v14.5+ key.
+- Previous v14.5 archived to [`legacy/index-v14.5.html`](https://github.com/pro100off/gridpulse/blob/main/legacy/index-v14.5.html).
 ---
 
 ## [14.5] — 2026-06-11
