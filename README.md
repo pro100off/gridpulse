@@ -17,8 +17,7 @@ Free open-source **multi-exchange crypto reversal screener** with directional **
 * **Indicators:** MACD divergence, VWAP confluence ⭐, ATR, ADX, Volume ratio, R:R
 * **Funding-aware setups** for perpetual contracts — current rate, 7-day average, daily / annual cost, hold-period projection, LONG/SHORT bias
 * **5 languages:** English · Українська · Español · Русский · 中文
-* **Launch Cards** with copy-paste-ready Grid Bot parameters — directional modes:
-  **STRONG BUY** / **GRID BUY** / **STRONG SELL** / **GRID SELL** / **SKIP**
+* **Launch Cards** with copy-paste-ready Grid Bot parameters — directional modes: **STRONG BUY** / **GRID BUY** / **STRONG SELL** / **GRID SELL** / **SKIP**
 * **Breakout entry logic** — `limL` placed at the opposite extreme of the reversal candle (bearish: low, bullish: high)
 * **TradingView integration** — open chart for any setup in one click
 * **CSV export** of all scan results
@@ -33,13 +32,13 @@ Free open-source **multi-exchange crypto reversal screener** with directional **
 
 Floating `⌨` button in the bottom-left corner lists all shortcuts:
 
-| Key | Action |
-|---|---|
-| `Shift + T` | Vertical / TikTok-friendly layout |
-| `Shift + P` | Export PNG 1080×1350 |
-| `Shift + C` | Generate 5-slide carousel |
-| `Esc` | Close modals |
-| Double-click row | Highlight / dim others |
+| Key              | Action                              |
+| ---------------- | ----------------------------------- |
+| `Shift + T`      | Vertical / TikTok-friendly layout   |
+| `Shift + P`      | Export PNG 1080×1350                |
+| `Shift + C`      | Generate 5-slide carousel           |
+| `Esc`            | Close modals                        |
+| Double-click row | Highlight / dim others              |
 
 ---
 
@@ -63,13 +62,13 @@ For users behind GeoIP restrictions (e.g., Binance Futures HTTP 451), GridPulse 
 
 Each setup is classified into one of five modes:
 
-| Mode | Direction | Rules | Launch Card layout |
-|---|---|---|---|
-| **STRONG BUY** | bullish | Strict: ADX ≥ 25, VWAP < −5 %, Vol ≥ 1.5×, depth ≥ 5, R:R ≥ 2.0, reversal candle present | Limit buy + Stop loss + Conservative SL + fixed TP + trailing trigger |
-| **GRID BUY** | bullish | Relaxed: ADX < 28, \|VWAP\| ≤ 5 %, R:R ≥ 1.5 | Grid lower / upper / width / lines + SL + TP |
-| **STRONG SELL** | bearish | Mirror of STRONG BUY | Limit sell + Stop loss + Conservative SL + fixed TP + trailing trigger |
-| **GRID SELL** | bearish | Mirror of GRID BUY | Same as GRID BUY |
-| **SKIP** | any | Trend too strong (ADX ≥ 28 & \|VWAP\| > 7 %) or low R:R | Reference price + warning |
+| Mode            | Direction | Rules                                                                                     | Launch Card layout                                                  |
+| --------------- | --------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **STRONG BUY**  | bullish   | Strict: ADX ≥ 25, VWAP < −5 %, Vol ≥ 1.5×, depth ≥ 5, R:R ≥ 2.0, reversal candle present  | Limit buy + Stop loss + Conservative SL + fixed TP + trailing trigger |
+| **GRID BUY**    | bullish   | Relaxed: ADX < 28, abs(VWAP) ≤ 5 %, R:R ≥ 1.5                                             | Grid lower / upper / width / lines + SL + TP                        |
+| **STRONG SELL** | bearish   | Mirror of STRONG BUY                                                                      | Limit sell + Stop loss + Conservative SL + fixed TP + trailing trigger |
+| **GRID SELL**   | bearish   | Mirror of GRID BUY                                                                        | Same as GRID BUY                                                    |
+| **SKIP**        | any       | Trend too strong (ADX ≥ 28 & abs(VWAP) > 7 %) or low R:R                                  | Reference price + warning                                           |
 
 ---
 
@@ -98,3 +97,94 @@ git clone https://github.com/pro100off/gridpulse.git
 cd gridpulse
 python3 -m http.server 8000
 # Open http://localhost:8000 in your browser
+```
+
+Works out of the box with:
+
+* GitHub Pages
+* Cloudflare Pages
+* Netlify / Vercel
+* Any web server (Apache, nginx, Caddy)
+* Even `file://` — open `index.html` directly in the browser
+
+---
+
+## 🔄 Optional: Cloudflare Worker proxy
+
+For improved Pionex / Binance reliability in restricted regions, you can deploy your own Cloudflare Worker proxy. The default deployment uses `https://gridpulse-proxy.pro100off.workers.dev/` (rate-limited shared instance).
+
+---
+
+## 📁 Repository structure
+
+```text
+gridpulse/
+├── index.html                current release (v14.7.5)
+├── LICENSE                   CC BY-NC-SA 4.0
+├── README.md                 this file
+├── CHANGELOG.md              version history
+├── docs/
+│   └── screenshot.png        preview image (OG / social cards)
+└── legacy/                   archived previous versions
+    ├── index-v14.2.html
+    ├── index-v14.3.html
+    └── index-v14.5.html
+```
+
+---
+
+## ⚠ Disclaimer
+
+**GridPulse is an analytical tool, NOT financial advice.** Cryptocurrency trading involves substantial risk of loss. Always do your own research (DYOR).
+
+The screener identifies *potential* setups based on technical indicators — it does not predict price movement and does not guarantee profitability. Past patterns do not guarantee future results.
+
+---
+
+## 💚 Transparency
+
+GridPulse is free and open-source. The author earns a referral commission from Pionex when users sign up via the referral link and trade — **this is the project's only monetization**. There are no ads, no paid tiers, no premium features locked behind paywalls.
+
+**Forks with your own referral are welcome** — please keep a visible link back to the original repository and preserve the CC BY-NC-SA 4.0 license. Do not remove the transparency disclosure in the footer.
+
+---
+
+## 📊 Analytics
+
+GridPulse uses **Cloudflare Web Analytics** for anonymous, aggregate traffic statistics (page views, country breakdown, referrers).
+
+* No cookies
+* No personal data collection
+* No individual user tracking
+* No fingerprinting
+* GDPR-compliant
+* Open about what's tracked
+
+---
+
+## 🤝 Contributing
+
+Issues and PRs are welcome. For major changes, please open an issue first to discuss.
+
+Translation contributions for any of the 5 supported languages (or adding new ones) are especially appreciated.
+
+---
+
+## 📄 License
+
+This project is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License** ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
+
+**Commercial resale is prohibited.** Forking and personal use are encouraged.
+
+See [LICENSE](LICENSE) for full terms.
+
+---
+
+## 🔗 Links
+
+* [Live demo](https://pro100off.github.io/gridpulse/)
+* [Telegram channel](https://t.me/tradescoutfree)
+* [Twitter / X](https://x.com/tradeaiscout)
+* [GitHub Issues](https://github.com/pro100off/gridpulse/issues)
+* [Changelog](CHANGELOG.md)
+* [Latest release](https://github.com/pro100off/gridpulse/releases/latest)
