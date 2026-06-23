@@ -188,3 +188,75 @@ git clone https://github.com/pro100off/gridpulse.git
 cd gridpulse
 python3 -m http.server 8000
 # Open http://localhost:8000 in your browser
+Works out of the box with:
+
+GitHub Pages
+Cloudflare Pages
+Netlify / Vercel
+Any web server (Apache, nginx, Caddy)
+Even file:// — open index.html directly in the browser
+🔄 Optional: Cloudflare Worker proxy
+For improved Binance / Pionex reliability in restricted regions, you can deploy your own Cloudflare Worker proxy.
+
+The default shared deployment used by the project is rate-limited, so self-hosters may want to replace it with their own worker endpoint.
+
+📁 Repository structure
+Copygridpulse/
+├── index.html                     current release (v14.7.6)
+├── LICENSE                        CC BY-NC-SA 4.0
+├── README.md                      this file
+├── CHANGELOG.md                   version history
+├── docs/
+│   └── screenshot.png             preview image (OG / social cards)
+└── legacy/                        archived previous versions
+    ├── index-v14.2.html
+    ├── index-v14.3.html
+    ├── index-v14.5.html
+    └── index-v14.7.5.html
+⚠ Disclaimer
+GridPulse is an analytical tool, NOT financial advice. Cryptocurrency trading involves substantial risk of loss. Always do your own research (DYOR).
+
+The screener identifies potential setups based on technical indicators. It does not predict price movement and does not guarantee profitability. Past patterns do not guarantee future results.
+
+💚 Transparency
+GridPulse is free and open-source. The author earns a referral commission from Pionex when users sign up via the referral link and trade — this is the project's only monetization.
+
+There are:
+
+no ads
+no paid tiers
+no premium features locked behind paywalls
+Forks with your own referral are welcome — please keep a visible link back to the original repository and preserve the CC BY-NC-SA 4.0 license.
+
+Do not remove the transparency disclosure in the footer.
+
+📊 Analytics
+GridPulse uses Cloudflare Web Analytics for anonymous, aggregate traffic statistics.
+
+No cookies
+No personal data collection
+No individual user tracking
+No fingerprinting
+GDPR-compliant
+Open about what's tracked
+🤝 Contributing
+Issues and PRs are welcome. For major changes, please open an issue first to discuss.
+
+Translation contributions for any of the supported languages — or help adding new ones — are especially appreciated.
+
+📄 License
+This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0).
+
+Commercial resale is prohibited. Forking and personal use are encouraged.
+
+See LICENSE for full terms.
+
+🔗 Links
+Live demo
+GitHub Pages mirror
+GitHub repository
+Telegram channel
+Twitter / X
+GitHub Issues
+Changelog
+Latest release
