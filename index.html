@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <!--
-  GridPulse v14.7.6 — Multi-Exchange Crypto Reversal Screener
+  GridPulse v14.8.0 — Multi-Exchange Crypto Reversal Screener
   © 2026 GridPulse Project · CC BY-NC-SA 4.0
-  Release: v14.7.6 (2026-06-23) — TF-adaptive Strictness + Classified SKIP
+  Release: v14.8.0 (2026-06-23) — TF-adaptive Strictness + Classified SKIP
 
-  CHANGES in v14.7.6 (patch over v14.7.5):
+  CHANGES in v14.8.0 (minor over v14.8.0) — "Pionex Companion":
+   * 🤝 Official Partner badge — visible "Official Partner" marker next to
+     Pionex branding in header, referral banner, and Launch Card footer.
+   * Pionex set as DEFAULT exchange (was Bybit) — reinforces positioning as
+     a dedicated Pionex companion tool. Bybit/Binance/KuCoin/OKX remain
+     fully supported via the exchange dropdown.
+   * Prominent "Open in Pionex" CTA in Launch Card — large gradient button
+     with UTM tags (utm_source=gridpulse&utm_medium=launchcard&utm_campaign=
+     {mode}&utm_content={symbol}) and the referral code preserved.
+   * Larger, more visible referral QR code — bumped from 64px→104px in the
+     top banner; 46px→88px in Launch Card with a dedicated bordered panel.
+   * NEW filter: "Pionex Only" mode — single checkbox (hdr) that locks the
+     exchange dropdown to Pionex and hides the dropdown for first-time users.
+     Stored in localStorage as gp_pionex_only.
+   * Readability boost for Launch Card — base font sizes increased across
+     the board: .lc-label 10px→13px, .lc-val 12px→16px, .lc-ind-name
+     9px→12px, .lc-ind-val 11px→16px, .lc-sec-title 9px→12px, .lc-row
+     padding 5px→9px, gap 6px→10px. Modal max-width 560px→640px.
+   * Launch Card mode badge enlarged (11px→14px, padding 3/8→5/12).
+   * "Open chart" / "Copy all" / "Share to TG" footer buttons enlarged
+     (font 11px→13px, padding 9/12→12/16).
+   * Bumped SET_KEY → gp_settings_v14_8_0 with migration from v14_7_6.
+   * Version markers updated everywhere (title, meta, JSON-LD, ready log,
+     CSV filename, screenshot filename, watermark, lic-mark, footer).
+
+  CHANGES in v14.8.0 (patch over v14.7.5):
    * TF-adaptive thresholds — STRONG/GRID/SKIP cutoffs now scale per TF
      (1m softer ... 1W stricter) with a single Strictness selector
      (soft / normal / strict) in the right panel.
@@ -21,7 +46,7 @@
    * Custom domain support: canonical URL → https://tradescout.trade/
    * SET_KEY → gp_settings_v14_7_6 with migration from v14_7_5 ... v14_5.
 
-  CHANGES in v14.7.6 (patch over v14.5):
+  CHANGES in v14.8.0 (patch over v14.5):
    * Directional Grid Modes — replaced unified BOT mode with STRONG_BUY /
      GRID_BUY / STRONG_SELL / GRID_SELL / SKIP. Mirrored strict/relaxed
      entry rules and per-mode Launch Card layouts.
@@ -80,19 +105,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Free open-source multi-exchange crypto reversal screener — MACD, VWAP, ATR, ADX, Funding-aware setups for Bybit, Binance, KuCoin, OKX, Pionex. Ready-to-use parameter cards for Pionex Grid Bots. v14.7.6: TF-adaptive Strictness (soft/normal/strict), classified SKIP reasons (⚡ WATCH / 🌊 TREND / ⚖ LOW R:R), two paths to STRONG (Exhaustion + Quality).">
+<meta name="description" content="Free open-source multi-exchange crypto reversal screener — MACD, VWAP, ATR, ADX, Funding-aware setups for Bybit, Binance, KuCoin, OKX, Pionex. Ready-to-use parameter cards for Pionex Grid Bots. v14.8.0: TF-adaptive Strictness (soft/normal/strict), classified SKIP reasons (⚡ WATCH / 🌊 TREND / ⚖ LOW R:R), two paths to STRONG (Exhaustion + Quality).">
 <meta name="author" content="GridPulse Project">
 <meta name="keywords" content="crypto screener, pionex, grid bot, macd, vwap, atr, adx, funding rate, bybit, binance, kucoin, okx, reversal, open source, trading, screener, free, screenshot, tiktok, content">
 <meta name="theme-color" content="#0a0d18">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GridPulse">
-<meta property="og:title" content="⚡ GridPulse v14.7.6 — Free Crypto Reversal Screener">
-<meta property="og:description" content="Multi-exchange MACD + VWAP + ATR + ADX + Funding screener with Pionex Grid Bot Launch Cards. v14.7.6: TF-adaptive Strictness, classified SKIP (WATCH/TREND/LOW R:R), Quality STRONG with VWAP confluence.">
+<meta property="og:title" content="⚡ GridPulse v14.8.0 — Free Crypto Reversal Screener">
+<meta property="og:description" content="Multi-exchange MACD + VWAP + ATR + ADX + Funding screener with Pionex Grid Bot Launch Cards. v14.8.0: TF-adaptive Strictness, classified SKIP (WATCH/TREND/LOW R:R), Quality STRONG with VWAP confluence.">
 <meta property="og:url" content="https://tradescout.trade/">
 <meta property="og:image" content="https://tradescout.trade/docs/screenshot.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="GridPulse v14.7.6 — Multi-Exchange Crypto Reversal Screener">
+<meta property="og:image:alt" content="GridPulse v14.8.0 — Multi-Exchange Crypto Reversal Screener">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="uk_UA">
 <meta property="og:locale:alternate" content="ru_RU">
@@ -101,7 +126,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@tradeaiscout">
 <meta name="twitter:creator" content="@tradeaiscout">
-<meta name="twitter:title" content="⚡ GridPulse v14.7.6 — Free Crypto Reversal Screener">
+<meta name="twitter:title" content="⚡ GridPulse v14.8.0 — Free Crypto Reversal Screener">
 <meta name="twitter:description" content="MACD + VWAP + ADX + Funding setups + TF-adaptive Strictness + classified SKIP categories.">
 <meta name="twitter:image" content="https://tradescout.trade/docs/screenshot.png">
 <link rel="canonical" href="https://tradescout.trade/">
@@ -112,7 +137,7 @@
 <link rel="alternate" hreflang="zh" href="https://tradescout.trade/?lang=zh">
 <link rel="alternate" hreflang="x-default" href="https://tradescout.trade/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-<title>⚡ GridPulse v14.7.6 — Multi-Exchange Crypto Reversal Screener</title>
+<title>⚡ GridPulse v14.8.0 — Multi-Exchange Crypto Reversal Screener</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -289,7 +314,7 @@ body.light tbody.has-highlight tr.row-highlighted{background:linear-gradient(90d
 body.light .bmd-skp{color:#c96a00;background:linear-gradient(135deg,rgba(255,145,0,.10),rgba(255,23,68,.05));border-color:rgba(255,145,0,.5)}
 body.light .bmd-bot{color:#1565c0}body.light .bmd-buy{color:#0a7d3c}body.light .bmd-sel{color:#c2185b}
 
-/* ===== v14.7.6 hotfix: Light theme contrast boost ===== */
+/* ===== v14.8.0 hotfix: Light theme contrast boost ===== */
 body.light{--t1:#0a1228;--t2:#2d3a55;--t3:#5a6680;--bd:#b4bdd1}
 body.light tbody td{color:#0a1228;font-weight:500}
 body.light tbody tr{border-bottom:1px solid #d4dae8}
@@ -501,6 +526,80 @@ tbody tr.tt-hidden{display:none}
 .lic-bar .lic-mark{color:var(--t3);font-family:monospace;font-size:8px;opacity:.6}
 body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
 @media(max-width:500px){.lic-bar{font-size:9px}.lic-bar .lic-mark{display:none}}
+
+/* ===== v14.8.0: Official Partner badge ===== */
+.partner-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:linear-gradient(135deg,rgba(38,217,122,.18),rgba(66,165,245,.18));
+  color:var(--grn);border:1px solid rgba(38,217,122,.55);
+  font-size:11px;font-weight:800;letter-spacing:.4px;
+  padding:3px 9px;border-radius:12px;
+  text-shadow:0 0 6px rgba(38,217,122,.35);
+  vertical-align:middle;margin-left:6px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 0 10px rgba(38,217,122,.18);
+}
+body.light .partner-badge{color:#0a6e35;background:linear-gradient(135deg,#d4f4e2,#dbe9ff);border-color:#0a9d4a;text-shadow:none}
+
+/* ===== v14.8.0: Larger Ref QR ===== */
+.ref-qr-wrap{width:108px;height:108px;padding:6px}
+.ref-qr-wrap canvas,.ref-qr-wrap img{width:96px!important;height:96px!important}
+.ref-url{max-width:220px;font-size:10px}
+
+/* ===== v14.8.0: Pionex Only toggle ===== */
+.pionex-only-toggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px;background:var(--bg3);border:1px solid var(--bd);color:var(--t2);user-select:none}
+.pionex-only-toggle:hover{border-color:var(--grn)}
+.pionex-only-toggle.on{background:linear-gradient(135deg,rgba(38,217,122,.22),rgba(66,165,245,.18));color:var(--grn);border-color:var(--grn);box-shadow:0 0 8px rgba(38,217,122,.30)}
+.pionex-only-toggle input{display:none}
+body.pionex-only .fg:has(#exS){opacity:.45;pointer-events:none;filter:grayscale(.6)}
+body.pionex-only #exS{cursor:not-allowed}
+
+/* ===== v14.8.0: Launch Card READABILITY BOOST ===== */
+.lc-box{max-width:640px}
+.lc-head{padding:18px 22px}
+.lc-head h3{font-size:18px;gap:10px}
+.lc-head .lc-mode-badge{font-size:14px;padding:5px 12px}
+.lc-body{padding:18px 22px;gap:16px}
+.lc-sec-title{font-size:12px;padding:11px 16px;letter-spacing:1.2px}
+.lc-params{padding:14px 18px;gap:10px}
+.lc-row{padding:9px 12px;gap:12px}
+.lc-label{font-size:13px;font-weight:700}
+.lc-val{font-size:16px;padding:5px 10px;border-radius:5px}
+.lc-copy-hint{font-size:11px;padding:0 18px 10px}
+.lc-indicators{padding:14px 18px;gap:10px}
+.lc-ind{padding:9px 14px}
+.lc-ind-name{font-size:12px;font-weight:700;letter-spacing:.5px}
+.lc-ind-val{font-size:16px}
+.lc-rr-bar{padding:12px 18px 16px}
+.lc-rr-label{font-size:12px;font-weight:700}
+.lc-rr-track{height:10px}
+.lc-fund-warn{padding:12px 18px;font-size:12px;line-height:1.6}
+.lc-footer{padding:16px 20px;gap:10px}
+.lc-btn{padding:12px 16px;font-size:13px;font-weight:800;gap:6px;border-radius:6px}
+
+/* ===== v14.8.0: Big "Open in Pionex" CTA (full-width, gradient) ===== */
+.lc-btn-pionex-cta{
+  flex:1 1 100%;
+  background:linear-gradient(135deg,#26d97a 0%,#1eb868 50%,#42a5f5 100%);
+  background-size:200% 200%;
+  color:#000;font-size:15px;font-weight:900;letter-spacing:.5px;
+  padding:14px 20px;border:none;border-radius:8px;
+  box-shadow:0 4px 18px rgba(38,217,122,.40),inset 0 0 0 1px rgba(255,255,255,.20);
+  text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;
+  animation:pionexShimmer 4s ease-in-out infinite;
+  text-shadow:0 1px 0 rgba(255,255,255,.25)
+}
+.lc-btn-pionex-cta:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(38,217,122,.55),inset 0 0 0 1px rgba(255,255,255,.30)}
+@keyframes pionexShimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+body.light .lc-btn-pionex-cta{color:#003318;text-shadow:none}
+
+/* ===== v14.8.0: Bigger Ref QR inside Launch Card ===== */
+.lc-ref-block{display:flex;align-items:center;gap:16px;padding:14px 18px;flex-wrap:wrap}
+.lc-ref-qr{background:#fff;border-radius:8px;padding:6px;width:96px;height:96px;flex-shrink:0;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(38,217,122,.30),inset 0 0 0 2px rgba(38,217,122,.40)}
+.lc-ref-qr canvas,.lc-ref-qr img{width:84px!important;height:84px!important}
+.lc-ref-text{flex:1;min-width:180px;font-size:13px;line-height:1.6;color:var(--t1)}
+.lc-ref-text strong{color:var(--grn);font-weight:800}
+.lc-ref-text .lc-partner-line{font-size:11px;color:var(--t3);margin-top:4px;display:flex;align-items:center;gap:4px}
+body.light .lc-ref-text strong{color:#0a6e35}
 </style>
 </head>
 <body>
@@ -539,13 +638,14 @@ body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
 </div>
 
 <div class="hdr">
-  <h1>⚡ GridPulse <span style="font-size:13px;color:var(--t3)">v14.7.6</span></h1>
+  <h1>⚡ GridPulse <span style="font-size:13px;color:var(--t3)">v14.8.0</span> <span class="partner-badge" title="Official Pionex Partner">🤝 Pionex Partner</span></h1>
   <div class="hr">
     <a class="gh-star-btn" href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener" title="Star on GitHub">⭐ <span data-i18n="hdr.star">Star</span></a>
     <div class="lang-sw" id="langSw"></div>
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Theme">🌙</button>
     <button class="sound-btn" id="soundBtn" onclick="toggleSound()" title="Scan tick sound">🔇</button>
     <button class="tiktok-btn" id="tiktokBtn" onclick="toggleTikTokMode()" title="Vertical Mode (Shift+T)" style="display:none">📱</button>
+<label class="pionex-only-toggle" id="pionexOnlyToggle" title="Lock screener to Pionex only"><input type="checkbox" id="chPionexOnly"><span>🤝 <span data-i18n="hdr.pionexOnly">Pionex Only</span></span></label>
     <div class="clk" id="clk">00:00:00</div>
     <div class="rl-warn" id="rlWarn" data-i18n="hdr.rlWarn">⚠ Proxy overloaded — retrying…</div>
     <div class="mtg" data-i18n="hdr.modes">MACD + Reversal + VWAP + ATR + ADX + Funding</div>
@@ -573,7 +673,7 @@ body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
   <div class="pn">
     <div class="ptl" data-i18n="panel.right">Exchange, filters & boosters</div>
     <div class="rw">
-      <div class="fg"><label data-i18n="lbl.exchange">Exchange</label><select id="exS"><option value="bybit">Bybit</option><option value="binance">Binance</option><option value="kucoin">KuCoin</option><option value="pionex" selected>Pionex</option><option value="okx">OKX</option></select></div>
+      <div class="fg"><label data-i18n="lbl.exchange">Exchange</label><select id="exS"><option value="pionex" selected>Pionex 🤝</option><option value="bybit">Bybit</option><option value="binance">Binance</option><option value="kucoin">KuCoin</option><option value="okx">OKX</option></select></div>
       <div class="fg"><label data-i18n="lbl.market">Market</label><select id="mkS"><option value="linear" data-i18n="opt.futures">USDT Futures</option><option value="spot" selected data-i18n="opt.spot">Spot</option></select></div>
       <div class="fg"><label data-i18n="lbl.type">Type</label><select id="stS"><option value="both" data-i18n="opt.both">Both</option><option value="bullish" data-i18n="opt.bullish">Bullish</option><option value="bearish" data-i18n="opt.bearish">Bearish</option></select></div>
     </div>
@@ -693,7 +793,7 @@ body.light .lic-bar{background:linear-gradient(90deg,#f3f6fc,#fff,#f3f6fc)}
 <div class="lw"><div class="lgT" onclick="togLg()"><span data-i18n="log.title">Activity log</span><span class="a" id="lA">▼</span></div><div class="lgB" id="lB"></div></div>
 
 <div class="foot" id="footAttr">
-  <div><strong style="color:var(--t1)">⚡ GridPulse v14.7.6</strong> — <span data-i18n="foot.free">Free open-source tool</span></div>
+  <div><strong style="color:var(--t1)">⚡ GridPulse v14.8.0</strong> — <span data-i18n="foot.free">Free open-source tool</span> · <span class="partner-badge" style="font-size:10px">🤝 Official Pionex Partner</span></div>
   <div style="margin-top:5px">© 2026 GridPulse Project · <span data-i18n="foot.lic">License</span> <span class="tag">CC BY-NC-SA 4.0</span> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" data-i18n="foot.licLink">license terms</a> · <a href="https://github.com/pro100off/gridpulse" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/pro100off/gridpulse/blob/main/CHANGELOG.md" target="_blank" rel="noopener" data-i18n="foot.changelog">Changelog</a></div>
   <div class="disclosure" data-i18n-html="foot.disclosure">&nbsp;</div>
 </div>
@@ -726,12 +826,25 @@ body.light #hkPanel>div:first-child{color:#1668c4!important}
 @media(max-width:600px){#hkBtn{bottom:14px;left:14px;width:32px;height:32px;font-size:15px}#hkPanel{font-size:11px;max-width:240px}}
 </style>
 <script>
-/* ============ GridPulse v14.7.6 — Directional Grid Modes + UX polish ============ */
+/* ============ GridPulse v14.8.0 — Directional Grid Modes + UX polish ============ */
 const REF_URL = (function(){
   const parts = ['aHR0cHM6Ly8=','Yml0Lmx5','LzQz','YmtkYzc='];
   try{let u=''; for(const p of parts) u+=atob(p); return u;}
   catch(e){return 'https://bit.ly/43bkdc7';}
 })();
+/* v14.8.0: Build UTM-tagged referral URL for Launch Card context */
+function buildPionexUTM(mode,symbol,tf){
+  try{
+    const params=new URLSearchParams({
+      utm_source:'gridpulse',
+      utm_medium:'launchcard',
+      utm_campaign:(mode||'unknown').toLowerCase(),
+      utm_content:(symbol||'').replace(/[^a-zA-Z0-9]/g,'')+'_'+(tf||'')
+    });
+    const sep=REF_URL.includes('?')?'&':'?';
+    return REF_URL+sep+params.toString();
+  }catch(e){return REF_URL;}
+}
 function _refWatchdog(){
   try{
     ['refLink','hdrPionexBtn'].forEach(id=>{const el=document.getElementById(id);if(el && el.tagName==='A' && el.href!==REF_URL) el.href=REF_URL;});
@@ -747,7 +860,7 @@ const TT_CHANNEL = '@tradescoutfree';
 const I18N = {
   en:{
     "ref.title":"Sign up on Pionex via my referral link","ref.badge":"BONUS","ref.sub":"Pionex — exchange with 16 free trading bots · fee only <strong style='color:var(--grn)'>0.05%</strong>","ref.f1":"✓ 16 free bots","ref.f2":"✓ Grid / Reverse / Smart Trade","ref.f3":"✓ 0.05% fee","ref.f4":"🔒 Licensed exchange · 10M+ users","ref.btn":"🚀 Sign up on Pionex","ref.trust":"🔒 Regulated · Cold storage · 24/7 support","ref.thanks":"💚 Thanks for your support — signing up via the link helps the project grow",
-    "hdr.star":"Star","hdr.modes":"MACD + Reversal + VWAP + ATR + ADX + Funding","hdr.rlWarn":"⚠ Proxy overloaded — retrying…",
+    "hdr.star":"Star","hdr.modes":"MACD + Reversal + VWAP + ATR + ADX + Funding","hdr.rlWarn":"⚠ Proxy overloaded — retrying…","hdr.pionexOnly":"Pionex Only","hdr.pionexOnly":"Pionex Only",
     "panel.left":"Timeframes & depth","panel.right":"Exchange, filters & boosters","tf.all":"ALL",
     "lbl.depth":"Search depth","lbl.minTf":"Min TF","lbl.extremum":"Extremum","lbl.exchange":"Exchange","lbl.market":"Market","lbl.type":"Type","lbl.topMcap":"Top MCap","lbl.max":"Max","lbl.fundMax":"Max daily funding","lbl.fundHold":"Hold (days)","lbl.strict":"Strictness",
     "opt.futures":"USDT Futures","opt.spot":"Spot","opt.both":"Both","opt.bullish":"Bullish","opt.bearish":"Bearish","opt.all":"All","opt.soft":"Soft","opt.normal":"Normal","opt.strict":"Strict",
@@ -761,7 +874,7 @@ const I18N = {
     "res.title":"Results","badge.reversal":"REVERSAL","badge.consStop":"CONS.STOP","badge.funding":"FUNDING ON",
     "th.rank":"Rank","th.symbol":"Symbol","th.price":"Price","th.setup":"Setup","th.tf":"TF","th.depth":"Depth","th.rev":"Rev","th.conf":"Conf","th.macd":"MACD","th.limit":"Limit","th.limitPct":"Lim%","th.stop":"Stop","th.stopPct":"Stp%","th.consSl":"Cons.SL","th.consPct":"Cons%","th.vwapPct":"VWAP%","th.vwapStar":"VWAP★","th.volPct":"Vol%","th.atr":"ATR","th.adx":"ADX","th.rr":"R:R","th.fundNow":"Fund%","th.fundDay":"Fund/d","th.fundHold":"Fund/H","th.fundBias":"F.Bias","th.mode":"Mode","th.botRange":"Bot Range","th.bsRange":"B/S Range",
     "log.title":"Activity log","toast.copied":"✓ Copied!",
-    "lc.params":"Parameters for {ex}","lc.indic":"Indicator confirmation","lc.trade":"Trade on Pionex","lc.copyHint":"👆 Click a value to copy","lc.copyAll":"📋 Copy all","lc.openChart":"📊 Open chart","lc.shareTg":"✈️ Share to Telegram","lc.exportTik":"📱 Export for TikTok","lc.refReg":"Sign up and get access to 16 free bots · 0.05% fee","lc.refThanks":"Thanks for signing up via the referral link 🙏",
+    "lc.params":"Parameters for {ex}","lc.indic":"Indicator confirmation","lc.trade":"Trade on Pionex","lc.copyHint":"👆 Click a value to copy","lc.copyAll":"📋 Copy all","lc.openChart":"📊 Open chart","lc.shareTg":"✈️ Share to Telegram","lc.exportTik":"📱 Export for TikTok","lc.openPionexBig":"Open in Pionex — Trade this setup","lc.refReg":"Sign up and get access to 16 free bots · 0.05% fee","lc.refThanks":"Thanks for signing up via the referral link 🙏",
     "lc.buyPrice":"Entry (Buy Price)","lc.sellPrice":"Entry (Sell Price)","lc.sl":"Stop Loss","lc.consSl":"Conservative SL","lc.tp":"Fixed Take Profit","lc.trailUp":"Trailing trigger (+10%)","lc.trailDn":"Trailing trigger (−10%)","lc.trailDD":"Max trailing drawdown","lc.posSize":"Position size","lc.posVal":"10–20% of capital","lc.lower":"Lower Limit","lc.upper":"Upper Limit","lc.width":"Range width","lc.gridN":"Grid lines count","lc.gridMode":"Grid mode","lc.gridModeVal":"Geometric","lc.invest":"Investment","lc.investVal":"Tokens (base asset)","lc.slBot":"Stop Loss (ATR-based)","lc.tpBot":"Take Profit (ATR-based)","lc.curPrice":"Current price","lc.entryRef":"Entry reference","lc.warn":"⚠ Entry conditions not optimal. Wait for a better setup or check the chart.",
     "lc.indVol":"Volume","lc.indDepth":"Depth","lc.yes":"⭐ YES","lc.no":"· NO","lc.rrLabel":"R:R ratio","lc.funding":"Funding (Perpetual)","lc.fundNow":"Current rate","lc.fundAvg":"Avg 7d (21 payments)","lc.fundDaily":"Per day (×3)","lc.fundAnnual":"Annualized","lc.fundHoldCost":"Cost over {n} days","lc.fundNext":"Next payment in","lc.fundSource":"Source","lc.fundFallback":"(via Binance)","lc.fundBiasLongOk":"🟢 LONG-friendly","lc.fundBiasLongBad":"🔴 LONG-costly","lc.fundBiasShortOk":"🟢 SHORT-friendly","lc.fundBiasShortBad":"🔴 SHORT-costly","lc.fundBiasNeutral":"➖ Neutral","lc.fundNA":"⚠ Funding N/A","lc.fundWarnLong":"⚠ Positive funding eats into LONG profits. Consider SHORT or spot grid.","lc.fundWarnShort":"⚠ Negative funding eats into SHORT profits. Consider LONG or spot grid.","lc.fundOk":"✓ Funding is favorable for this direction.",
     "mode.strongBuy":"📥 STRONG BUY","mode.strongSell":"📤 STRONG SELL","mode.gridBuy":"📥 GRID BUY","mode.gridSell":"📤 GRID SELL","mode.skip":"SKIP","mode.watch":"⚡ WATCH","mode.trend":"🌊 TREND","mode.lowRR":"⚖ LOW R:R",
@@ -780,7 +893,7 @@ const I18N = {
   },
   ua:{
     "ref.title":"Зареєструйтесь на Pionex за моїм реферальним посиланням","ref.badge":"БОНУС","ref.sub":"Pionex — біржа з 16 безкоштовними ботами · комісія всього <strong style='color:var(--grn)'>0.05%</strong>","ref.f1":"✓ 16 безкоштовних ботів","ref.f2":"✓ Grid / Reverse / Smart Trade","ref.f3":"✓ Комісія 0.05%","ref.f4":"🔒 Ліцензована біржа · 10М+ користувачів","ref.btn":"🚀 Зареєструватись на Pionex","ref.trust":"🔒 Регульована · Холодне зберігання · Підтримка 24/7","ref.thanks":"💚 Дякую за підтримку — реєстрація за посиланням допомагає розвитку проєкту",
-    "hdr.star":"Зірка","hdr.modes":"MACD + Реверс + VWAP + ATR + ADX + Фандинг","hdr.rlWarn":"⚠ Проксі перевантажений — повторюємо…",
+    "hdr.star":"Зірка","hdr.modes":"MACD + Реверс + VWAP + ATR + ADX + Фандинг","hdr.rlWarn":"⚠ Проксі перевантажений — повторюємо…","hdr.pionexOnly":"Тільки Pionex",
     "panel.left":"Таймфрейми та глибина","panel.right":"Біржа, фільтри та підсилювачі","tf.all":"ВСІ",
     "lbl.depth":"Глибина пошуку","lbl.minTf":"Мін ТФ","lbl.extremum":"Екстремум","lbl.exchange":"Біржа","lbl.market":"Ринок","lbl.type":"Тип","lbl.topMcap":"Топ MCap","lbl.max":"Макс","lbl.fundMax":"Макс. денний фандинг","lbl.fundHold":"Утримання (днів)","lbl.strict":"Жорсткість",
     "opt.futures":"Ф'ючерси USDT","opt.spot":"Спот","opt.both":"Обидва","opt.bullish":"Бичачий","opt.bearish":"Ведмежий","opt.all":"Всі","opt.soft":"М'яка","opt.normal":"Нормальна","opt.strict":"Жорстка",
@@ -794,7 +907,7 @@ const I18N = {
     "res.title":"Результати","badge.reversal":"РЕВЕРС","badge.consStop":"КОНС.СТОП","badge.funding":"ФАНДИНГ УВІМК",
     "th.rank":"Ранг","th.symbol":"Символ","th.price":"Ціна","th.setup":"Сетап","th.tf":"ТФ","th.depth":"Глиб.","th.rev":"Рев.","th.conf":"Підтв.","th.macd":"MACD","th.limit":"Ліміт","th.limitPct":"Лім%","th.stop":"Стоп","th.stopPct":"Стп%","th.consSl":"Конс.SL","th.consPct":"Конс%","th.vwapPct":"VWAP%","th.vwapStar":"VWAP★","th.volPct":"Об'єм%","th.atr":"ATR","th.adx":"ADX","th.rr":"R:R","th.fundNow":"Фанд%","th.fundDay":"Фанд/д","th.fundHold":"Фанд/H","th.fundBias":"Ф.Зміщ.","th.mode":"Режим","th.botRange":"Діап.Бот","th.bsRange":"Діап.B/S",
     "log.title":"Журнал активності","toast.copied":"✓ Скопійовано!",
-    "lc.params":"Параметри для {ex}","lc.indic":"Підтвердження індикаторів","lc.trade":"Торгуйте на Pionex","lc.copyHint":"👆 Клікни значення щоб скопіювати","lc.copyAll":"📋 Копіювати все","lc.openChart":"📊 Відкрити графік","lc.shareTg":"✈️ Поділитись у Telegram","lc.exportTik":"📱 Експорт для TikTok","lc.refReg":"Зареєструйся і отримай 16 безкоштовних ботів · комісія 0.05%","lc.refThanks":"Дякую за реєстрацію за реферальним посиланням 🙏",
+    "lc.params":"Параметри для {ex}","lc.indic":"Підтвердження індикаторів","lc.trade":"Торгуйте на Pionex","lc.copyHint":"👆 Клікни значення щоб скопіювати","lc.copyAll":"📋 Копіювати все","lc.openChart":"📊 Відкрити графік","lc.shareTg":"✈️ Поділитись у Telegram","lc.exportTik":"📱 Експорт для TikTok","lc.openPionexBig":"Відкрити в Pionex — Торгувати цей сетап","lc.refReg":"Зареєструйся і отримай 16 безкоштовних ботів · комісія 0.05%","lc.refThanks":"Дякую за реєстрацію за реферальним посиланням 🙏",
     "lc.buyPrice":"Вхід (ціна купівлі)","lc.sellPrice":"Вхід (ціна продажу)","lc.sl":"Стоп-лосс","lc.consSl":"Консервативний стоп","lc.tp":"Фіксований тейк-профіт","lc.trailUp":"Trailing trigger (+10%)","lc.trailDn":"Trailing trigger (−10%)","lc.trailDD":"Макс. trailing drawdown","lc.posSize":"Розмір позиції","lc.posVal":"10–20% капіталу","lc.lower":"Нижня межа","lc.upper":"Верхня межа","lc.width":"Ширина діапазону","lc.gridN":"К-ть ліній сітки","lc.gridMode":"Режим сітки","lc.gridModeVal":"Geometric","lc.invest":"Інвестиція","lc.investVal":"Токени (базовий актив)","lc.slBot":"Стоп-лосс (на основі ATR)","lc.tpBot":"Тейк-профіт (на основі ATR)","lc.curPrice":"Поточна ціна","lc.entryRef":"Орієнтир входу","lc.warn":"⚠ Умови входу неоптимальні. Чекай кращого сетапу або перевір графік.",
     "lc.indVol":"Об'єм","lc.indDepth":"Глибина","lc.yes":"⭐ ТАК","lc.no":"· НІ","lc.rrLabel":"Співвідношення R:R","lc.funding":"Фандинг (Perpetual)","lc.fundNow":"Поточна ставка","lc.fundAvg":"Середня 7д (21 платіж)","lc.fundDaily":"За день (×3)","lc.fundAnnual":"Річна","lc.fundHoldCost":"Витрата за {n} днів","lc.fundNext":"Наступний платіж через","lc.fundSource":"Джерело","lc.fundFallback":"(через Binance)","lc.fundBiasLongOk":"🟢 Сприятливо для LONG","lc.fundBiasLongBad":"🔴 Витратно для LONG","lc.fundBiasShortOk":"🟢 Сприятливо для SHORT","lc.fundBiasShortBad":"🔴 Витратно для SHORT","lc.fundBiasNeutral":"➖ Нейтрально","lc.fundNA":"⚠ Фандинг N/A","lc.fundWarnLong":"⚠ Позитивний фандинг з'їдає прибутки LONG. Розглянь SHORT або spot grid.","lc.fundWarnShort":"⚠ Негативний фандинг з'їдає прибутки SHORT. Розглянь LONG або spot grid.","lc.fundOk":"✓ Фандинг сприятливий для цього напрямку.",
     "mode.strongBuy":"📥 СИЛЬНА КУПІВЛЯ","mode.strongSell":"📤 СИЛЬНИЙ ПРОДАЖ","mode.gridBuy":"📥 GRID КУПІВЛЯ","mode.gridSell":"📤 GRID ПРОДАЖ","mode.skip":"ПРОПУСК","mode.watch":"⚡ СТЕЖИТИ","mode.trend":"🌊 ТРЕНД","mode.lowRR":"⚖ НИЗЬКИЙ R:R",
@@ -813,7 +926,7 @@ const I18N = {
   },
   es:{
     "ref.title":"Regístrate en Pionex con mi enlace de referido","ref.badge":"BONO","ref.sub":"Pionex — exchange con 16 bots de trading gratuitos · comisión de solo <strong style='color:var(--grn)'>0.05%</strong>","ref.f1":"✓ 16 bots gratuitos","ref.f2":"✓ Grid / Reverse / Smart Trade","ref.f3":"✓ Comisión 0.05%","ref.f4":"🔒 Exchange con licencia · 10M+ usuarios","ref.btn":"🚀 Regístrate en Pionex","ref.trust":"🔒 Regulado · Almacenamiento en frío · Soporte 24/7","ref.thanks":"💚 Gracias por tu apoyo — registrarte por el enlace ayuda al crecimiento del proyecto",
-    "hdr.star":"Estrella","hdr.modes":"MACD + Reversión + VWAP + ATR + ADX + Funding","hdr.rlWarn":"⚠ Proxy sobrecargado — reintentando…",
+    "hdr.star":"Estrella","hdr.modes":"MACD + Reversión + VWAP + ATR + ADX + Funding","hdr.rlWarn":"⚠ Proxy sobrecargado — reintentando…","hdr.pionexOnly":"Solo Pionex",
     "panel.left":"Temporalidades y profundidad","panel.right":"Exchange, filtros y potenciadores","tf.all":"TODAS",
     "lbl.depth":"Profundidad de búsqueda","lbl.minTf":"TF mín.","lbl.extremum":"Extremo","lbl.exchange":"Exchange","lbl.market":"Mercado","lbl.type":"Tipo","lbl.topMcap":"Top MCap","lbl.max":"Máx.","lbl.fundMax":"Funding diario máx.","lbl.fundHold":"Mantener (días)","lbl.strict":"Rigor",
     "opt.futures":"Futuros USDT","opt.spot":"Spot","opt.both":"Ambos","opt.bullish":"Alcista","opt.bearish":"Bajista","opt.all":"Todos","opt.soft":"Suave","opt.normal":"Normal","opt.strict":"Estricto",
@@ -827,7 +940,7 @@ const I18N = {
     "res.title":"Resultados","badge.reversal":"REVERSIÓN","badge.consStop":"STOP CONS.","badge.funding":"FUNDING ACT.",
     "th.rank":"Rango","th.symbol":"Símbolo","th.price":"Precio","th.setup":"Setup","th.tf":"TF","th.depth":"Prof.","th.rev":"Rev.","th.conf":"Conf.","th.macd":"MACD","th.limit":"Límite","th.limitPct":"Lím%","th.stop":"Stop","th.stopPct":"Stp%","th.consSl":"SL Cons.","th.consPct":"Cons%","th.vwapPct":"VWAP%","th.vwapStar":"VWAP★","th.volPct":"Vol%","th.atr":"ATR","th.adx":"ADX","th.rr":"R:R","th.fundNow":"Fund%","th.fundDay":"Fund/d","th.fundHold":"Fund/H","th.fundBias":"F.Sesgo","th.mode":"Modo","th.botRange":"Rango Bot","th.bsRange":"Rango B/S",
     "log.title":"Registro de actividad","toast.copied":"✓ ¡Copiado!",
-    "lc.params":"Parámetros para {ex}","lc.indic":"Confirmación de indicadores","lc.trade":"Opera en Pionex","lc.copyHint":"👆 Haz clic en un valor para copiar","lc.copyAll":"📋 Copiar todo","lc.openChart":"📊 Abrir gráfico","lc.shareTg":"✈️ Compartir en Telegram","lc.exportTik":"📱 Exportar para TikTok","lc.refReg":"Regístrate y obtén acceso a 16 bots gratuitos · comisión 0.05%","lc.refThanks":"Gracias por registrarte con el enlace de referido 🙏",
+    "lc.params":"Parámetros para {ex}","lc.indic":"Confirmación de indicadores","lc.trade":"Opera en Pionex","lc.copyHint":"👆 Haz clic en un valor para copiar","lc.copyAll":"📋 Copiar todo","lc.openChart":"📊 Abrir gráfico","lc.shareTg":"✈️ Compartir en Telegram","lc.exportTik":"📱 Exportar para TikTok","lc.openPionexBig":"Abrir en Pionex — Operar este setup","lc.refReg":"Regístrate y obtén acceso a 16 bots gratuitos · comisión 0.05%","lc.refThanks":"Gracias por registrarte con el enlace de referido 🙏",
     "lc.buyPrice":"Entrada (precio de compra)","lc.sellPrice":"Entrada (precio de venta)","lc.sl":"Stop Loss","lc.consSl":"SL Conservador","lc.tp":"Take Profit fijo","lc.trailUp":"Trigger trailing (+10%)","lc.trailDn":"Trigger trailing (−10%)","lc.trailDD":"Drawdown máx. trailing","lc.posSize":"Tamaño de posición","lc.posVal":"10–20% del capital","lc.lower":"Límite inferior","lc.upper":"Límite superior","lc.width":"Ancho del rango","lc.gridN":"Número de líneas grid","lc.gridMode":"Modo grid","lc.gridModeVal":"Geométrico","lc.invest":"Inversión","lc.investVal":"Tokens (activo base)","lc.slBot":"Stop Loss (basado en ATR)","lc.tpBot":"Take Profit (basado en ATR)","lc.curPrice":"Precio actual","lc.entryRef":"Referencia de entrada","lc.warn":"⚠ Condiciones de entrada no óptimas. Espera mejor setup o revisa el gráfico.",
     "lc.indVol":"Volumen","lc.indDepth":"Profundidad","lc.yes":"⭐ SÍ","lc.no":"· NO","lc.rrLabel":"Ratio R:R","lc.funding":"Funding (Perpetuo)","lc.fundNow":"Tasa actual","lc.fundAvg":"Media 7d (21 pagos)","lc.fundDaily":"Por día (×3)","lc.fundAnnual":"Anualizado","lc.fundHoldCost":"Coste a {n} días","lc.fundNext":"Próximo pago en","lc.fundSource":"Fuente","lc.fundFallback":"(vía Binance)","lc.fundBiasLongOk":"🟢 Favorable para LONG","lc.fundBiasLongBad":"🔴 Costoso para LONG","lc.fundBiasShortOk":"🟢 Favorable para SHORT","lc.fundBiasShortBad":"🔴 Costoso para SHORT","lc.fundBiasNeutral":"➖ Neutral","lc.fundNA":"⚠ Funding N/D","lc.fundWarnLong":"⚠ El funding positivo reduce las ganancias en LONG. Considera SHORT o spot grid.","lc.fundWarnShort":"⚠ El funding negativo reduce las ganancias en SHORT. Considera LONG o spot grid.","lc.fundOk":"✓ El funding es favorable para esta dirección.",
     "mode.strongBuy":"📥 COMPRA FUERTE","mode.strongSell":"📤 VENTA FUERTE","mode.gridBuy":"📥 COMPRA GRID","mode.gridSell":"📤 VENTA GRID","mode.skip":"OMITIR","mode.watch":"⚡ VIGILAR","mode.trend":"🌊 TENDENCIA","mode.lowRR":"⚖ R:R BAJO",
@@ -846,7 +959,7 @@ const I18N = {
   },
   ru:{
     "ref.title":"Зарегистрируйся на Pionex по моей реферальной ссылке","ref.badge":"БОНУС","ref.sub":"Pionex — биржа с 16 бесплатными торговыми ботами · комиссия всего <strong style='color:var(--grn)'>0.05%</strong>","ref.f1":"✓ 16 бесплатных ботов","ref.f2":"✓ Grid / Reverse / Smart Trade","ref.f3":"✓ Комиссия 0.05%","ref.f4":"🔒 Лицензированная биржа · 10М+ пользователей","ref.btn":"🚀 Регистрация на Pionex","ref.trust":"🔒 Регулируемая · Холодное хранение · Поддержка 24/7","ref.thanks":"💚 Спасибо за поддержку — регистрация по ссылке помогает развитию проекта",
-    "hdr.star":"Звезда","hdr.modes":"MACD + Разворот + VWAP + ATR + ADX + Funding","hdr.rlWarn":"⚠ Прокси перегружен — повторяем…",
+    "hdr.star":"Звезда","hdr.modes":"MACD + Разворот + VWAP + ATR + ADX + Funding","hdr.rlWarn":"⚠ Прокси перегружен — повторяем…","hdr.pionexOnly":"Только Pionex",
     "panel.left":"Таймфреймы и глубина","panel.right":"Биржа, фильтры и усилители","tf.all":"ВСЕ",
     "lbl.depth":"Глубина поиска","lbl.minTf":"Мин ТФ","lbl.extremum":"Экстремум","lbl.exchange":"Биржа","lbl.market":"Рынок","lbl.type":"Тип","lbl.topMcap":"Топ MCap","lbl.max":"Макс","lbl.fundMax":"Макс. дневной funding","lbl.fundHold":"Удержание (дней)","lbl.strict":"Жёсткость",
     "opt.futures":"Фьючерсы USDT","opt.spot":"Спот","opt.both":"Оба","opt.bullish":"Бычий","opt.bearish":"Медвежий","opt.all":"Все","opt.soft":"Мягкая","opt.normal":"Нормальная","opt.strict":"Жёсткая",
@@ -860,7 +973,7 @@ const I18N = {
     "res.title":"Результаты","badge.reversal":"РАЗВОРОТ","badge.consStop":"КОНС.СТОП","badge.funding":"FUNDING ВКЛ",
     "th.rank":"Ранг","th.symbol":"Символ","th.price":"Цена","th.setup":"Сетап","th.tf":"ТФ","th.depth":"Глуб.","th.rev":"Разв.","th.conf":"Подт.","th.macd":"MACD","th.limit":"Лимит","th.limitPct":"Лим%","th.stop":"Стоп","th.stopPct":"Стп%","th.consSl":"Конс.SL","th.consPct":"Конс%","th.vwapPct":"VWAP%","th.vwapStar":"VWAP★","th.volPct":"Объём%","th.atr":"ATR","th.adx":"ADX","th.rr":"R:R","th.fundNow":"Fund%","th.fundDay":"Fund/д","th.fundHold":"Fund/H","th.fundBias":"F.Смещ.","th.mode":"Режим","th.botRange":"Диап.Бот","th.bsRange":"Диап.B/S",
     "log.title":"Журнал активности","toast.copied":"✓ Скопировано!",
-    "lc.params":"Параметры для {ex}","lc.indic":"Подтверждение индикаторов","lc.trade":"Торгуйте на Pionex","lc.copyHint":"👆 Клик по значению для копирования","lc.copyAll":"📋 Копировать всё","lc.openChart":"📊 Открыть график","lc.shareTg":"✈️ Поделиться в Telegram","lc.exportTik":"📱 Экспорт для TikTok","lc.refReg":"Зарегистрируйся и получи доступ к 16 бесплатным ботам · комиссия 0.05%","lc.refThanks":"Спасибо за регистрацию по реферальной ссылке 🙏",
+    "lc.params":"Параметры для {ex}","lc.indic":"Подтверждение индикаторов","lc.trade":"Торгуйте на Pionex","lc.copyHint":"👆 Клик по значению для копирования","lc.copyAll":"📋 Копировать всё","lc.openChart":"📊 Открыть график","lc.shareTg":"✈️ Поделиться в Telegram","lc.exportTik":"📱 Экспорт для TikTok","lc.openPionexBig":"Открыть в Pionex — Торговать этот сетап","lc.refReg":"Зарегистрируйся и получи доступ к 16 бесплатным ботам · комиссия 0.05%","lc.refThanks":"Спасибо за регистрацию по реферальной ссылке 🙏",
     "lc.buyPrice":"Вход (цена покупки)","lc.sellPrice":"Вход (цена продажи)","lc.sl":"Стоп-лосс","lc.consSl":"Консервативный SL","lc.tp":"Фиксированный тейк-профит","lc.trailUp":"Trailing trigger (+10%)","lc.trailDn":"Trailing trigger (−10%)","lc.trailDD":"Макс. trailing drawdown","lc.posSize":"Размер позиции","lc.posVal":"10–20% капитала","lc.lower":"Нижняя граница","lc.upper":"Верхняя граница","lc.width":"Ширина диапазона","lc.gridN":"Кол-во линий сетки","lc.gridMode":"Режим сетки","lc.gridModeVal":"Geometric","lc.invest":"Инвестиция","lc.investVal":"Токены (базовый актив)","lc.slBot":"Стоп-лосс (на основе ATR)","lc.tpBot":"Тейк-профит (на основе ATR)","lc.curPrice":"Текущая цена","lc.entryRef":"Ориентир входа","lc.warn":"⚠ Условия входа неоптимальны. Дождись лучшего сетапа или проверь график.",
     "lc.indVol":"Объём","lc.indDepth":"Глубина","lc.yes":"⭐ ДА","lc.no":"· НЕТ","lc.rrLabel":"Соотношение R:R","lc.funding":"Funding (Perpetual)","lc.fundNow":"Текущая ставка","lc.fundAvg":"Среднее за 7д (21 платёж)","lc.fundDaily":"За день (×3)","lc.fundAnnual":"Годовая","lc.fundHoldCost":"Стоимость за {n} дней","lc.fundNext":"Следующий платёж через","lc.fundSource":"Источник","lc.fundFallback":"(через Binance)","lc.fundBiasLongOk":"🟢 Благоприятно для LONG","lc.fundBiasLongBad":"🔴 Затратно для LONG","lc.fundBiasShortOk":"🟢 Благоприятно для SHORT","lc.fundBiasShortBad":"🔴 Затратно для SHORT","lc.fundBiasNeutral":"➖ Нейтрально","lc.fundNA":"⚠ Funding N/A","lc.fundWarnLong":"⚠ Положительный funding съедает прибыль LONG. Рассмотри SHORT или spot grid.","lc.fundWarnShort":"⚠ Отрицательный funding съедает прибыль SHORT. Рассмотри LONG или spot grid.","lc.fundOk":"✓ Funding благоприятен для этого направления.",
     "mode.strongBuy":"📥 СИЛЬНАЯ ПОКУПКА","mode.strongSell":"📤 СИЛЬНАЯ ПРОДАЖА","mode.gridBuy":"📥 GRID ПОКУПКА","mode.gridSell":"📤 GRID ПРОДАЖА","mode.skip":"ПРОПУСК","mode.watch":"⚡ СЛЕДИТЬ","mode.trend":"🌊 ТРЕНД","mode.lowRR":"⚖ НИЗКИЙ R:R",
@@ -879,7 +992,7 @@ const I18N = {
   },
   zh:{
     "ref.title":"通过我的推荐链接注册 Pionex","ref.badge":"奖励","ref.sub":"Pionex — 提供 16 个免费交易机器人的交易所 · 手续费仅 <strong style='color:var(--grn)'>0.05%</strong>","ref.f1":"✓ 16 个免费机器人","ref.f2":"✓ 网格 / 反向 / 智能交易","ref.f3":"✓ 0.05% 手续费","ref.f4":"🔒 持牌交易所 · 1000万+ 用户","ref.btn":"🚀 注册 Pionex","ref.trust":"🔒 受监管 · 冷存储 · 24/7 支持","ref.thanks":"💚 感谢支持 — 通过链接注册有助于项目发展",
-    "hdr.star":"星标","hdr.modes":"MACD + 反转 + VWAP + ATR + ADX + 资金费率","hdr.rlWarn":"⚠ 代理过载 — 正在重试…",
+    "hdr.star":"星标","hdr.modes":"MACD + 反转 + VWAP + ATR + ADX + 资金费率","hdr.rlWarn":"⚠ 代理过载 — 正在重试…","hdr.pionexOnly":"仅 Pionex",
     "panel.left":"时间周期与深度","panel.right":"交易所、过滤器与增强","tf.all":"全部",
     "lbl.depth":"搜索深度","lbl.minTf":"最小周期","lbl.extremum":"极值","lbl.exchange":"交易所","lbl.market":"市场","lbl.type":"类型","lbl.topMcap":"市值前","lbl.max":"最大","lbl.fundMax":"日最大资金费率","lbl.fundHold":"持有 (天)","lbl.strict":"严格度",
     "opt.futures":"USDT 永续合约","opt.spot":"现货","opt.both":"两者","opt.bullish":"看涨","opt.bearish":"看跌","opt.all":"全部","opt.soft":"宽松","opt.normal":"标准","opt.strict":"严格",
@@ -893,7 +1006,7 @@ const I18N = {
     "res.title":"结果","badge.reversal":"反转","badge.consStop":"保守止损","badge.funding":"资金费率开启",
     "th.rank":"排名","th.symbol":"代币","th.price":"价格","th.setup":"形态","th.tf":"周期","th.depth":"深度","th.rev":"反转","th.conf":"确认","th.macd":"MACD","th.limit":"限价","th.limitPct":"限%","th.stop":"止损","th.stopPct":"止%","th.consSl":"保守SL","th.consPct":"保%","th.vwapPct":"VWAP%","th.vwapStar":"VWAP★","th.volPct":"成交量%","th.atr":"ATR","th.adx":"ADX","th.rr":"R:R","th.fundNow":"费率%","th.fundDay":"费率/日","th.fundHold":"费率/H","th.fundBias":"费偏向","th.mode":"模式","th.botRange":"机器人区间","th.bsRange":"B/S区间",
     "log.title":"活动日志","toast.copied":"✓ 已复制!",
-    "lc.params":"{ex} 参数","lc.indic":"指标确认","lc.trade":"在 Pionex 交易","lc.copyHint":"👆 点击数值以复制","lc.copyAll":"📋 全部复制","lc.openChart":"📊 打开图表","lc.shareTg":"✈️ 分享到 Telegram","lc.exportTik":"📱 导出到 TikTok","lc.refReg":"注册即可使用 16 个免费机器人 · 0.05% 手续费","lc.refThanks":"感谢通过推荐链接注册 🙏",
+    "lc.params":"{ex} 参数","lc.indic":"指标确认","lc.trade":"在 Pionex 交易","lc.copyHint":"👆 点击数值以复制","lc.copyAll":"📋 全部复制","lc.openChart":"📊 打开图表","lc.shareTg":"✈️ 分享到 Telegram","lc.exportTik":"📱 导出到 TikTok","lc.openPionexBig":"在 Pionex 中打开 — 交易此形态","lc.refReg":"注册即可使用 16 个免费机器人 · 0.05% 手续费","lc.refThanks":"感谢通过推荐链接注册 🙏",
     "lc.buyPrice":"入场 (买入价)","lc.sellPrice":"入场 (卖出价)","lc.sl":"止损","lc.consSl":"保守止损","lc.tp":"固定止盈","lc.trailUp":"追踪触发器 (+10%)","lc.trailDn":"追踪触发器 (−10%)","lc.trailDD":"最大追踪回撤","lc.posSize":"仓位大小","lc.posVal":"资金的 10–20%","lc.lower":"下限","lc.upper":"上限","lc.width":"区间宽度","lc.gridN":"网格线数量","lc.gridMode":"网格模式","lc.gridModeVal":"几何模式","lc.invest":"投资","lc.investVal":"代币 (基础资产)","lc.slBot":"止损 (基于 ATR)","lc.tpBot":"止盈 (基于 ATR)","lc.curPrice":"当前价格","lc.entryRef":"入场参考","lc.warn":"⚠ 入场条件不理想。等待更好的形态或查看图表。",
     "lc.indVol":"成交量","lc.indDepth":"深度","lc.yes":"⭐ 是","lc.no":"· 否","lc.rrLabel":"R:R 比率","lc.funding":"资金费率 (永续)","lc.fundNow":"当前费率","lc.fundAvg":"7天平均 (21次)","lc.fundDaily":"每日 (×3)","lc.fundAnnual":"年化","lc.fundHoldCost":"持有 {n} 天成本","lc.fundNext":"下次支付时间","lc.fundSource":"来源","lc.fundFallback":"(通过 Binance)","lc.fundBiasLongOk":"🟢 利好做多","lc.fundBiasLongBad":"🔴 不利做多","lc.fundBiasShortOk":"🟢 利好做空","lc.fundBiasShortBad":"🔴 不利做空","lc.fundBiasNeutral":"➖ 中性","lc.fundNA":"⚠ 资金费率不可用","lc.fundWarnLong":"⚠ 正资金费率侵蚀做多利润。考虑做空或现货网格。","lc.fundWarnShort":"⚠ 负资金费率侵蚀做空利润。考虑做多或现货网格。","lc.fundOk":"✓ 资金费率对此方向有利。",
     "mode.strongBuy":"📥 强力买入","mode.strongSell":"📤 强力卖出","mode.gridBuy":"📥 网格买入","mode.gridSell":"📤 网格卖出","mode.skip":"跳过","mode.watch":"⚡ 观察","mode.trend":"🌊 趋势","mode.lowRR":"⚖ 低 R:R",
@@ -953,7 +1066,7 @@ const TT_ROWS_PER_PAGE=10;
 let SOUND_ON=false;
 const ATF=['1m','5m','15m','30m','1h','4h','1D','1W','1M'];
 
-/* ===== v14.7.6: TF-adaptive thresholds ===== */
+/* ===== v14.8.0: TF-adaptive thresholds ===== */
 const TF_MULT = {
   '1m':  {adx:0.70, vwap:0.20, vol:0.95, rr:0.90, depth:0.60},
   '5m':  {adx:0.78, vwap:0.30, vol:1.00, rr:0.95, depth:0.70},
@@ -1066,7 +1179,7 @@ async function safeFetch(url,ex){
 }
 
 function initRefLinks(){['refLink','hdrPionexBtn'].forEach(id=>{const el=Q(id);if(el)el.href=REF_URL;});const d=Q('refUrlDisplay');if(d)d.textContent=REF_URL;}
-function initRefQR(){const wrap=Q('refQrWrap');if(!wrap)return;wrap.innerHTML='';try{new QRCode(wrap,{text:REF_URL,width:64,height:64,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){wrap.innerHTML='<div style="font-size:8px;color:#999;text-align:center;padding:4px">QR</div>';}}
+function initRefQR(){const wrap=Q('refQrWrap');if(!wrap)return;wrap.innerHTML='';try{new QRCode(wrap,{text:REF_URL,width:96,height:96,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){wrap.innerHTML='<div style="font-size:10px;color:#999;text-align:center;padding:4px">QR</div>';}}
 function shareApp(){const title=t('share.title');const text=t('share.text')+'\n\n'+APP_URL;if(navigator.share){navigator.share({title,text,url:APP_URL}).catch(()=>{});}else copyText(text);}
 function shareSetup(sym,tf,mode){const r=RES.find(x=>x.sym===sym&&x.tf===tf);if(!r)return;const entry=r.limL!=null?`Entry: ${fmP(r.limL)}\n`:'';const stop=r.stopL!=null?`Stop: ${fmP(r.stopL)}\n`:'';const rr=r.rr!=null?`R:R: ${r.rr.toFixed(2)}x\n`:'';const text=t('share.setup',{sym,tf,mode,price:fmP(r.price),entry,stop,rr,app:APP_URL,ref:REF_URL});const url=`https://t.me/share/url?url=${encodeURIComponent(APP_URL)}&text=${encodeURIComponent(text)}`;window.open(url,'_blank','noopener');}
 function renderSocial(){const h=Q('socialBar');if(!h)return;let html='';if(SOCIAL.telegram)html+=`<a class="s-tg" href="${SOCIAL.telegram}" target="_blank" rel="noopener">✈️ Telegram</a>`;if(SOCIAL.github)html+=`<a class="s-gh" href="${SOCIAL.github}" target="_blank" rel="noopener">🐙 GitHub</a>`;if(SOCIAL.twitter)html+=`<a class="s-tw" href="${SOCIAL.twitter}" target="_blank" rel="noopener">🐦 Twitter / X</a>`;html+=`<a class="s-share" href="#" onclick="shareApp();return false;">🔗 ${t('social.share')}</a>`;h.innerHTML=html;}
@@ -1171,7 +1284,7 @@ function buildShotWrapper(opts){
   wrap.innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid ${accentBlue};padding-bottom:18px;margin-bottom:22px;">
       <div>
-        <div style="font-size:${titleFontSize};font-weight:800;color:${accentBlue};line-height:1.1">⚡ GridPulse <span style="font-size:${orientation==='vertical'?'22px':'18px'};color:${muted};font-weight:600">v14.7.6</span></div>
+        <div style="font-size:${titleFontSize};font-weight:800;color:${accentBlue};line-height:1.1">⚡ GridPulse <span style="font-size:${orientation==='vertical'?'22px':'18px'};color:${muted};font-weight:600">v14.8.0</span></div>
         <div style="font-size:${subFontSize};color:${muted};margin-top:6px;font-weight:500">${orientation==='vertical'?t('tt.cover.line1'):'Multi-Exchange Crypto Reversal Screener'}</div>
       </div>
       <div style="text-align:right;font-size:${headerInfoSize};line-height:1.7">
@@ -1182,16 +1295,16 @@ function buildShotWrapper(opts){
       </div>
     </div>
 
-    <div style="display:flex;gap:14px;margin-bottom:22px;flex-wrap:wrap;">
-      <div style="background:rgba(66,165,245,0.14);padding:14px 20px;border-radius:8px;border:1px solid ${accentBlue};min-width:130px"><div style="font-size:11px;color:${muted};letter-spacing:1px;font-weight:700">${t('shot.totalSetups')}</div><div style="font-size:30px;font-weight:800;color:${accentBlue};margin-top:2px">${stats.total}</div></div>
-      <div style="background:rgba(38,217,122,0.14);padding:14px 20px;border-radius:8px;border:1px solid ${accentGreen};min-width:110px"><div style="font-size:11px;color:${muted};letter-spacing:1px;font-weight:700">🟢 BUY</div><div style="font-size:30px;font-weight:800;color:${accentGreen};margin-top:2px">${stats.buy}</div></div>
-      <div style="background:rgba(255,69,102,0.14);padding:14px 20px;border-radius:8px;border:1px solid ${accentRed};min-width:110px"><div style="font-size:11px;color:${muted};letter-spacing:1px;font-weight:700">🔴 SELL</div><div style="font-size:30px;font-weight:800;color:${accentRed};margin-top:2px">${stats.sell}</div></div>
-      <div style="background:rgba(66,165,245,0.10);padding:14px 20px;border-radius:8px;border:1px solid ${accentBlue};min-width:110px"><div style="font-size:11px;color:${muted};letter-spacing:1px;font-weight:700">🤖 BOT</div><div style="font-size:30px;font-weight:800;color:${accentBlue};margin-top:2px">${stats.bot}</div></div>
-      <div style="background:rgba(255,167,38,0.14);padding:14px 20px;border-radius:8px;border:1px solid #ffa726;min-width:110px"><div style="font-size:11px;color:${muted};letter-spacing:1px;font-weight:700">🛡 SKIP</div><div style="font-size:30px;font-weight:800;color:#ffa726;margin-top:2px">${stats.skip}</div></div>
+    <div style="display:flex;gap:14px;margin-bottom:26px;flex-wrap:wrap;">
+      <div style="background:rgba(66,165,245,0.16);padding:18px 22px;border-radius:10px;border:1.5px solid ${accentBlue};min-width:150px;flex:1"><div style="font-size:${orientation==='vertical'?'15':'12'}px;color:${muted};letter-spacing:1.5px;font-weight:800">${t('shot.totalSetups')}</div><div style="font-size:${orientation==='vertical'?'46':'34'}px;font-weight:900;color:${accentBlue};margin-top:4px;line-height:1">${stats.total}</div></div>
+      <div style="background:rgba(38,217,122,0.16);padding:18px 22px;border-radius:10px;border:1.5px solid ${accentGreen};min-width:130px;flex:1"><div style="font-size:${orientation==='vertical'?'15':'12'}px;color:${muted};letter-spacing:1.5px;font-weight:800">🟢 BUY</div><div style="font-size:${orientation==='vertical'?'46':'34'}px;font-weight:900;color:${accentGreen};margin-top:4px;line-height:1">${stats.buy}</div></div>
+      <div style="background:rgba(255,69,102,0.16);padding:18px 22px;border-radius:10px;border:1.5px solid ${accentRed};min-width:130px;flex:1"><div style="font-size:${orientation==='vertical'?'15':'12'}px;color:${muted};letter-spacing:1.5px;font-weight:800">🔴 SELL</div><div style="font-size:${orientation==='vertical'?'46':'34'}px;font-weight:900;color:${accentRed};margin-top:4px;line-height:1">${stats.sell}</div></div>
+      <div style="background:rgba(66,165,245,0.12);padding:18px 22px;border-radius:10px;border:1.5px solid ${accentBlue};min-width:130px;flex:1"><div style="font-size:${orientation==='vertical'?'15':'12'}px;color:${muted};letter-spacing:1.5px;font-weight:800">🤖 BOT</div><div style="font-size:${orientation==='vertical'?'46':'34'}px;font-weight:900;color:${accentBlue};margin-top:4px;line-height:1">${stats.bot}</div></div>
+      <div style="background:rgba(255,167,38,0.16);padding:18px 22px;border-radius:10px;border:1.5px solid #ffa726;min-width:130px;flex:1"><div style="font-size:${orientation==='vertical'?'15':'12'}px;color:${muted};letter-spacing:1.5px;font-weight:800">🛡 SKIP</div><div style="font-size:${orientation==='vertical'?'46':'34'}px;font-weight:900;color:#ffa726;margin-top:4px;line-height:1">${stats.skip}</div></div>
     </div>
   `;
 
-  /* v14.7.6: vertical layout has two variants — 'cards' (default, top 5) and 'table' (top 15).
+  /* v14.8.0: vertical layout has two variants — 'cards' (default, top 5) and 'table' (top 15).
      Horizontal mode always uses full table. */
   const vertVariant=opts.vertVariant||'cards';
   if(orientation==='vertical' && vertVariant==='cards'){
@@ -1216,38 +1329,38 @@ function buildShotWrapper(opts){
       const volColor=r.volRatio>=1.2?accentGreen:r.volRatio>=0.8?'#ffa726':accentRed;
       const vwapColor=(isBull&&r.vwapDist<0)||(!isBull&&r.vwapDist>0)?accentGreen:accentRed;
       const card=document.createElement('div');
-      card.style.cssText=`background:${isLight?'#fff':'rgba(255,255,255,.035)'};border:1.5px solid ${modeColor};border-radius:14px;padding:18px 22px;display:flex;flex-direction:column;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,${isLight?'.06':'.25'})`;
+      card.style.cssText=`background:${isLight?'#fff':'rgba(255,255,255,.045)'};border:2px solid ${modeColor};border-radius:18px;padding:26px 30px;display:flex;flex-direction:column;gap:18px;box-shadow:0 4px 14px rgba(0,0,0,${isLight?'.08':'.35'})`;
       card.innerHTML=`
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
           <div>
-            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-              <span style="font-size:30px;font-weight:900;color:${isBull?accentGreen:accentRed};letter-spacing:-.5px">${dispSym}</span>
-              <span style="font-size:13px;color:${muted};font-weight:600">${r.exch.toUpperCase()} · ${r.tf}</span>
+            <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+              <span style="font-size:46px;font-weight:900;color:${isBull?accentGreen:accentRed};letter-spacing:-.5px;line-height:1">${dispSym}</span>
+              <span style="font-size:18px;color:${muted};font-weight:700;letter-spacing:.5px">${r.exch.toUpperCase()} · ${r.tf}</span>
             </div>
-            <div style="font-size:20px;font-weight:800;color:${fg};font-family:monospace;margin-top:4px">${fmP(r.price)} <span style="font-size:12px;color:${muted};font-weight:600">USDT</span></div>
+            <div style="font-size:30px;font-weight:800;color:${fg};font-family:monospace;margin-top:8px">${fmP(r.price)} <span style="font-size:17px;color:${muted};font-weight:600">USDT</span></div>
           </div>
-          <div style="text-align:center;padding:8px 14px;background:${modeColor}22;border:1.5px solid ${modeColor};border-radius:8px;min-width:140px">
-            <div style="font-size:10px;color:${muted};letter-spacing:1.5px;font-weight:700;margin-bottom:2px">${t('card.mode')}</div>
-            <div style="font-size:14px;font-weight:900;color:${modeColor}">${md.modeLabel}</div>
+          <div style="text-align:center;padding:12px 20px;background:${modeColor}28;border:2px solid ${modeColor};border-radius:12px;min-width:180px">
+            <div style="font-size:13px;color:${muted};letter-spacing:2px;font-weight:800;margin-bottom:4px">${t('card.mode')}</div>
+            <div style="font-size:20px;font-weight:900;color:${modeColor};letter-spacing:.5px">${md.modeLabel}</div>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:10px;border-top:1px solid ${isLight?'#e0e6f0':'rgba(255,255,255,.10)'}">
-          <div style="text-align:center"><div style="font-size:10px;color:${muted};font-weight:700;letter-spacing:1px">ADX</div><div style="font-size:18px;font-weight:800;color:${adxColor};font-family:monospace">${adxTxt}</div></div>
-          <div style="text-align:center;border-left:1px solid ${isLight?'#e0e6f0':'rgba(255,255,255,.10)'};border-right:1px solid ${isLight?'#e0e6f0':'rgba(255,255,255,.10)'}"><div style="font-size:10px;color:${muted};font-weight:700;letter-spacing:1px">R:R</div><div style="font-size:18px;font-weight:800;color:${rrColor};font-family:monospace">${rrTxt}</div></div>
-          <div style="text-align:center"><div style="font-size:10px;color:${muted};font-weight:700;letter-spacing:1px">VOL</div><div style="font-size:18px;font-weight:800;color:${volColor};font-family:monospace">${volTxt}</div></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-top:16px;border-top:1.5px solid ${isLight?'#e0e6f0':'rgba(255,255,255,.14)'}">
+          <div style="text-align:center"><div style="font-size:14px;color:${muted};font-weight:800;letter-spacing:1.5px;margin-bottom:4px">ADX</div><div style="font-size:28px;font-weight:900;color:${adxColor};font-family:monospace">${adxTxt}</div></div>
+          <div style="text-align:center;border-left:1.5px solid ${isLight?'#e0e6f0':'rgba(255,255,255,.14)'};border-right:1.5px solid ${isLight?'#e0e6f0':'rgba(255,255,255,.14)'}"><div style="font-size:14px;color:${muted};font-weight:800;letter-spacing:1.5px;margin-bottom:4px">R:R</div><div style="font-size:28px;font-weight:900;color:${rrColor};font-family:monospace">${rrTxt}</div></div>
+          <div style="text-align:center"><div style="font-size:14px;color:${muted};font-weight:800;letter-spacing:1.5px;margin-bottom:4px">VOL</div><div style="font-size:28px;font-weight:900;color:${volColor};font-family:monospace">${volTxt}</div></div>
         </div>
         ${r.limL!=null?`
-        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-top:8px;border-top:1px dashed ${isLight?'#e0e6f0':'rgba(255,255,255,.10)'}">
-          <div><div style="font-size:10px;color:${muted};font-weight:700;letter-spacing:1px">${t('card.entry')}</div><div style="font-size:15px;font-weight:800;color:${isBull?accentGreen:accentRed};font-family:monospace">${fmP(r.limL)}</div></div>
-          ${r.stopL!=null?`<div><div style="font-size:10px;color:${muted};font-weight:700;letter-spacing:1px">${t('card.stop')}</div><div style="font-size:15px;font-weight:800;color:${isBull?accentRed:accentGreen};font-family:monospace">${fmP(r.stopL)}</div></div>`:''}
-          <div><div style="font-size:10px;color:${muted};font-weight:700;letter-spacing:1px">VWAP%</div><div style="font-size:15px;font-weight:800;color:${vwapColor};font-family:monospace">${vwapTxt}</div></div>
+        <div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-top:14px;border-top:1.5px dashed ${isLight?'#e0e6f0':'rgba(255,255,255,.14)'}">
+          <div><div style="font-size:13px;color:${muted};font-weight:800;letter-spacing:1.5px;margin-bottom:4px">${t('card.entry')}</div><div style="font-size:24px;font-weight:900;color:${isBull?accentGreen:accentRed};font-family:monospace">${fmP(r.limL)}</div></div>
+          ${r.stopL!=null?`<div><div style="font-size:13px;color:${muted};font-weight:800;letter-spacing:1.5px;margin-bottom:4px">${t('card.stop')}</div><div style="font-size:24px;font-weight:900;color:${isBull?accentRed:accentGreen};font-family:monospace">${fmP(r.stopL)}</div></div>`:''}
+          <div><div style="font-size:13px;color:${muted};font-weight:800;letter-spacing:1.5px;margin-bottom:4px">VWAP%</div><div style="font-size:24px;font-weight:900;color:${vwapColor};font-family:monospace">${vwapTxt}</div></div>
         </div>`:''}
       `;
       cardWrap.appendChild(card);
     }
     if(RES.length>topN){
       const more=document.createElement('div');
-      more.style.cssText=`text-align:center;padding:14px;color:${muted};font-size:13px;font-weight:600;font-style:italic`;
+      more.style.cssText=`text-align:center;padding:20px;color:${muted};font-size:18px;font-weight:700;font-style:italic;letter-spacing:.3px`;
       more.textContent=t('card.more',{n:RES.length-topN});
       cardWrap.appendChild(more);
     }
@@ -1296,13 +1409,13 @@ function buildShotWrapper(opts){
 
 
   const wm=document.createElement('div');
-  wm.style.cssText=`margin-top:18px;padding:10px 14px;background:linear-gradient(90deg,rgba(195,155,255,.12),rgba(66,165,245,.12));border:1px solid rgba(195,155,255,.35);border-radius:6px;display:flex;align-items:center;justify-content:space-between;font-size:${orientation==='vertical'?'13':'11'}px;flex-wrap:wrap;gap:8px`;
-  wm.innerHTML=`<div style="color:${accentPurple};font-weight:800;letter-spacing:1px">${t('shot.watermark')} #${serialStr}</div><div style="color:${fg};font-weight:600">${TT_CHANNEL}</div><div style="color:${muted}">${new Date().toLocaleString()}</div>`;
+  wm.style.cssText=`margin-top:22px;padding:${orientation==='vertical'?'14px 20px':'10px 14px'};background:linear-gradient(90deg,rgba(195,155,255,.15),rgba(66,165,245,.15));border:1.5px solid rgba(195,155,255,.40);border-radius:8px;display:flex;align-items:center;justify-content:space-between;font-size:${orientation==='vertical'?'17':'11'}px;flex-wrap:wrap;gap:10px`;
+  wm.innerHTML=`<div style="color:${accentPurple};font-weight:900;letter-spacing:1.5px">${t('shot.watermark')} #${serialStr}</div><div style="color:${fg};font-weight:700">${TT_CHANNEL}</div><div style="color:${muted};font-weight:600">${new Date().toLocaleString()}</div>`;
   wrap.appendChild(wm);
 
   const footer=document.createElement('div');
-  footer.style.cssText=`margin-top:14px;padding-top:16px;border-top:1px solid ${isLight?'#cdd6e6':'rgba(255,255,255,.12)'};display:flex;justify-content:space-between;align-items:center;font-size:${orientation==='vertical'?'13':'11'}px;color:${muted};flex-wrap:wrap;gap:10px`;
-  footer.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px">🔗</span><span><b style="color:${accentBlue}">tradescout.trade</b> — ${t('shot.tagline')}</span></div><div style="color:${muted}">⚠ ${t('shot.disclaimer')}</div>`;
+  footer.style.cssText=`margin-top:16px;padding-top:18px;border-top:1.5px solid ${isLight?'#cdd6e6':'rgba(255,255,255,.14)'};display:flex;justify-content:space-between;align-items:center;font-size:${orientation==='vertical'?'16':'11'}px;color:${muted};flex-wrap:wrap;gap:12px`;
+  footer.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><span style="font-size:${orientation==='vertical'?'22':'16'}px">🔗</span><span><b style="color:${accentBlue};font-weight:900">tradescout.trade</b> — ${t('shot.tagline')}</span></div><div style="color:${muted};font-weight:600">⚠ ${t('shot.disclaimer')}</div>`;
   wrap.appendChild(footer);
 
   return wrap;
@@ -1416,7 +1529,7 @@ function buildCarouselSlide(kind,data){
         <div style="font-size:42px;line-height:1">⚡</div>
         <div>
           <div style="font-size:24px;font-weight:900;color:${accentBlue};letter-spacing:2px;line-height:1">GRIDPULSE</div>
-          <div style="font-size:11px;color:${muted};letter-spacing:3px;font-weight:600;margin-top:3px">v14.7.6 · OPEN-SOURCE</div>
+          <div style="font-size:11px;color:${muted};letter-spacing:3px;font-weight:600;margin-top:3px">v14.8.0 · OPEN-SOURCE</div>
         </div>
       </div>
       <div style="text-align:right">
@@ -1626,11 +1739,19 @@ async function generateCarousel(){
 /* ========================================================================== */
 /* ============== Settings, init, table render & scan engine ============== */
 /* ========================================================================== */
-const SET_KEY='gp_settings_v14_7_6';
+const SET_KEY='gp_settings_v14_8_0';
 const SET_SELECTS=['sDp','mnT','exL','exS','mkS','stS','mcS','mxR','fdMax','fdHold','strict'];
-const SET_CHECKS=['chR','chC','chVD','chVC','chAT','chVL','chAD','chRR','chFD','chFH','chFS'];
+const SET_CHECKS=['chR','chC','chVD','chVC','chAT','chVL','chAD','chRR','chFD','chFH','chFS','chPionexOnly'];
+
+/* v14.8.0: Pionex Only mode */
+function applyPionexOnly(on){
+  document.body.classList.toggle('pionex-only',on);
+  const tog=Q('pionexOnlyToggle');if(tog)tog.classList.toggle('on',on);
+  const exS=Q('exS');if(exS && on){exS.value='pionex';exS.disabled=true;refreshTFAvail();}else if(exS){exS.disabled=false;}
+  try{localStorage.setItem('gp_pionex_only',on?'1':'0');}catch(e){}
+}
 function saveSettings(){if(!INIT_DONE)return;try{const s={selects:{},checks:{},tfs:gTFs(),theme:document.body.classList.contains('light')?'light':'dark',sound:SOUND_ON};SET_SELECTS.forEach(id=>{const el=Q(id);if(el)s.selects[id]=el.value;});SET_CHECKS.forEach(id=>{const el=Q(id);if(el)s.checks[id]=el.checked;});localStorage.setItem(SET_KEY,JSON.stringify(s));}catch(e){}}
-function loadSettings(){let s;try{s=JSON.parse(localStorage.getItem(SET_KEY))||JSON.parse(localStorage.getItem('gp_settings_v14_7_5'))||JSON.parse(localStorage.getItem('gp_settings_v14_7_4'))||JSON.parse(localStorage.getItem('gp_settings_v14_7_3'))||JSON.parse(localStorage.getItem('gp_settings_v14_7_2'))||JSON.parse(localStorage.getItem('gp_settings_v14_7'))||JSON.parse(localStorage.getItem('gp_settings_v14_6'))||JSON.parse(localStorage.getItem('gp_settings_v14_5'));}catch(e){}if(!s)return;if(s.theme==='light')document.body.classList.add('light');SET_SELECTS.forEach(id=>{const el=Q(id);if(el&&s.selects&&s.selects[id]!=null)el.value=s.selects[id];});SET_CHECKS.forEach(id=>{const el=Q(id);if(el&&s.checks&&s.checks[id]!=null)el.checked=s.checks[id];});if(Array.isArray(s.tfs)&&s.tfs.length)document.querySelectorAll('#tfB .tf').forEach(b=>{if(b.dataset.tf!=='ALL')b.classList.toggle('on',s.tfs.includes(b.dataset.tf));});if(s.sound){SOUND_ON=true;Q('soundBtn').textContent='🔊';Q('soundBtn').classList.add('on');}updateThemeBtn();}
+function loadSettings(){let s;try{s=JSON.parse(localStorage.getItem(SET_KEY))||JSON.parse(localStorage.getItem('gp_settings_v14_7_6'))||JSON.parse(localStorage.getItem('gp_settings_v14_7_5'))||JSON.parse(localStorage.getItem('gp_settings_v14_7_4'))||JSON.parse(localStorage.getItem('gp_settings_v14_7_3'))||JSON.parse(localStorage.getItem('gp_settings_v14_7_2'))||JSON.parse(localStorage.getItem('gp_settings_v14_7'))||JSON.parse(localStorage.getItem('gp_settings_v14_6'))||JSON.parse(localStorage.getItem('gp_settings_v14_5'));}catch(e){}if(!s)return;if(s.theme==='light')document.body.classList.add('light');SET_SELECTS.forEach(id=>{const el=Q(id);if(el&&s.selects&&s.selects[id]!=null)el.value=s.selects[id];});SET_CHECKS.forEach(id=>{const el=Q(id);if(el&&s.checks&&s.checks[id]!=null)el.checked=s.checks[id];});if(Array.isArray(s.tfs)&&s.tfs.length)document.querySelectorAll('#tfB .tf').forEach(b=>{if(b.dataset.tf!=='ALL')b.classList.toggle('on',s.tfs.includes(b.dataset.tf));});if(s.sound){SOUND_ON=true;Q('soundBtn').textContent='🔊';Q('soundBtn').classList.add('on');}updateThemeBtn();}
 function toggleTheme(){document.body.classList.toggle('light');updateThemeBtn();saveSettings();}
 function updateThemeBtn(){const b=Q('themeBtn');if(b)b.textContent=document.body.classList.contains('light')?'☀️':'🌙';}
 function bumpScanCount(){try{const n=(parseInt(localStorage.getItem('gp_scan_count')||'0')+1);localStorage.setItem('gp_scan_count',String(n));return n;}catch(e){return 0;}}
@@ -1643,9 +1764,17 @@ window.addEventListener('load',()=>{
   Q('exS').addEventListener('change',()=>{refreshTFAvail();saveSettings();const bw=Q('binWarn');if(bw)bw.style.display=Q('exS').value==='binance'?'block':'none';});
   Q('mkS').addEventListener('change',()=>{refreshTFAvail();saveSettings();});
   (function(){const bw=Q('binWarn');if(bw)bw.style.display=Q('exS').value==='binance'?'block':'none';})();
+  /* v14.8.0: Apply Pionex Only state on load */
+  try{
+    const pOnly=localStorage.getItem('gp_pionex_only')==='1';
+    const cb=Q('chPionexOnly');if(cb)cb.checked=pOnly;
+    if(pOnly) applyPionexOnly(true);
+    const cbEl=Q('chPionexOnly');
+    if(cbEl) cbEl.addEventListener('change',e=>applyPionexOnly(e.target.checked));
+  }catch(e){}
   INIT_DONE=true;
   setTimeout(()=>lg(t('log.welcome'),'ok'),300);
-  lg('v14.7.6 ready — TF-adaptive thresholds + Strictness (soft/normal/strict), classified SKIP reasons (⚡ WATCH / 🌊 TREND / ⚖ LOW R:R), per-row tooltip with exact thresholds','ok');
+  lg('v14.8.0 ready — 🤝 Official Pionex Partner edition: Pionex set as default exchange, larger QR codes, prominent "Open in Pionex" CTA with UTM tags, new "Pionex Only" filter mode, Launch Card readability boost (larger fonts across the board)','ok');
   showWelcomeHint();
 });
 
@@ -1737,7 +1866,7 @@ function calcATR(cd,period=14){if(!cd||cd.length<period+1)return null;const trs=
 function calcADX(cd,period=14){if(!cd||cd.length<period*2+1)return null;const pdm=[],mdm=[],tr=[];for(let i=1;i<cd.length;i++){const up=cd[i].h-cd[i-1].h,dn=cd[i-1].l-cd[i].l;pdm.push(up>dn&&up>0?up:0);mdm.push(dn>up&&dn>0?dn:0);tr.push(Math.max(cd[i].h-cd[i].l,Math.abs(cd[i].h-cd[i-1].c),Math.abs(cd[i].l-cd[i-1].c)));}if(tr.length<period+1)return null;function ws(a,p){let s=0;for(let i=0;i<p;i++)s+=a[i];const r=[s];for(let i=p;i<a.length;i++){s=s-s/p+a[i];r.push(s);}return r;}const sT=ws(tr,period),sP=ws(pdm,period),sM=ws(mdm,period);const dx=[];for(let i=0;i<sT.length;i++){if(sT[i]===0){dx.push(0);continue;}const pdi=100*sP[i]/sT[i],mdi=100*sM[i]/sT[i],sum=pdi+mdi;dx.push(sum===0?0:100*Math.abs(pdi-mdi)/sum);}if(dx.length<period)return null;let adx=0;for(let i=0;i<period;i++)adx+=dx[i];adx/=period;for(let i=period;i<dx.length;i++)adx=(adx*(period-1)+dx[i])/period;const last=sT.length-1;const pdi=sT[last]>0?100*sP[last]/sT[last]:0,mdi=sT[last]>0?100*sM[last]/sT[last]:0;return{adx,pdi,mdi};}
 function avgVol(cd,lb=20){const sl=cd.slice(Math.max(0,cd.length-lb));if(sl.length===0)return 0;return sl.reduce((s,c)=>s+c.v,0)/sl.length;}
 
-/* v14.7.6: ATR-based SL/TP for GRID bots, scaled by TF.
+/* v14.8.0: ATR-based SL/TP for GRID bots, scaled by TF.
    Fallback to legacy 20%/15% if ATR is missing. */
 const GRID_SL_ATR={'1m':1.5,'5m':1.8,'15m':2.0,'30m':2.2,'1h':2.5,'4h':2.8,'1D':3.0,'1W':3.5,'1M':4.0};
 const GRID_TP_ATR={'1m':1.2,'5m':1.4,'15m':1.5,'30m':1.6,'1h':1.8,'4h':2.0,'1D':2.2,'1W':2.5,'1M':3.0};
@@ -1774,7 +1903,7 @@ function decideMode(r){
   let gridBotRange=null,gridBSRange=null;
   if(atr!==null&&price>0){const botMult=(adx!==null&&adx>=18)?18:10;const halfBot=atr*botMult/2;const botLow=Math.max(0,price-halfBot),botHigh=price+halfBot;const bsHalf=atr*5/2;const bsLow=Math.max(0,price-bsHalf),bsHigh=price+bsHalf;gridBotRange={low:botLow,high:botHigh,widthPct:((botHigh-botLow)/price*100)};gridBSRange={low:bsLow,high:bsHigh,widthPct:((bsHigh-bsLow)/price*100)};}
 
-  /* ===== v14.7.6: TF-adaptive thresholds × strictness ===== */
+  /* ===== v14.8.0: TF-adaptive thresholds × strictness ===== */
   const tfm = TF_MULT[r.tf] || TF_MULT['1h'];
   const strictKey = (Q('strict')?.value) || 'normal';
   const sm = STRICTNESS_MULT[strictKey] || 1.0;
@@ -1865,7 +1994,7 @@ function findSetup(candles,ml,sg,hist,searchDepth,extLook,setupFilter,useRev,tf)
   const n=hist.length;if(n<10)return null;
   const atr=calcATR(candles,14),vwap=calcVWAP(candles,50),bands=(vwap!==null)?calcVWAPBands(candles,vwap,50):null,adxResult=calcADX(candles,14),avgVolume=avgVol(candles,20);
   const FVD=Q('chVD')?.checked,FVC=Q('chVC')?.checked,FAT=Q('chAT')?.checked,FVL=Q('chVL')?.checked,FAD=Q('chAD')?.checked,FRR=Q('chRR')?.checked;
-  /* v14.7.6: TF-adaptive thresholds for ADX/R:R checkboxes */
+  /* v14.8.0: TF-adaptive thresholds for ADX/R:R checkboxes */
   const _tfm=TF_MULT[tf]||TF_MULT['1h'];
   const _strictKey=(Q('strict')?.value)||'normal';
   const _sm=STRICTNESS_MULT[_strictKey]||1.0;
@@ -1889,6 +2018,10 @@ function findSetup(candles,ml,sg,hist,searchDepth,extLook,setupFilter,useRev,tf)
       const limL=rc.l;let stopL=rc.h;for(let j=Math.max(0,i-7);j<i;j++)stopL=Math.max(stopL,candles[j].h);if(stopL<=limL)stopL=limL*1.005;
       const stopC=rc.h+((rc.h-rc.l)*2);const limD=Math.abs((price-limL)/price*100),stopD=Math.abs((price-stopL)/price*100),stopCD=Math.abs((price-stopC)/price*100);
       const rr=((stopL-limL)>0)?((limL-rc.l*0.95)/(stopL-limL)):null;if(FRR&&rr!==null&&rr<FRR_THR)continue;
+      /* v14.8.x: Validate setup geometry — for bearish (SHORT) we need price < stopL AND price > limL,
+         i.e. price is between entry and stop. If market already broke through, setup is stale → skip. */
+      if(price>=stopL)continue;
+      if(price<=limL)continue;
       const vwapDist=vwap!==null?(price-vwap)/vwap*100:null;const vwapConfluence=(vwap!==null&&bands!==null)&&(Math.abs(limL-vwap)/(vwap||1)<0.005||Math.abs(limL-bands.upper1)/(vwap||1)<0.003||Math.abs(limL-bands.upper2)/(vwap||1)<0.003);
       if(FVC&&!vwapConfluence)continue;
       return{type:'bearish',depth,rc,cc,limL,stopL,stopC,limD,stopD,stopCD,h20:hist.slice(Math.max(0,n-20)),price,atr,vwap,vwapBands:bands,adx:adxResult?adxResult.adx:null,pdi:adxResult?adxResult.pdi:null,mdi:adxResult?adxResult.mdi:null,avgVol:avgVolume,rcVol:rc.v,volRatio,vwapDist,vwapConfluence,rr};
@@ -1907,6 +2040,10 @@ function findSetup(candles,ml,sg,hist,searchDepth,extLook,setupFilter,useRev,tf)
       const limL=rc.h;let stopL=rc.l;for(let j=Math.max(0,i-7);j<i;j++)stopL=Math.min(stopL,candles[j].l);if(stopL>=limL)stopL=limL*0.995;
       const stopC=rc.l-((rc.h-rc.l)*2);const limD=Math.abs((price-limL)/price*100),stopD=Math.abs((price-stopL)/price*100),stopCD=Math.abs((price-stopC)/price*100);
       const rr=((limL-stopL)>0)?((rc.h*1.05-limL)/(limL-stopL)):null;if(FRR&&rr!==null&&rr<FRR_THR)continue;
+      /* v14.8.x: Validate setup geometry — for bullish (LONG) we need price > stopL AND price < limL,
+         i.e. price is between stop and entry. If market already broke through, setup is stale → skip. */
+      if(price<=stopL)continue;
+      if(price>=limL)continue;
       const vwapDist=vwap!==null?(price-vwap)/vwap*100:null;const vwapConfluence=(vwap!==null&&bands!==null)&&(Math.abs(limL-vwap)/(vwap||1)<0.005||Math.abs(limL-bands.lower1)/(vwap||1)<0.003||Math.abs(limL-bands.lower2)/(vwap||1)<0.003);
       if(FVC&&!vwapConfluence)continue;
       return{type:'bullish',depth,rc,cc,limL,stopL,stopC,limD,stopD,stopCD,h20:hist.slice(Math.max(0,n-20)),price,atr,vwap,vwapBands:bands,adx:adxResult?adxResult.adx:null,pdi:adxResult?adxResult.pdi:null,mdi:adxResult?adxResult.mdi:null,avgVol:avgVolume,rcVol:rc.v,volRatio,vwapDist,vwapConfluence,rr};
@@ -2113,10 +2250,11 @@ function showLaunchCard(sym,exch,tf){
   if(r.fundingApplied&&fd.now!==null&&isFinite(fd.now)){fundingLines.push(`Funding now: ${fmFP(fd.now)}`);if(fd.avg7d!==null&&isFinite(fd.avg7d))fundingLines.push(`Funding avg 7d: ${fmFP(fd.avg7d)}`);if(fd.daily!==null&&isFinite(fd.daily))fundingLines.push(`Funding daily: ${fmFP(fd.daily)}`);if(r.fundingHoldPct!==null&&isFinite(r.fundingHoldPct))fundingLines.push(`Funding ${fundHold}d cost: ${fmFP(r.fundingHoldPct)}`);if(fd.source)fundingLines.push(`Funding source: ${fd.source}`);}
   const allText=[`=== ${sym} | ${tf} | ${md.modeLabel} ===`,`Price: ${price} | ${(r.type||'').toUpperCase()} | d:${r.depth}`,`Limit:${r.limL!=null?fmP(r.limL):'—'} SL:${r.stopL!=null?fmP(r.stopL):'—'} Cons:${r.stopC!=null?fmP(r.stopC):'—'}`,`VWAP:${r.vwap!=null?fmP(r.vwap):'—'}(${r.vwapDist!=null?r.vwapDist.toFixed(2)+'%':'—'})${r.vwapConfluence?'⭐':''}`,`ADX:${r.adx!=null?r.adx.toFixed(1):'—'} Vol:${r.volRatio!=null?(r.volRatio*100).toFixed(0)+'%':'—'} R:R:${r.rr!=null?r.rr.toFixed(2)+'x':'—'}`,md.gridBotRange?`Bot:${fmP(md.gridBotRange.low)}–${fmP(md.gridBotRange.high)}`:'',md.gridBSRange?`B/S:${fmP(md.gridBSRange.low)}–${fmP(md.gridBSRange.high)}`:'',...fundingLines,`Pionex: ${REF_URL}`].filter(Boolean).join('\n');
   const scTc=(md.mode==='STRONG_BUY'||md.mode==='GRID_BUY')?'green':(md.mode==='STRONG_SELL'||md.mode==='GRID_SELL')?'orange':'purple';const qrId='lcQr_'+sym.replace(/[^a-z0-9]/gi,'')+'_'+tf;
-  Q('lcBox').innerHTML=`<div class="lc-head"><h3><span style="color:${headColor}">${sym}</span><span style="color:var(--t3);font-size:12px;font-weight:400"> / ${tf}</span><span class="${md.modeClass} lc-mode-badge">${md.modeLabel}</span></h3><button class="lc-close" onclick="closeLaunchCard()">×</button></div><div class="lc-body"><div class="lc-section"><div class="lc-sec-title ${scTc}">📊 ${t('lc.params',{ex:exch.toUpperCase()})}<span style="margin-left:auto;font-size:10px;color:var(--t3);text-transform:none;letter-spacing:0">${typeLabel} · ${price}</span></div>${paramsHTML}</div><div class="lc-section"><div class="lc-sec-title cyan">📈 ${t('lc.indic')}</div>${indicHTML}</div>${fundingHTML}<div class="lc-section" style="border-color:rgba(38,217,122,.35)"><div class="lc-sec-title green">🚀 ${t('lc.trade')}</div><div style="display:flex;align-items:center;gap:12px;padding:10px 14px;flex-wrap:wrap"><div style="background:#fff;border-radius:5px;padding:3px;width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center" id="${qrId}"></div><div style="flex:1;min-width:160px"><div style="font-size:11px;color:var(--t1);margin-bottom:6px">${t('lc.refReg')}</div><div style="font-size:9px;color:var(--t3)">${t('lc.refThanks')}</div></div></div></div></div><div class="lc-footer"><button class="lc-btn lc-btn-copy" id="lcCopyAllBtn">${t('lc.copyAll')}</button><button class="lc-btn lc-btn-tiktok" onclick="exportLaunchCardTikTok('${sym}','${exch}','${tf}')" style="display:none">${t('lc.exportTik')}</button><button class="lc-btn lc-btn-tg" onclick="shareSetup('${sym}','${tf}','${md.mode}')">${t('lc.shareTg')}</button><button class="lc-btn lc-btn-tv" onclick="closeLaunchCard();opCh('${sym}','${exch}','${tf}')">${t('lc.openChart')}</button><a class="lc-btn lc-btn-ref" href="${REF_URL}" target="_blank" rel="noopener">${t('btn.openPionex')}</a></div>`;
+  const pionexUTM=buildPionexUTM(md.mode,sym,tf);
+  Q('lcBox').innerHTML=`<div class="lc-head"><h3><span style="color:${headColor}">${sym}</span><span style="color:var(--t3);font-size:12px;font-weight:400"> / ${tf}</span><span class="${md.modeClass} lc-mode-badge">${md.modeLabel}</span></h3><button class="lc-close" onclick="closeLaunchCard()">×</button></div><div class="lc-body"><div class="lc-section"><div class="lc-sec-title ${scTc}">📊 ${t('lc.params',{ex:exch.toUpperCase()})}<span style="margin-left:auto;font-size:11px;color:var(--t3);text-transform:none;letter-spacing:0">${typeLabel} · ${price}</span></div>${paramsHTML}</div><div class="lc-section"><div class="lc-sec-title cyan">📈 ${t('lc.indic')}</div>${indicHTML}</div>${fundingHTML}<div class="lc-section" style="border-color:rgba(38,217,122,.50);background:linear-gradient(135deg,rgba(38,217,122,.06),rgba(66,165,245,.04))"><div class="lc-sec-title green">🚀 ${t('lc.trade')} <span style="margin-left:auto;font-size:10px;color:var(--grn);background:rgba(38,217,122,.18);padding:2px 8px;border-radius:10px;border:1px solid rgba(38,217,122,.4);letter-spacing:.3px">🤝 OFFICIAL PARTNER</span></div><div class="lc-ref-block"><div class="lc-ref-qr" id="${qrId}"></div><div class="lc-ref-text"><strong>${t('lc.refReg')}</strong><div style="margin-top:6px;font-size:12px;color:var(--t2)">${t('lc.refThanks')}</div><div class="lc-partner-line">🤝 GridPulse × Pionex</div></div></div><div style="padding:0 18px 16px"><a class="lc-btn-pionex-cta" href="${pionexUTM}" target="_blank" rel="noopener">🚀 ${t('lc.openPionexBig')}</a></div></div></div><div class="lc-footer"><button class="lc-btn lc-btn-copy" id="lcCopyAllBtn">${t('lc.copyAll')}</button><button class="lc-btn lc-btn-tiktok" onclick="exportLaunchCardTikTok('${sym}','${exch}','${tf}')" style="display:none">${t('lc.exportTik')}</button><button class="lc-btn lc-btn-tg" onclick="shareSetup('${sym}','${tf}','${md.mode}')">${t('lc.shareTg')}</button><button class="lc-btn lc-btn-tv" onclick="closeLaunchCard();opCh('${sym}','${exch}','${tf}')">${t('lc.openChart')}</button></div>`;
   Q('lcModal').classList.add('on');
   const _copyBtn=Q('lcCopyAllBtn');if(_copyBtn) _copyBtn.addEventListener('click',()=>copyText(allText));
-  setTimeout(()=>{const qrEl=Q(qrId);if(qrEl&&typeof QRCode!=='undefined'){qrEl.innerHTML='';try{new QRCode(qrEl,{text:REF_URL,width:46,height:46,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){qrEl.innerHTML='<div style="font-size:8px;color:#999">QR</div>';}}},50);
+  setTimeout(()=>{const qrEl=Q(qrId);if(qrEl&&typeof QRCode!=='undefined'){qrEl.innerHTML='';try{new QRCode(qrEl,{text:REF_URL,width:84,height:84,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){qrEl.innerHTML='<div style="font-size:10px;color:#999">QR</div>';}}},50);
   }catch(e){console.error('[GridPulse LC] FAILED:',e);lg('Launch Card error: '+e.message,'er');}
 }
 function closeLaunchCard(){Q('lcModal').classList.remove('on');}
