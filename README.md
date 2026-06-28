@@ -1,9 +1,12 @@
-# ⚡ GridPulse v14.8.0 🤝 Pionex Companion
+# ⚡ GridPulse v14.8.2 💾 Pair Presets
 
 > **Free, open-source, multi-exchange crypto reversal screener** purpose-built as a **companion tool for Pionex Grid Bots** — with directional **STRONG / GRID BUY/SELL** modes, **TF-adaptive Strictness**, MACD + VWAP + ATR + ADX + Funding-aware setups across **Pionex, Bybit, Binance, KuCoin, and OKX** — and one-click **Launch Cards** with copy-paste-ready parameters that take you straight into a Pionex trading session.
+>
+> **v14.8.2** introduces **💾 Pair Presets** — save and reload named watchlists of pairs directly in your browser, with 5 built-in starter presets and shareable JSON / URL.
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-[![Version](https://img.shields.io/badge/version-14.8.0-blue.svg)](https://github.com/pro100off/gridpulse/releases/latest)
+[![Version](https://img.shields.io/badge/version-14.8.2-blue.svg)](https://github.com/pro100off/gridpulse/releases/latest)
+[![Pair Presets](https://img.shields.io/badge/💾-Pair%20Presets-42a5f5)](#-pair-presets-new-in-v1482)
 [![Pionex Affiliate](https://img.shields.io/badge/🤝-Pionex%20Affiliate-26d97a)](https://bit.ly/43bkdc7)
 [![Stars](https://img.shields.io/github/stars/pro100off/gridpulse?style=social)](https://github.com/pro100off/gridpulse/stargazers)
 [![Single File](https://img.shields.io/badge/build-single--file-success)](index.html)
@@ -24,6 +27,8 @@
 | 🐦 **Twitter / X** | [https://x.com/tradeaiscout](https://x.com/tradeaiscout) |
 | 📜 **License** | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | 📋 **Changelog** | [CHANGELOG.md](CHANGELOG.md) |
+| 📖 **User Guide** | [GitHub.USER_GUIDE.md](GitHub.USER_GUIDE.md) |
+| 📝 **Release notes v14.8.2** | [docs/RELEASE_NOTES_v14.8.2.md](docs/RELEASE_NOTES_v14.8.2.md) |
 | 🐛 **Issues** | [GitHub Issues](https://github.com/pro100off/gridpulse/issues) |
 | 🚀 **Latest release** | [Releases](https://github.com/pro100off/gridpulse/releases/latest) |
 
@@ -33,7 +38,7 @@
 
 ## 🤝 Pionex Affiliate
 
-GridPulse v14.8.0 is positioned as a **dedicated companion tool for Pionex Grid Bots**. The project is enrolled in Pionex's **affiliate referral program** — Pionex is the **default exchange** for new users, and every Launch Card features a prominent **"Open in Pionex"** CTA with UTM-tagged deep links that carry the setup context (symbol, TF, mode) into your Pionex session.
+GridPulse v14.8.x is positioned as a **dedicated companion tool for Pionex Grid Bots**. The project is enrolled in Pionex's **affiliate referral program** — Pionex is the **default exchange** for new users, and every Launch Card features a prominent **"Open in Pionex"** CTA with UTM-tagged deep links that carry the setup context (symbol, TF, mode) into your Pionex session.
 
 > **Disclaimer on partnership wording:** GridPulse is an *affiliate program participant*, not a contractually engaged Pionex partner. The 🤝 badge reflects participation in the referral commission program — Pionex does not direct the screener's classification logic, does not pay for ranking, and has no editorial control over the project.
 
@@ -52,6 +57,7 @@ GridPulse v14.8.0 is positioned as a **dedicated companion tool for Pionex Grid 
 
 - [✨ Features](#-features)
 - [🚀 Quick start](#-quick-start)
+- [💾 Pair Presets (new in v14.8.2)](#-pair-presets-new-in-v1482)
 - [🤝 Pionex companion workflow](#-pionex-companion-workflow)
 - [⌨ Hotkeys](#-hotkeys)
 - [🧠 How it works](#-how-it-works)
@@ -68,7 +74,7 @@ GridPulse v14.8.0 is positioned as a **dedicated companion tool for Pionex Grid 
 - [🛠 Self-hosting](#-self-hosting)
 - [🔄 Optional Cloudflare Worker proxy](#-optional-cloudflare-worker-proxy)
 - [📁 Repository structure](#-repository-structure)
-- [🧾 What's new in v14.8.0](#-whats-new-in-v1480)
+- [🧾 What's new in v14.8.2](#-whats-new-in-v1482)
 - [📜 Version history (carried-over highlights)](#-version-history-carried-over-highlights)
 - [⚠ Disclaimer](#-disclaimer)
 - [💚 Transparency](#-transparency)
@@ -81,6 +87,7 @@ GridPulse v14.8.0 is positioned as a **dedicated companion tool for Pionex Grid 
 
 ## ✨ Features
 
+- **💾 Pair Presets** — save/load named watchlists in browser, with 5 built-in starters (💎 Majors / 🐸 Memes / 🤖 AI / 🏛 Layer 1s / 💧 DeFi), JSON import/export, and shareable URLs
 - **🤝 Built around Pionex** — Pionex is the default exchange; Launch Cards map directly to Pionex Grid Bot parameters
 - **5 exchanges:** Pionex, Bybit, Binance, KuCoin, OKX (**Spot + USDT Futures**)
 - **Indicators:** MACD divergence, VWAP confluence ⭐, ATR, ADX, Volume ratio, R:R
@@ -92,6 +99,7 @@ GridPulse v14.8.0 is positioned as a **dedicated companion tool for Pionex Grid 
   - ⚡ **WATCH** — strong reversal candle present, but reward (R:R) too low
   - 🌊 **TREND** — market still trending too strongly, no valid reversal yet
   - ⚖ **LOW R:R** — poor reward relative to risk
+- **Setup geometry validation** (v14.8.1+) — rejects stale setups where price already crossed entry/stop
 - **Funding-aware setups** for perpetual contracts (current rate, 7-day average, daily / annual cost, hold-period projection, LONG/SHORT bias)
 - **5 languages:** English · Українська · Español · Русский · 中文
 - **Launch Cards** with copy-paste-ready Grid Bot parameters and a **prominent "Open in Pionex" CTA** with UTM tracking — five directional modes: STRONG BUY, GRID BUY, STRONG SELL, GRID SELL, SKIP
@@ -115,12 +123,13 @@ GridPulse v14.8.0 is positioned as a **dedicated companion tool for Pionex Grid 
 
 1. Open [https://tradescout.trade/](https://tradescout.trade/)
 2. The screener opens on **Pionex / Spot** by default (you can switch to Bybit / Binance / KuCoin / OKX anytime)
-3. Select **timeframes** (defaults: 1h, 4h, 1D)
-4. Optionally adjust **Strictness** (`soft` / `normal` / `strict`)
-5. Click **▶ Scan** — results usually appear in ~30 seconds
-6. Click 📋 next to any symbol to open the **Launch Card**
-7. Click the big **🚀 Open in Pionex** button → the setup carries over via UTM-tagged deep link
-8. Paste the parameters into a Pionex Grid Bot and manage the trade manually
+3. *(Optional)* Pick a **preset** from the dropdown (💎 Majors / 🐸 Memes / 🤖 AI Tokens / 🏛 Layer 1s / 💧 DeFi Blue Chips) — pairs fill in automatically
+4. Select **timeframes** (defaults: 1h, 4h, 1D)
+5. Optionally adjust **Strictness** (`soft` / `normal` / `strict`)
+6. Click **▶ Scan** — results usually appear in ~30 seconds
+7. Click 📋 next to any symbol to open the **Launch Card**
+8. Click the big **🚀 Open in Pionex** button → the setup carries over via UTM-tagged deep link
+9. Paste the parameters into a Pionex Grid Bot and manage the trade manually
 
 ### Option B — Self-host (1 command)
 
@@ -135,18 +144,108 @@ Or simply double-click `index.html` — it also works on `file://`.
 
 ---
 
+## 💾 Pair Presets (new in v14.8.2)
+
+Tired of pasting `BTCUSDT, ETHUSDT, SOLUSDT, ...` into Custom Pairs before every scan? v14.8.2 introduces **named watchlists** stored directly in your browser — no backend, no account, no cost.
+
+### 5 built-in starter presets
+
+Available immediately on first launch, no setup required:
+
+| Icon | Name | Pairs |
+|------|------|-------|
+| 💎 | **Majors** | BTC · ETH · SOL · BNB · XRP · ADA · AVAX · DOT · LINK · MATIC |
+| 🐸 | **Memes** | DOGE · SHIB · PEPE · WIF · BONK · FLOKI · MEME · POPCAT · BRETT · TURBO |
+| 🤖 | **AI Tokens** | FET · AGIX · OCEAN · RNDR · TAO · WLD · GRT · AKT · ARKM · NMR |
+| 🏛 | **Layer 1s** | ETH · SOL · AVAX · NEAR · APT · SUI · SEI · INJ · TIA · TON |
+| 💧 | **DeFi Blue Chips** | UNI · AAVE · MKR · LDO · SNX · CRV · COMP · SUSHI · GMX · PENDLE |
+
+Built-in presets cannot be edited or deleted — they always reload to defaults. If you want a tweaked version, save it as a new user preset.
+
+### Save your own preset
+
+1. Type pairs into the **Custom Pairs** textarea (comma or space separated)
+2. Click **💾 Save as…** next to the preset dropdown
+3. Enter a **name** (up to 40 chars), pick an **icon** (20 emoji options)
+4. Click **💾 Save**
+
+The preset appears under "My Presets" and is applied immediately.
+
+### Manage presets
+
+Click **⚙ Manage** to open the management modal:
+
+- **✓ Apply** — load the preset and close the modal
+- **🗑 Delete** — remove the preset (with confirmation)
+
+### Import / Export
+
+In the ⚙ Manage modal:
+
+- **📤 Export JSON** — downloads `gridpulse_presets_YYYY-MM-DD.json` with all user presets
+- **📥 Import JSON** — upload a previously exported file; imported presets are added (not replaced)
+
+JSON format is human-readable:
+
+```json
+{
+  "version": 1,
+  "exportedAt": "2026-06-27T18:34:12.000Z",
+  "presets": [
+    {
+      "id": "p_lwf2k_a3b8c",
+      "name": "My AI Watchlist",
+      "icon": "🤖",
+      "pairs": ["BTCUSDT", "ETHUSDT", "RNDR", "FET", "TAO"],
+      "createdAt": 1719511234567
+    }
+  ]
+}
+```
+
+### Shareable preset URL
+
+Share a single preset via URL:
+
+```text
+https://tradescout.trade/?preset=<base64-encoded-json>
+```
+
+When someone opens that link, they see a **consent prompt** asking whether to import the preset (with name + pair count shown). On accept, the preset is added to their local storage and applied. The `?preset=` parameter is then stripped from the URL.
+
+### Storage isolation
+
+Presets live under their own key `gp_presets_v1` — **independent** from `gp_settings_v14_8_2`. This means:
+
+- Resetting screener settings **never** deletes your presets
+- Version bumps **don't** invalidate your watchlists
+- The two systems evolve separately
+
+| Storage key | Purpose |
+|-------------|---------|
+| `gp_presets_v1` | All your user presets (JSON array) |
+| `gp_preset_last` | ID of the last-applied preset (auto-restored on reload) |
+| `gp_settings_v14_8_2` | Screener settings (TFs, filters, theme, sound) — independent |
+
+> 💡 **Pro tip:** Combine presets with the **🤝 Pionex Only** toggle in the header for a fully locked-in workflow — one click selects the watchlist, exchange, and market type.
+
+For a step-by-step walkthrough with screenshots, see [GitHub.USER_GUIDE.md § 3](GitHub.USER_GUIDE.md#3-pair-presets-new-in-v1482).
+
+---
+
 ## 🤝 Pionex companion workflow
 
-GridPulse v14.8.0 is designed around a **focused, two-tool workflow**:
+GridPulse v14.8.x is designed around a **focused, two-tool workflow**:
 
 ```text
 ┌─────────────────────────┐                ┌─────────────────────────┐
 │  GridPulse              │                │  Pionex                 │
 │  (scan + plan)          │  ────────►     │  (execute)              │
 │                         │  Open in       │                         │
-│  • Multi-TF scan        │  Pionex CTA    │  • Grid Bot             │
-│  • Launch Card          │  + UTM tags    │  • Reverse Grid         │
-│  • Copy parameters      │                │  • Smart Trade          │
+│  • Pick preset 💾       │  Pionex CTA    │  • Grid Bot             │
+│  • Multi-TF scan        │  + UTM tags    │  • Reverse Grid         │
+│  • Launch Card          │                │  • Smart Trade          │
+│  • Copy parameters      │                │                         │
 └─────────────────────────┘                └─────────────────────────┘
 ```
 
@@ -162,7 +261,7 @@ A floating ⌨ button in the bottom-left corner shows the full hotkey reference 
 | Shift + P | Export PNG Cards (top 5, 1080×1350) |
 | Shift + Alt + P | Export PNG Table (top 15, 1080×1350) |
 | Shift + C | Generate 5-slide carousel |
-| Esc | Close any open modal |
+| Esc | Close any open modal (chart / Launch Card / preset modals) |
 | Double-click row | Highlight selected row, dim others |
 
 > **Tip:** Hotkeys are ignored while typing inside `<input>`, `<textarea>`, or `<select>` so you can keep typing custom pair lists without conflicts.
@@ -240,6 +339,15 @@ STRONG_BUY  ≡  STRONG_SELL  >  GRID_BUY  ≡  GRID_SELL  >  SKIP
 ```
 
 Within the same priority, ties are broken by R:R then by depth.
+
+### Setup geometry validation (v14.8.1+)
+
+Stale setups where price has **already crossed** the entry or stop before the scan are now rejected automatically:
+
+- **Bullish:** rejected if `price ≤ stopL` or `price ≥ limL`
+- **Bearish:** rejected if `price ≥ stopL` or `price ≤ limL`
+
+This prevents the Launch Card from showing "ghost" setups that would be impossible to enter.
 
 ---
 
@@ -445,7 +553,9 @@ This is logged transparently with a "Funding source" line in the Launch Card.
 
 ## 🎛 Settings & filters
 
-All settings are persisted in `localStorage` under the key `gp_settings_v14_8_0` and **auto-migrated** from earlier versions (`v14_7_6`, `v14_7_5`, `v14_7_4`, `v14_7_3`, `v14_7_2`, `v14_7`, `v14_6`, `v14_5`).
+All settings are persisted in `localStorage` under the key `gp_settings_v14_8_2` and **auto-migrated** from earlier versions (`v14_8_1`, `v14_8_0`, `v14_7_6`, `v14_7_5`, `v14_7_4`, `v14_7_3`, `v14_7_2`, `v14_7`, `v14_6`, `v14_5`).
+
+Presets use a separate storage key `gp_presets_v1` that's **independent** from settings — clearing settings does not delete presets.
 
 ### Left panel — Timeframes & depth
 
@@ -473,6 +583,16 @@ All settings are persisted in `localStorage` under the key `gp_settings_v14_8_0`
 | **Trend / R:R** | ADX ≥ 18 · R:R ≥ 1.5 (both TF-scaled) |
 | **Funding (Futures only)** | CONSIDER FUNDING · USE 7-DAY HISTORY · SKIP IF EXCEEDS THRESHOLD |
 
+### Preset bar (new in v14.8.2)
+
+A dedicated control row between the action buttons and Custom Pairs textarea:
+
+| Control | Description |
+|---------|-------------|
+| **Preset dropdown** | Pick from 5 built-in starters + your saved user presets. Auto-restores last-used preset on reload. |
+| **💾 Save as…** | Save current Custom Pairs as a new preset with name and icon. |
+| **⚙ Manage** | Open management modal: apply, delete, import/export JSON. |
+
 ### Header toggles
 
 | Toggle | Effect |
@@ -488,15 +608,6 @@ All settings are persisted in `localStorage` under the key `gp_settings_v14_8_0`
 ## 📋 Launch Cards
 
 Each row in the results table has a 📋 button. Clicking it opens a **Launch Card** — a focused, copy-paste-ready trading plan with a prominent **"Open in Pionex"** CTA.
-
-### v14.8.0 Launch Card improvements
-
-- **Larger fonts** across the board (labels +30 %, values +33 %, indicator names +33 %)
-- **Wider modal** (560 px → 640 px) for better mobile readability
-- **Mode badge** is 27 % larger and more prominent
-- **Big "🚀 Open in Pionex" CTA** — full-width gradient button with UTM tags
-- **Larger embedded QR code** for Pionex referral (46 → 84 px) in a dedicated bordered panel
-- **Footer buttons** (Copy all / Open chart / Share TG) increased in size for touch-friendliness
 
 ### Launch Card layouts per mode
 
@@ -602,6 +713,7 @@ All UI text is fully translated into 5 languages:
 - Footer disclosure and license text
 - All screenshot / carousel slide content
 - All sharing templates (Telegram share text)
+- **NEW in v14.8.2:** Full preset UI translation (50+ keys) — dropdown labels, save/manage modals, confirmation prompts, URL import dialog
 
 ### Hreflang & SEO
 
@@ -677,74 +789,72 @@ A minimal worker is enough — it just needs to forward `?url=<target>` and pass
 
 ```text
 gridpulse/
-├── index.html                current release (v14.8.0)
-├── LICENSE                   CC BY-NC-SA 4.0
-├── README.md                 this file
-├── CHANGELOG.md              full version history
+├── index.html                       current release (v14.8.2)
+├── LICENSE                          CC BY-NC-SA 4.0
+├── README.md                        this file
+├── CHANGELOG.md                     full version history
+├── GitHub.USER_GUIDE.md             detailed user guide
 ├── docs/
-│   └── screenshot.png        preview image (OG / social cards)
-└── legacy/                   archived previous versions
+│   ├── screenshot.png               preview image (OG / social cards)
+│   └── RELEASE_NOTES_v14.8.2.md     short release notes
+└── legacy/                          archived previous versions
     ├── index-v14.2.html
     ├── index-v14.3.html
     ├── index-v14.5.html
     ├── index-v14.7.5.html
-    └── index-v14.7.6.html
+    ├── index-v14.7.6.html
+    ├── index-v14.8.0.html
+    └── index-v14.8.1.html
 ```
 
 ---
 
-## 🧾 What's new in v14.8.0
+## 🧾 What's new in v14.8.2
 
-This is a **positioning + UX release** that formalizes GridPulse as a dedicated companion tool for Pionex Grid Bots. No scanning logic was changed.
+This is a **UX productivity release** that introduces a long-requested feature: **persistent named watchlists**. No scanning logic was changed.
 
-### 🤝 Pionex Companion positioning
+### 💾 Pair Presets — save your watchlists in one click
 
-- **🤝 Pionex Affiliate** badge in header, footer, and Launch Card — clearly communicates the affiliate-program relationship between GridPulse and Pionex
-- **Pionex is now the default exchange** for new sessions (was Bybit). Existing users keep their previous selection.
-- **Pionex Only toggle** in the header — single checkbox to lock the screener to Pionex for a focused workflow
+The flagship feature: save any list of pairs as a named preset stored directly in your browser, with no backend, no account, and no cost.
 
-### 🚀 Big "Open in Pionex" CTA
+**5 built-in starter presets** are shown immediately on first launch:
 
-Every Launch Card now features a **prominent, full-width gradient button** that takes you directly into Pionex with UTM tags carrying:
+| Icon | Name | Pairs |
+|------|------|-------|
+| 💎 | **Majors** | 10 large-cap coins |
+| 🐸 | **Memes** | 10 high-volatility meme tokens |
+| 🤖 | **AI Tokens** | 10 AI-narrative tokens |
+| 🏛 | **Layer 1s** | 10 smart-contract platforms |
+| 💧 | **DeFi Blue Chips** | 10 established DeFi protocols |
 
-- the setup mode (strong_buy, grid_sell, etc.)
-- the symbol and TF
-- the referral source
+**Save your own** via the new **💾 Save as…** button — name it, pick from 20 emoji icons, save. Done.
 
-This makes the GridPulse → Pionex handoff explicit and trackable.
+**Manage** via **⚙ Manage** modal — apply, delete, import/export JSON.
 
-### 📐 Launch Card readability boost
+**Share** a preset via URL: `tradescout.trade/?preset=<base64-json>` — recipient sees a consent prompt before importing.
 
-Significant typography upgrade across the entire Launch Card:
+**Auto-restore** — your last-used preset is automatically selected on the next visit.
 
-| Element | Before | After | Change |
-|---------|-------:|------:|-------:|
-| `.lc-label` | 10 px | **13 px** | +30 % |
-| `.lc-val` | 12 px | **16 px** | +33 % |
-| `.lc-ind-name` | 9 px | **12 px** | +33 % |
-| `.lc-ind-val` | 11 px | **16 px** | +45 % |
-| `.lc-sec-title` | 9 px | **12 px** | +33 % |
-| Modal max-width | 560 px | **640 px** | +14 % |
-| Mode badge | 11 px | **14 px** | +27 % |
-| Footer buttons | 11 px | **13 px** | +18 % |
-| Row padding | 5 px | **9 px** | +80 % |
+See the dedicated [💾 Pair Presets section](#-pair-presets-new-in-v1482) for the full breakdown.
 
-The card is now much more readable on mobile and in screenshots.
+### 🔐 Storage isolation
 
-### 📷 Larger QR codes
+Presets live under their own key `gp_presets_v1` — **independent** from `gp_settings_v14_8_2`. Clearing screener settings does not delete presets, and version bumps don't invalidate them.
 
-- **Top banner QR:** 64 → **96 px** (wrapper 72 → 108 px)
-- **Launch Card QR:** 46 → **84 px** in a dedicated bordered panel (`.lc-ref-block`)
+### 🌐 Full i18n for preset UI
+
+50+ new translation keys across EN / UA / ES / RU / ZH for the entire preset workflow — dropdown, modals, confirmation prompts, URL import dialog.
 
 ### 💾 Settings migration
 
-- New storage key: `gp_settings_v14_8_0`
-- Automatic migration from `v14_7_6` → `v14_7_5` → … → `v14_5`
-- Welcome hint key: `gp_visited_v1476` → `gp_visited_v1480`
+- New storage key: `gp_settings_v14_8_2`
+- Automatic migration from `v14_8_1` → `v14_8_0` → … → `v14_5`
+- Preset key `gp_presets_v1` is brand new (no migration needed)
+- Welcome hint key: `gp_visited_v1480` → `gp_visited_v1482`
 
 ### 🐛 No breaking changes
 
-All v14.7.6 scanning logic, classification, TF-adaptive thresholds, Strictness selector, classified SKIP reasons, and ATR-based GRID SL/TP behaviour are **preserved unchanged**.
+All v14.8.1 scanning logic, geometry validation, classification, TF-adaptive thresholds, Strictness selector, classified SKIP reasons, Pionex companion positioning, Launch Card layouts, and ATR-based GRID SL/TP behaviour are **preserved unchanged**.
 
 ---
 
@@ -752,7 +862,26 @@ All v14.7.6 scanning logic, classification, TF-adaptive thresholds, Strictness s
 
 Full history lives in [CHANGELOG.md](CHANGELOG.md).
 
-### v14.7.6
+### v14.8.1 — "Setup geometry validation"
+
+- 🐛 **Bugfix:** stale setups where price already crossed entry/stop before scan no longer pass the filter
+- Strict geometry check added at end of `findSetup()`:
+  - Bullish: rejects rows where `price ≤ stopL` or `price ≥ limL`
+  - Bearish: rejects rows where `price ≥ stopL` or `price ≤ limL`
+- `SET_KEY` → `gp_settings_v14_8_1`
+
+### v14.8.0 — "Pionex Companion"
+
+- 🤝 **Official Partner badge** — visible "Official Partner" marker next to Pionex branding in header, referral banner, and Launch Card footer
+- Pionex set as **DEFAULT exchange** (was Bybit)
+- Prominent **"Open in Pionex" CTA** in Launch Card — large gradient button with UTM tags
+- Larger, more visible referral QR code (64 → 96 px in banner; 46 → 84 px in Launch Card)
+- New filter: **"Pionex Only" mode** — locks the exchange dropdown to Pionex
+- Launch Card readability boost — base font sizes increased across the board
+- Modal max-width 560 → 640 px
+- `SET_KEY` → `gp_settings_v14_8_0`
+
+### v14.7.6 — "TF-adaptive thresholds"
 
 - TF-adaptive Strictness — every threshold scales by TF × Strictness
 - Two paths to STRONG (Exhaustion + Quality routes)
@@ -869,7 +998,7 @@ GridPulse uses **Cloudflare Web Analytics** for anonymous, aggregate traffic sta
 | GDPR-compliant | ✅ yes |
 | Open about what's tracked | ✅ yes |
 
-All user-specific settings (theme, language, last-used filters, scan serial, custom pairs draft) stay in your browser's `localStorage` and **never leave your device**.
+All user-specific settings (theme, language, last-used filters, scan serial, custom pairs draft, **saved presets**) stay in your browser's `localStorage` and **never leave your device**.
 
 ---
 
@@ -882,6 +1011,7 @@ For major changes, please open an issue first so we can discuss direction.
 ### Especially appreciated
 
 - **Translations** — adding new languages or improving existing ones (EN / UA / ES / RU / ZH).
+- **Built-in presets** — proposing curated starter presets for new themes (RWA tokens, gaming, restaking, etc.).
 - **Exchange adapters** — pair-list and kline fetchers for additional exchanges.
 - **Funding fallbacks** — additional reliable mirrors for restricted regions.
 - **UI accessibility** — keyboard navigation, screen-reader labels, colour-contrast audits.
@@ -898,8 +1028,25 @@ For major changes, please open an issue first so we can discuss direction.
 
 ## ❓ FAQ
 
+**What's new in v14.8.2?**
+**Pair Presets** — save and reload named watchlists of pairs directly in your browser. 5 starter presets are built in (Majors, Memes, AI Tokens, Layer 1s, DeFi Blue Chips), and you can save your own with custom names and icons. Full JSON import/export and shareable URLs. See the [💾 Pair Presets section](#-pair-presets-new-in-v1482) for details.
+
+**Will my saved presets survive a settings reset?**
+Yes. Presets are stored under their own key `gp_presets_v1`, completely **independent** from `gp_settings_v14_8_2`. Resetting screener settings does not delete presets. Version bumps do not invalidate them.
+
+**Will my presets transfer to a new device automatically?**
+No — `localStorage` is per-browser, per-device. To transfer:
+1. ⚙ Manage → 📤 Export JSON on the source device
+2. Email / cloud-sync the JSON file
+3. ⚙ Manage → 📥 Import JSON on the target device
+
+Or, for a single preset, use the shareable URL: `tradescout.trade/?preset=<base64-json>` — recipient sees a consent prompt before importing.
+
+**My presets disappeared after clearing browser data!**
+Presets live in `localStorage`. Clearing "Site data" or "All browsing data" removes them — that's how browsers work, not a bug. **Always export to JSON before clearing.**
+
 **Why is Pionex the default exchange now?**
-GridPulse v14.8.0 is positioned as a companion tool for Pionex Grid Bots. The Launch Card output maps directly to Pionex Grid Bot parameters (Lower Limit, Upper Limit, Grid Lines, ATR-based SL/TP). Other exchanges (Bybit, Binance, KuCoin, OKX) are still fully supported via the dropdown — switching is one click away.
+GridPulse v14.8.x is positioned as a companion tool for Pionex Grid Bots. The Launch Card output maps directly to Pionex Grid Bot parameters (Lower Limit, Upper Limit, Grid Lines, ATR-based SL/TP). Other exchanges (Bybit, Binance, KuCoin, OKX) are still fully supported via the dropdown — switching is one click away.
 
 **What does "Pionex Affiliate" mean?**
 It means the project is enrolled in Pionex's **affiliate referral program** — the author earns a referral commission when users sign up via the link and trade. It does **not** mean Pionex controls the screener's logic, pays for ranking, or has any editorial input, and it is not a legal/contractual partnership. The classification logic is fully open-source — read it in `index.html`.
@@ -920,9 +1067,10 @@ Check the Activity Log (bottom of the page). The most common causes:
 - You picked a market the chosen exchange doesn't support (e.g. inverse pairs).
 - Top MCap filter is too aggressive — try 200 or All.
 - Strictness is set to `strict` on a low TF — try `normal` or `soft`.
+- Setup geometry validation (v14.8.1+) rejected a stale setup where price already crossed entry or stop.
 
 **Can I scan custom pairs only?**
-Yes. Click **Custom pairs** and paste a comma/space/newline-separated list (e.g. `BTCUSDT, ETHUSDT, SOLUSDT`). GridPulse normalizes the format per exchange (`BTC-USDT` for KuCoin spot, `BTC_USDT_PERP` for Pionex perps, `BTC-USDT-SWAP` for OKX, etc.).
+Yes. Either pick a **preset** from the dropdown, or click **Custom pairs** and paste a comma/space/newline-separated list (e.g. `BTCUSDT, ETHUSDT, SOLUSDT`). GridPulse normalizes the format per exchange (`BTC-USDT` for KuCoin spot, `BTC_USDT_PERP` for Pionex perps, `BTC-USDT-SWAP` for OKX, etc.).
 
 **Is my data sent anywhere?**
 No. Indicators run client-side. The only outbound calls are:
@@ -941,6 +1089,7 @@ Because GridPulse is free, but commercial resale is prohibited. Forks and person
 - exchange + market,
 - TF list,
 - Strictness setting,
+- preset name (if related),
 - a copy of the relevant Activity Log lines.
 
 ---
@@ -970,9 +1119,11 @@ See [LICENSE](LICENSE) for full terms.
 - 🐦 Twitter / X: [https://x.com/tradeaiscout](https://x.com/tradeaiscout)
 - 🐛 Issues: [https://github.com/pro100off/gridpulse/issues](https://github.com/pro100off/gridpulse/issues)
 - 📋 Changelog: [CHANGELOG.md](CHANGELOG.md)
+- 📖 User Guide: [GitHub.USER_GUIDE.md](GitHub.USER_GUIDE.md)
+- 📝 Release notes v14.8.2: [docs/RELEASE_NOTES_v14.8.2.md](docs/RELEASE_NOTES_v14.8.2.md)
 - 🚀 Latest release: [Releases](https://github.com/pro100off/gridpulse/releases/latest)
 - 📜 License: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ---
 
-⚡ **GridPulse v14.8.0** · 🤝 **Pionex Affiliate** · Built with care · single-file · no build tools · runs everywhere · © 2026 GridPulse Project
+⚡ **GridPulse v14.8.2** · 💾 **Pair Presets** · 🤝 **Pionex Affiliate** · Built with care · single-file · no build tools · runs everywhere · © 2026 GridPulse Project
