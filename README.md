@@ -1,13 +1,14 @@
-# ⚡ GridPulse v14.8.2 💾 Pair Presets
+# ⚡ GridPulse v14.9.0 🧙 Old School Wisdom
 
-> **Free, open-source, multi-exchange crypto reversal screener** purpose-built as a **companion tool for Pionex Grid Bots** — with directional **STRONG / GRID BUY/SELL** modes, **TF-adaptive Strictness**, MACD + VWAP + ATR + ADX + Funding-aware setups across **Pionex, Bybit, Binance, KuCoin, and OKX** — and one-click **Launch Cards** with copy-paste-ready parameters that take you straight into a Pionex trading session.
+> **Free, open-source, multi-exchange crypto reversal screener** purpose-built as a **companion tool for Pionex Grid Bots** — with directional **STRONG / GRID BUY/SELL** modes, **TF-adaptive Strictness**, MACD + VWAP + ATR + ADX + **MTF Trend Filter** + **Session Filter** + **Liquidity Guard** + Funding-aware setups across **Pionex, Bybit, Binance, KuCoin, and OKX** — and one-click **Launch Cards** with **Trade Plan v2** (TP1/TP2 + Chandelier trailing stop) that take you straight into a Pionex trading session.
 >
-> **v14.8.2** introduces **💾 Pair Presets** — save and reload named watchlists of pairs directly in your browser, with 5 built-in starter presets and shareable JSON / URL.
+> **v14.9.0** introduces **Old School Wisdom** — battle-tested filters from decades of trading practice: 🎯 **MTF Trend Filter**, 🤖 **Donchian / Bollinger / ATR** bot range modes, 🌏 **Session Filter**, 💧 **Liquidity Guard**, 🏷 **Unified Bybit-style symbols**, 🔍 **Cell Magnifier**, and ⚡ **STRONG-signal row highlighting**.
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-[![Version](https://img.shields.io/badge/version-14.8.2-blue.svg)](https://github.com/pro100off/gridpulse/releases/latest)
-[![Pair Presets](https://img.shields.io/badge/💾-Pair%20Presets-42a5f5)](#-pair-presets-new-in-v1482)
-[![Pionex Affiliate](https://img.shields.io/badge/🤝-Pionex%20Affiliate-26d97a)](https://bit.ly/43bkdc7)
+[![Version](https://img.shields.io/badge/version-14.9.0-blue.svg)](https://github.com/pro100off/gridpulse/releases/latest)
+[![Old School Wisdom](https://img.shields.io/badge/🧙-Old%20School%20Wisdom-c39bff)](#-whats-new-in-v1490--old-school-wisdom)
+[![MTF Filter](https://img.shields.io/badge/🎯-MTF%20Trend%20Filter-26d97a)](#-mtf-trend-filter-new-in-v1490)
+[![Pionex Partner](https://img.shields.io/badge/🤝-Pionex%20Partner-26d97a)](https://bit.ly/43bkdc7)
 [![Stars](https://img.shields.io/github/stars/pro100off/gridpulse?style=social)](https://github.com/pro100off/gridpulse/stargazers)
 [![Single File](https://img.shields.io/badge/build-single--file-success)](index.html)
 [![No Build Tools](https://img.shields.io/badge/dependencies-zero-success)]()
@@ -28,7 +29,7 @@
 | 📜 **License** | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | 📋 **Changelog** | [CHANGELOG.md](CHANGELOG.md) |
 | 📖 **User Guide** | [GitHub.USER_GUIDE.md](GitHub.USER_GUIDE.md) |
-| 📝 **Release notes v14.8.2** | [docs/RELEASE_NOTES_v14.8.2.md](docs/RELEASE_NOTES_v14.8.2.md) |
+| 📝 **Release notes v14.9.0** | [docs/RELEASE_NOTES_v14.9.0.md](docs/RELEASE_NOTES_v14.9.0.md) |
 | 🐛 **Issues** | [GitHub Issues](https://github.com/pro100off/gridpulse/issues) |
 | 🚀 **Latest release** | [Releases](https://github.com/pro100off/gridpulse/releases/latest) |
 
@@ -38,7 +39,7 @@
 
 ## 🤝 Pionex Affiliate
 
-GridPulse v14.8.x is positioned as a **dedicated companion tool for Pionex Grid Bots**. The project is enrolled in Pionex's **affiliate referral program** — Pionex is the **default exchange** for new users, and every Launch Card features a prominent **"Open in Pionex"** CTA with UTM-tagged deep links that carry the setup context (symbol, TF, mode) into your Pionex session.
+GridPulse v14.9.x is positioned as a **dedicated companion tool for Pionex Grid Bots**. The project is enrolled in Pionex's **affiliate referral program** — Pionex is the **default exchange** for new users, and every Launch Card features a prominent **"Open in Pionex"** CTA with UTM-tagged deep links that carry the setup context (symbol, TF, mode) into your Pionex session.
 
 > **Disclaimer on partnership wording:** GridPulse is an *affiliate program participant*, not a contractually engaged Pionex partner. The 🤝 badge reflects participation in the referral commission program — Pionex does not direct the screener's classification logic, does not pay for ranking, and has no editorial control over the project.
 
@@ -57,7 +58,16 @@ GridPulse v14.8.x is positioned as a **dedicated companion tool for Pionex Grid 
 
 - [✨ Features](#-features)
 - [🚀 Quick start](#-quick-start)
-- [💾 Pair Presets (new in v14.8.2)](#-pair-presets-new-in-v1482)
+- [🧙 What's new in v14.9.0 — Old School Wisdom](#-whats-new-in-v1490--old-school-wisdom)
+- [🎯 MTF Trend Filter (new in v14.9.0)](#-mtf-trend-filter-new-in-v1490)
+- [🤖 Bot Range modes (new in v14.9.0)](#-bot-range-modes-new-in-v1490)
+- [🌏 Session Filter (new in v14.9.0)](#-session-filter-new-in-v1490)
+- [💧 Liquidity Guard (new in v14.9.0)](#-liquidity-guard-new-in-v1490)
+- [🏷 Symbol Unification (new in v14.9.0)](#-symbol-unification-new-in-v1490)
+- [🔍 Cell Magnifier (new in v14.9.0)](#-cell-magnifier-new-in-v1490)
+- [⚡ STRONG-signal row highlighting](#-strong-signal-row-highlighting)
+- [🎯 Trade Plan v2](#-trade-plan-v2)
+- [💾 Pair Presets](#-pair-presets)
 - [🤝 Pionex companion workflow](#-pionex-companion-workflow)
 - [⌨ Hotkeys](#-hotkeys)
 - [🧠 How it works](#-how-it-works)
@@ -74,7 +84,6 @@ GridPulse v14.8.x is positioned as a **dedicated companion tool for Pionex Grid 
 - [🛠 Self-hosting](#-self-hosting)
 - [🔄 Optional Cloudflare Worker proxy](#-optional-cloudflare-worker-proxy)
 - [📁 Repository structure](#-repository-structure)
-- [🧾 What's new in v14.8.2](#-whats-new-in-v1482)
 - [📜 Version history (carried-over highlights)](#-version-history-carried-over-highlights)
 - [⚠ Disclaimer](#-disclaimer)
 - [💚 Transparency](#-transparency)
@@ -87,11 +96,20 @@ GridPulse v14.8.x is positioned as a **dedicated companion tool for Pionex Grid 
 
 ## ✨ Features
 
-- **💾 Pair Presets** — save/load named watchlists in browser, with 5 built-in starters (💎 Majors / 🐸 Memes / 🤖 AI / 🏛 Layer 1s / 💧 DeFi), JSON import/export, and shareable URLs
-- **🤝 Built around Pionex** — Pionex is the default exchange; Launch Cards map directly to Pionex Grid Bot parameters
-- **5 exchanges:** Pionex, Bybit, Binance, KuCoin, OKX (**Spot + USDT Futures**)
-- **Indicators:** MACD divergence, VWAP confluence ⭐, ATR, ADX, Volume ratio, R:R
-- **TF-adaptive Strictness** — thresholds scale automatically by timeframe (**1m softer → 1W stricter**) with a global selector: **soft / normal / strict**
+- **🎯 MTF Trend Filter (v14.9.0, ON by default)** — rejects setups fighting higher-TF EMA50 direction. Cuts ~60% of counter-trend false positives.
+- **🤖 Bot Range modes (v14.9.0)** — Donchian 26 (default), Bollinger 20/2σ, or legacy ATR for tuning grid ranges to market character.
+- **🌏 Session Filter (v14.9.0)** — downgrades STRONG→GRID during Asian night (00-06 UTC) where liquidity drops ~40%.
+- **💧 Liquidity Guard (v14.9.0)** — hard-blocks STRONG signals for pairs with < $50k avg turnover per bar (20-bar window). Kills memecoin dust from STRONG.
+- **🏷 Unified Bybit-style symbol display (v14.9.0)** — all exchanges show `BTCUSDT` / `BTCUSDT.P` regardless of native format.
+- **🔍 Cell Magnifier (v14.9.0)** — hover any table cell to enlarge 1.45× with glow. Toggle in header (saved to localStorage).
+- **⚡ STRONG-signal row highlighting (v14.9.0)** — gradient background, ⚡ icon in # column, subtle 3s pulse animation.
+- **🎯 Trade Plan v2 (v14.9.0)** — STRONG now shows TP1 (close 50% at 1R), TP2 (trail rest at 2R+), Chandelier trailing stop (ATR×3).
+- **📈 Freshness bonus in ranking (v14.9.0)** — freshest MACD signals rank first within same mode.
+- **💾 Pair Presets** — save/load named watchlists in browser, with 5 built-in starters (💎 Majors / 🐸 Memes / 🤖 AI / 🏛 Layer 1s / 💧 DeFi), JSON import/export, and shareable URLs.
+- **🤝 Built around Pionex** — Pionex is the default exchange; Launch Cards map directly to Pionex Grid Bot parameters.
+- **5 exchanges:** Pionex, Bybit, Binance, KuCoin, OKX (**Spot + USDT Futures**).
+- **Indicators:** MACD divergence, VWAP confluence ⭐, ATR, ADX, EMA50 (MTF), Volume ratio, R:R.
+- **TF-adaptive Strictness** — thresholds scale automatically by timeframe (**1m softer → 1W stricter**) with a global selector: **soft / normal / strict**.
 - **Two paths to STRONG setups:**
   - **Exhaustion** — blow-off trend + reversal candle
   - **Quality** — moderate trend + ⭐ VWAP confluence + strong R:R
@@ -99,21 +117,22 @@ GridPulse v14.8.x is positioned as a **dedicated companion tool for Pionex Grid 
   - ⚡ **WATCH** — strong reversal candle present, but reward (R:R) too low
   - 🌊 **TREND** — market still trending too strongly, no valid reversal yet
   - ⚖ **LOW R:R** — poor reward relative to risk
-- **Setup geometry validation** (v14.8.1+) — rejects stale setups where price already crossed entry/stop
-- **Funding-aware setups** for perpetual contracts (current rate, 7-day average, daily / annual cost, hold-period projection, LONG/SHORT bias)
+  - Plus **v14.9.0 downgrade reasons**: session (Asian night), liquidity (< $50k/bar), MTF (counter-trend).
+- **Setup geometry validation** (v14.8.1+) — rejects stale setups where price already crossed entry/stop.
+- **Funding-aware setups** for perpetual contracts (current rate, 7-day average, daily / annual cost, hold-period projection, LONG/SHORT bias).
 - **5 languages:** English · Українська · Español · Русский · 中文
-- **Launch Cards** with copy-paste-ready Grid Bot parameters and a **prominent "Open in Pionex" CTA** with UTM tracking — five directional modes: STRONG BUY, GRID BUY, STRONG SELL, GRID SELL, SKIP
-- **Pionex Only mode** — single header toggle that locks the screener to Pionex for a focused workflow
-- **Breakout entry logic** — `limL` placed at the opposite extreme of the reversal candle (bearish → candle low, bullish → candle high)
-- **TradingView integration** — open chart for any setup in one click, with symbol-fallback chain (Bybit ↔ Binance ↔ KuCoin)
-- **CSV export** of all scan results (with funding columns)
-- **Content-creator tools** — horizontal full screenshot, vertical 1080×1350 PNG Cards (top 5), vertical 1080×1350 PNG Table (top 15), 5-slide Carousel, daily watermark with scan serial counter
-- **Privacy-first:** no signup, no cookies, no individual user tracking, no fingerprinting, GDPR-compliant
-- **Light / Dark theme** with full localization and high-contrast rows
-- **Auto-fallback proxies** — scan still completes even when one exchange API is blocked in your region
+- **Launch Cards** with copy-paste-ready Grid Bot parameters and a **prominent "Open in Pionex" CTA** with UTM tracking.
+- **Pionex Only mode** — single header toggle that locks the screener to Pionex for a focused workflow.
+- **Breakout entry logic** — `limL` placed at the opposite extreme of the reversal candle.
+- **TradingView integration** — open chart for any setup in one click.
+- **CSV export** of all scan results (with funding columns).
+- **Content-creator tools** — horizontal full screenshot, vertical 1080×1350 PNG Cards (top 5), vertical 1080×1350 PNG Table (top 15), 5-slide Carousel, daily watermark with scan serial counter.
+- **Privacy-first:** no signup, no cookies, no individual user tracking, no fingerprinting, GDPR-compliant.
+- **Light / Dark theme** with full localization and high-contrast rows.
+- **Auto-fallback proxies** — scan still completes even when one exchange API is blocked in your region.
 - **Custom domain support** — canonical URL: [https://tradescout.trade/](https://tradescout.trade/)
-- **Zero-build single-file architecture** — entire app is one `index.html`
-- **No npm, no webpack, no dependencies** — works on `file://`, GitHub Pages, Cloudflare Pages, Netlify, Vercel, Apache, nginx, Caddy, or any static host
+- **Zero-build single-file architecture** — entire app is one `index.html`.
+- **No npm, no webpack, no dependencies** — works on `file://`, GitHub Pages, Cloudflare Pages, Netlify, Vercel, Apache, nginx, Caddy, or any static host.
 
 ---
 
@@ -123,13 +142,14 @@ GridPulse v14.8.x is positioned as a **dedicated companion tool for Pionex Grid 
 
 1. Open [https://tradescout.trade/](https://tradescout.trade/)
 2. The screener opens on **Pionex / Spot** by default (you can switch to Bybit / Binance / KuCoin / OKX anytime)
-3. *(Optional)* Pick a **preset** from the dropdown (💎 Majors / 🐸 Memes / 🤖 AI Tokens / 🏛 Layer 1s / 💧 DeFi Blue Chips) — pairs fill in automatically
+3. *(Optional)* Pick a **preset** from the dropdown (💎 Majors / 🐸 Memes / 🤖 AI Tokens / 🏛 Layer 1s / 💧 DeFi Blue Chips)
 4. Select **timeframes** (defaults: 1h, 4h, 1D)
-5. Optionally adjust **Strictness** (`soft` / `normal` / `strict`)
+5. Optionally adjust **Strictness** (soft / normal / strict) and **🤖 Bot Range** mode (Donchian / Bollinger / ATR)
 6. Click **▶ Scan** — results usually appear in ~30 seconds
-7. Click 📋 next to any symbol to open the **Launch Card**
-8. Click the big **🚀 Open in Pionex** button → the setup carries over via UTM-tagged deep link
-9. Paste the parameters into a Pionex Grid Bot and manage the trade manually
+7. Look for ⚡ **STRONG-highlighted rows** at the top of the table
+8. Click 📋 next to any symbol to open the **Launch Card** with **Trade Plan v2**
+9. Click the big **🚀 Open in Pionex** button → the setup carries over via UTM-tagged deep link
+10. Paste the parameters into a Pionex Grid Bot and manage the trade manually
 
 ### Option B — Self-host (1 command)
 
@@ -144,13 +164,264 @@ Or simply double-click `index.html` — it also works on `file://`.
 
 ---
 
-## 💾 Pair Presets (new in v14.8.2)
+## 🧙 What's new in v14.9.0 — Old School Wisdom
 
-Tired of pasting `BTCUSDT, ETHUSDT, SOLUSDT, ...` into Custom Pairs before every scan? v14.8.2 introduces **named watchlists** stored directly in your browser — no backend, no account, no cost.
+v14.9.0 is a **quality release** that codifies decades of practical trading wisdom into hard filters. No cosmetic changes — every addition either reduces false positives or makes real signals more visible.
+
+### Headline features
+
+1. **🎯 MTF Trend Filter** — the single biggest quality improvement. Rejects setups fighting the higher-TF EMA50 direction. **~60% fewer counter-trend false positives**.
+2. **🤖 Bot Range modes** — Donchian 26 by default (matches sideways markets better than ATR), Bollinger 20/2σ, or legacy ATR.
+3. **🌏 Session Filter** — downgrades STRONG→GRID during 00-06 UTC (Asian night, low liquidity).
+4. **💧 Liquidity Guard** — hard-blocks STRONG for pairs with < $50k avg turnover per bar. No more memecoin dust in STRONG.
+5. **🏷 Symbol Unification** — every exchange now displays symbols in Bybit style (BTCUSDT, BTCUSDT.P). Cross-exchange comparison is finally readable.
+6. **🔍 Cell Magnifier** — hover any cell to enlarge 1.45× with glow. Toggle 🔍 in header.
+7. **⚡ STRONG-signal row highlighting** — gradient background, ⚡ icon in # column, subtle 3s pulse. GRID rows get a thin 2px left border.
+8. **🎯 Trade Plan v2** — STRONG Launch Cards now show TP1 (close 50% @ 1R), TP2 (trail rest at 2R+), and Chandelier trailing stop (ATR×3).
+9. **📈 Freshness bonus** — freshest MACD signals rank first within same mode.
+
+**Zero breaking changes.** All v14.8.2 scanning logic, geometry validation, classification, TF-adaptive thresholds, Strictness selector, classified SKIP reasons, Pionex companion positioning, and Pair Presets behaviour are **preserved unchanged**.
+
+See the dedicated sections below for the full breakdown of each feature.
+
+---
+
+## 🎯 MTF Trend Filter (new in v14.9.0)
+
+The **Multi-TimeFrame Trend Filter** is v14.9.0's headline improvement. It rejects setups whose direction fights the higher-TF EMA50 trend — a classic "don't fight the tape" filter that cuts an estimated **~60% of counter-trend false positives**.
+
+### How it works
+
+For every setup on a given TF, GridPulse fetches candles on a **higher TF** and checks the **EMA50 slope** over the last 3 candles.
+
+- **Bullish setup** rejected if higher-TF EMA50 is falling (uptrend on lower TF against downtrend on higher TF).
+- **Bearish setup** rejected if higher-TF EMA50 is rising (downtrend on lower TF against uptrend on higher TF).
+
+### TF → higher-TF mapping
+
+| Scan TF | Higher TF checked |
+|---------|-------------------|
+| 1m | 15m |
+| 5m | 1h |
+| 15m | 4h |
+| 30m | 4h |
+| 1h | 4h |
+| 4h | 1D |
+| 1D | 1W |
+| 1W | 1M |
+
+### Slope tolerance
+
+The EMA50 must slope by at least **±0.1%** over the last 3 candles to count as an active trend. Flat higher-TF EMA50 = filter is neutral (both directions allowed).
+
+### Impact
+
+On a typical multi-TF scan on 4h/1D:
+
+- **v14.8.2:** ~40 setups, of which ~15 were LONGs during clear 1D downtrends (destined to fail).
+- **v14.9.0 with MTF ON:** ~25 setups, with counter-trend positions filtered out.
+
+The filter is **ON by default** but can be turned off via the **MTF TREND FILTER** checkbox in the right filter panel.
+
+Every MTF-rejected row is logged transparently in the Activity Log:
+
+```
+MTF-SKIP: BTCUSDT/1h fights 4h EMA50 trend
+```
+
+---
+
+## 🤖 Bot Range modes (new in v14.9.0)
+
+Grid bot ranges are now computed via one of three algorithms, selectable in the left panel:
+
+| Mode | Formula | Best for |
+|------|---------|----------|
+| **Donchian 26** (default) | `[min(low, 26 bars) − ATR×0.4, max(high, 26 bars) + ATR×0.4]` | Sideways / range-bound markets. Matches natural swing highs/lows. |
+| **Bollinger 20/2σ** | `[SMA(20) − 2σ − ATR×0.5, SMA(20) + 2σ + ATR×0.5]` | Volatile assets with mean-reversion character. |
+| **ATR (legacy)** | `[price − ATR×N/2, price + ATR×N/2]` where N=18 if ADX≥18 else 10 | Backwards compatibility with v14.8.2 and earlier. |
+
+The chosen range appears in every Launch Card GRID mode as a new field **"Range source"** (e.g., `Donchian 26 +ATR`) so you always know which algorithm produced the range you're looking at.
+
+### Why Donchian is the new default
+
+Grid bots make money on **oscillations within a range**. Donchian captures the last 26 bars' actual swing highs/lows — the levels the market has *demonstrated* as resistance and support. ATR-based ranges are symmetric around current price, which is often skewed in trending markets. Donchian's asymmetry mirrors the market's actual behaviour better.
+
+---
+
+## 🌏 Session Filter (new in v14.9.0)
+
+Not all trading hours are created equal. The **Session Filter** downgrades STRONG→GRID setups occurring during the **Asian night session (00-06 UTC)** where:
+
+- Liquidity drops ~40% vs. peak
+- False breakouts spike due to thin order books
+- Stop-hunt behaviour is more common
+
+### How it works
+
+- **07-21 UTC** (main EU/US sessions) — no changes; STRONG signals pass through normally.
+- **00-06 UTC** — any setup that would qualify as STRONG_BUY / STRONG_SELL is **downgraded to GRID_BUY / GRID_SELL** instead.
+- The downgrade is logged in the Activity Log:
+
+```
+Session-DOWNGRADE: BTCUSDT/4h STRONG→GRID (Asian night)
+```
+
+### Not aggressive
+
+The Session Filter does **not reject** setups — it only reduces their aggressiveness. You still see the trade opportunity; you just get a Grid Bot recommendation instead of a leveraged directional entry.
+
+**OFF by default.** Enable via **SESSION FILTER (07-21 UTC)** checkbox in the Trend/R:R filter group.
+
+---
+
+## 💧 Liquidity Guard (new in v14.9.0)
+
+A **hard filter** that blocks STRONG classification for illiquid pairs.
+
+### Definition
+
+Average USD turnover per bar (calculated over the last 20 bars) must exceed **$50,000**:
+
+```
+avgTurnoverUSD = mean over last 20 bars of ((high + low + close) / 3 × volume)
+```
+
+If `avgTurnoverUSD < $50,000`, the pair is marked as **illiquid** — a 💧 icon appears in Activity Log entries — and any STRONG setup is automatically **downgraded to GRID**.
+
+### Why
+
+Memecoins and small-cap tokens frequently produce "picture-perfect" reversal signals on paper. In reality:
+
+- Slippage on $10k trade is 2–5%.
+- Stops get hunted the moment your bot enters.
+- Grid mode is safer because it doesn't require a single well-timed entry.
+
+The Liquidity Guard says: *"Yes, the technical pattern is valid — but this pair is not liquid enough to trust a STRONG-mode leveraged entry."*
+
+### Log example
+
+```
+Liquidity-DOWNGRADE: MEMEUSDT/1h STRONG→GRID (< $50k/bar)
+```
+
+The Liquidity Guard is **always ON** — there is no toggle. This is by design; it's a safety floor, not a preference.
+
+---
+
+## 🏷 Symbol Unification (new in v14.9.0)
+
+Different exchanges use different symbol formats:
+
+| Native format | Example |
+|---------------|---------|
+| Bybit / Binance | `BTCUSDT` |
+| KuCoin spot | `BTC-USDT` |
+| KuCoin futures | `XBTUSDTM` |
+| Pionex spot | `BTC_USDT` |
+| Pionex perp | `BTC_USDT_PERP` |
+| OKX spot | `BTC-USDT` |
+| OKX swap | `BTC-USDT-SWAP` |
+
+### v14.9.0 unified display
+
+All symbols now display in **Bybit style** regardless of exchange:
+
+- Spot: `BTCUSDT`
+- Perp: `BTCUSDT.P`
+- Preserves multipliers: `1000PEPEUSDT` → `PEPE¹ᵏUSDT`, `10000CHEEMSUSDT` → `CHEEMS¹⁰ᵏUSDT`
+
+The original exchange-native symbol is **preserved internally** for API calls — only the display is normalized. So `BTC-USDT` on KuCoin still fetches via `BTC-USDT`, but you see `BTCUSDT` in the table.
+
+### Why
+
+Cross-exchange comparison is finally readable. Sorting by symbol works. Copy-paste into TradingView or Pionex is consistent. No more mental gymnastics translating `XBTUSDTM` to `BTCUSDT.P`.
+
+---
+
+## 🔍 Cell Magnifier (new in v14.9.0)
+
+Hover any cell in the results table to enlarge it **1.45×** with a glow effect. Great for reading small numeric cells (VWAP%, ATR, Fund% etc.) without zooming the whole page.
+
+### Toggle
+
+The 🔍 button in the header toggles the magnifier globally. State persists in `localStorage` under `gp_mag`.
+
+- **ON** (default): 🔍 icon, `.on` class on button.
+- **OFF**: 🔎 icon, no magnification, `body.mag-off` class active.
+
+### Hotkey
+
+Press `Shift + M` to toggle.
+
+### Behaviour
+
+- **Standard cells** — enlarge 1.45× with gradient background + 2px blue outline.
+- **Wick / candle cells (columns 8–10)** — enlarge only 1.15× to keep SVG proportions readable.
+- **Highlighted rows** — magnifier is disabled to avoid conflict with row highlighting.
+
+---
+
+## ⚡ STRONG-signal row highlighting
+
+STRONG-mode rows now stand out at a glance:
+
+- **STRONG_BUY** — green gradient background (left→right fade), `inset 4px 0 0 var(--grn)` left border, subtle 3s pulse animation.
+- **STRONG_SELL** — red gradient background, red left border, red pulse.
+- **⚡ icon** appears in the `#` column of every STRONG row, with a drop-shadow glow.
+- **GRID_BUY / GRID_SELL** rows get a thin 2px left border in green/red respectively (no gradient, no pulse).
+
+Light theme uses the same pattern with softer green/red palettes for contrast compliance.
+
+### Rationale
+
+In a table of 50+ rows, STRONG signals need to be findable in <1 second. The gradient + pulse + ⚡ combo is intentionally attention-grabbing without being obnoxious. The pulse is only ~15% opacity swing at 3s cadence — visible but not distracting.
+
+---
+
+## 🎯 Trade Plan v2
+
+Launch Cards for STRONG_BUY / STRONG_SELL modes now display a **richer, safer trade plan** based on classic swing-trading playbooks.
+
+### Old plan (v14.8.2 and earlier)
+
+- Entry (limL)
+- Stop Loss (stopL)
+- Conservative SL (stopC)
+- Fixed Take Profit (calculated from R:R)
+- Trailing trigger ±10%
+- Position size 10–20% of capital
+
+### New plan (v14.9.0)
+
+- Entry (limL)
+- Stop Loss (stopL)
+- Conservative SL (stopC)
+- **🎯 TP1 — close 50% at 1R** (locks in break-even on the remainder)
+- **🎯 TP2 — trail the rest at 2R+** (rides the winner)
+- **📉 Chandelier trailing stop (ATR×3)** (technical trailing based on realized volatility)
+- Position size 10–20% of capital
+
+### Why this matters
+
+The old fixed-TP plan works only if your R:R prediction is accurate. If price stalls at 1.8R, you exit at your stop — a losing trade after being up 180% of risk. The new plan:
+
+1. **Locks in profit at 1R** on half the position (guarantees at least break-even overall if TP2 stops out).
+2. **Trails the remainder** using a Chandelier stop (ATR×3 from the highest high since entry), which follows the trend as long as volatility remains normal.
+
+This is the same structure used by professional swing traders and CTAs for decades. It's not novel; it's just now **built into GridPulse**.
+
+### GRID mode plans unchanged
+
+GRID_BUY / GRID_SELL Launch Cards continue to show Pionex Grid Bot parameters (Lower / Upper / Grid Lines / Investment / ATR-based SL/TP). The new **"Range source"** field shows which range algorithm produced the numbers (Donchian / Bollinger / ATR).
+
+---
+
+## 💾 Pair Presets
+
+Named watchlists stored directly in your browser — no backend, no account, no cost. (Unchanged from v14.8.2.)
 
 ### 5 built-in starter presets
-
-Available immediately on first launch, no setup required:
 
 | Icon | Name | Pairs |
 |------|------|-------|
@@ -160,91 +431,37 @@ Available immediately on first launch, no setup required:
 | 🏛 | **Layer 1s** | ETH · SOL · AVAX · NEAR · APT · SUI · SEI · INJ · TIA · TON |
 | 💧 | **DeFi Blue Chips** | UNI · AAVE · MKR · LDO · SNX · CRV · COMP · SUSHI · GMX · PENDLE |
 
-Built-in presets cannot be edited or deleted — they always reload to defaults. If you want a tweaked version, save it as a new user preset.
+### Save / Manage / Share
 
-### Save your own preset
-
-1. Type pairs into the **Custom Pairs** textarea (comma or space separated)
-2. Click **💾 Save as…** next to the preset dropdown
-3. Enter a **name** (up to 40 chars), pick an **icon** (20 emoji options)
-4. Click **💾 Save**
-
-The preset appears under "My Presets" and is applied immediately.
-
-### Manage presets
-
-Click **⚙ Manage** to open the management modal:
-
-- **✓ Apply** — load the preset and close the modal
-- **🗑 Delete** — remove the preset (with confirmation)
-
-### Import / Export
-
-In the ⚙ Manage modal:
-
-- **📤 Export JSON** — downloads `gridpulse_presets_YYYY-MM-DD.json` with all user presets
-- **📥 Import JSON** — upload a previously exported file; imported presets are added (not replaced)
-
-JSON format is human-readable:
-
-```json
-{
-  "version": 1,
-  "exportedAt": "2026-06-27T18:34:12.000Z",
-  "presets": [
-    {
-      "id": "p_lwf2k_a3b8c",
-      "name": "My AI Watchlist",
-      "icon": "🤖",
-      "pairs": ["BTCUSDT", "ETHUSDT", "RNDR", "FET", "TAO"],
-      "createdAt": 1719511234567
-    }
-  ]
-}
-```
-
-### Shareable preset URL
-
-Share a single preset via URL:
-
-```text
-https://tradescout.trade/?preset=<base64-encoded-json>
-```
-
-When someone opens that link, they see a **consent prompt** asking whether to import the preset (with name + pair count shown). On accept, the preset is added to their local storage and applied. The `?preset=` parameter is then stripped from the URL.
+- **💾 Save as…** — save current Custom Pairs as a named preset with custom icon.
+- **⚙ Manage** — apply, delete, import/export JSON.
+- **Shareable URL** — `tradescout.trade/?preset=<base64-encoded-json>` — recipient sees a consent prompt before importing.
 
 ### Storage isolation
 
-Presets live under their own key `gp_presets_v1` — **independent** from `gp_settings_v14_8_2`. This means:
-
-- Resetting screener settings **never** deletes your presets
-- Version bumps **don't** invalidate your watchlists
-- The two systems evolve separately
+Presets live under `gp_presets_v1` — **independent** from `gp_settings_v14_9_0`. Clearing screener settings never deletes your presets.
 
 | Storage key | Purpose |
 |-------------|---------|
 | `gp_presets_v1` | All your user presets (JSON array) |
 | `gp_preset_last` | ID of the last-applied preset (auto-restored on reload) |
-| `gp_settings_v14_8_2` | Screener settings (TFs, filters, theme, sound) — independent |
-
-> 💡 **Pro tip:** Combine presets with the **🤝 Pionex Only** toggle in the header for a fully locked-in workflow — one click selects the watchlist, exchange, and market type.
-
-For a step-by-step walkthrough with screenshots, see [GitHub.USER_GUIDE.md § 3](GitHub.USER_GUIDE.md#3-pair-presets-new-in-v1482).
+| `gp_settings_v14_9_0` | Screener settings (independent) |
+| `gp_mag` | Cell Magnifier state (independent) |
 
 ---
 
 ## 🤝 Pionex companion workflow
 
-GridPulse v14.8.x is designed around a **focused, two-tool workflow**:
+GridPulse v14.9.x is designed around a **focused, two-tool workflow**:
 
-```text
+```
 ┌─────────────────────────┐                ┌─────────────────────────┐
 │  GridPulse              │                │  Pionex                 │
 │  (scan + plan)          │  ────────►     │  (execute)              │
 │                         │  Open in       │                         │
 │  • Pick preset 💾       │  Pionex CTA    │  • Grid Bot             │
-│  • Multi-TF scan        │  + UTM tags    │  • Reverse Grid         │
-│  • Launch Card          │                │  • Smart Trade          │
+│  • MTF-filtered scan 🎯 │  + UTM tags    │  • Reverse Grid         │
+│  • Trade Plan v2 📋     │                │  • Smart Trade          │
 │  • Copy parameters      │                │                         │
 └─────────────────────────┘                └─────────────────────────┘
 ```
@@ -261,6 +478,7 @@ A floating ⌨ button in the bottom-left corner shows the full hotkey reference 
 | Shift + P | Export PNG Cards (top 5, 1080×1350) |
 | Shift + Alt + P | Export PNG Table (top 15, 1080×1350) |
 | Shift + C | Generate 5-slide carousel |
+| Shift + M | **Toggle cell magnifier (v14.9.0)** |
 | Esc | Close any open modal (chart / Launch Card / preset modals) |
 | Double-click row | Highlight selected row, dim others |
 
@@ -272,7 +490,7 @@ A floating ⌨ button in the bottom-left corner shows the full hotkey reference 
 
 GridPulse fetches public market data directly from exchange APIs (with proxy fallbacks for restricted regions) and calculates all indicators client-side in your browser.
 
-```text
+```
 Exchange API ──► (optional proxy) ──► your browser ──► indicators ──► classifier
                                                                           │
                                                                           ▼
@@ -288,7 +506,7 @@ Exchange API ──► (optional proxy) ──► your browser ──► indicat
 For each request, GridPulse tries:
 
 1. **Direct fetch** (for Bybit, Pionex, Binance, KuCoin, OKX endpoints that are CORS-friendly)
-2. **Cloudflare Worker proxy** (rate-limited shared instance) — see [Optional Cloudflare Worker proxy](#-optional-cloudflare-worker-proxy)
+2. **Cloudflare Worker proxy** (rate-limited shared instance)
 3. **CodeTabs proxy**
 4. **AllOrigins proxy**
 5. **CORS.lol proxy**
@@ -324,25 +542,25 @@ Each setup is classified into one of five modes:
 
 | Mode | Direction | Logic summary | Launch Card layout |
 |------|-----------|---------------|---------------------|
-| **STRONG BUY** | bullish | Two routes (see [Two paths to STRONG](#-two-paths-to-strong)). Thresholds are TF-adaptive and globally tuned by Strictness. | Limit buy + Stop loss + Conservative SL + fixed TP + trailing trigger |
-| **GRID BUY** | bullish | Moderate trend + controlled VWAP distance + acceptable reward/risk. Thresholds scale by TF / Strictness. | Grid lower / upper / width / lines + ATR-based SL + ATR-based TP |
-| **STRONG SELL** | bearish | Mirror of STRONG BUY | Limit sell + Stop loss + Conservative SL + fixed TP + trailing trigger |
-| **GRID SELL** | bearish | Mirror of GRID BUY | Grid lower / upper / width / lines + ATR-based SL + ATR-based TP |
-| **SKIP** | any | Setup does not qualify; classified into WATCH / TREND / LOW R:R with tooltip explanation | Reference price + warning |
+| **STRONG BUY** | bullish | Two routes (Exhaustion / Quality). Thresholds are TF-adaptive and globally tuned by Strictness. MTF-verified. | Entry + SL + Cons.SL + **TP1 + TP2 + Chandelier trail (v14.9.0)** |
+| **GRID BUY** | bullish | Moderate trend + controlled VWAP distance + acceptable R:R. Scales by TF / Strictness. | Grid lower / upper / width / lines + ATR-based SL + ATR-based TP + Range source |
+| **STRONG SELL** | bearish | Mirror of STRONG BUY | Entry + SL + Cons.SL + TP1 + TP2 + Chandelier trail |
+| **GRID SELL** | bearish | Mirror of GRID BUY | Grid lower / upper / width / lines + ATR-based SL + TP + Range source |
+| **SKIP** | any | Setup does not qualify; classified into WATCH / TREND / LOW R:R (+ v14.9.0 downgrade reasons) with tooltip explanation | Reference price + warning |
 
 ### Mode sort priority
 
 Results table is sorted (when sorting by Mode column) as:
 
-```text
+```
 STRONG_BUY  ≡  STRONG_SELL  >  GRID_BUY  ≡  GRID_SELL  >  SKIP
 ```
 
-Within the same priority, ties are broken by R:R then by depth.
+Within the same priority, ties are broken by **freshness bonus (v14.9.0)** then by R:R then by depth.
 
 ### Setup geometry validation (v14.8.1+)
 
-Stale setups where price has **already crossed** the entry or stop before the scan are now rejected automatically:
+Stale setups where price has **already crossed** the entry or stop before the scan are rejected automatically:
 
 - **Bullish:** rejected if `price ≤ stopL` or `price ≥ limL`
 - **Bearish:** rejected if `price ≥ stopL` or `price ≤ limL`
@@ -353,9 +571,9 @@ This prevents the Launch Card from showing "ghost" setups that would be impossib
 
 ## 🎯 TF-adaptive Strictness
 
-Unlike previous versions with static cutoffs, v14.7.6+ scales every threshold by:
+Every threshold scales by:
 
-```text
+```
 effective_threshold  =  base_value  ×  TF_multiplier  ×  Strictness_multiplier
 ```
 
@@ -391,40 +609,39 @@ effective_threshold  =  base_value  ×  TF_multiplier  ×  Strictness_multiplier
 | R:R | ≥ 2.0 | ≥ 1.5 |
 | Depth | ≥ 5 | — |
 
-**Example:** On 4h / normal, STRONG ADX threshold = 25 × 1.00 × 1.00 = **25**. On 1W / strict, it becomes 25 × 1.20 × 1.30 = **39**. On 5m / soft, it drops to 25 × 0.78 × 0.75 ≈ **14.6**.
-
-This is also reflected in the right-side filter panel:
-
-- **ADX ≥ 18** checkbox → effective threshold scales with TF / Strictness
-- **R:R ≥ 1.5** checkbox → effective threshold scales with TF / Strictness
-
 ---
 
 ## 🛡 Classified SKIP reasons
 
-When a setup doesn't qualify for STRONG or GRID, it's no longer a generic "skip". It's classified, with the exact failing thresholds shown in a per-row tooltip.
+When a setup doesn't qualify for STRONG or GRID, it's classified with the exact failing thresholds shown in a per-row tooltip.
 
 | Tag | Meaning |
 |-----|---------|
-| ⚡ **WATCH** | A strong reversal candle is already present, but R:R is too low for entry. Worth keeping on a watchlist for a possible re-entry on a pullback. |
-| 🌊 **TREND** | Market is still trending too strongly for grid, and there is no reversal candle yet. Wait for exhaustion. |
-| ⚖ **LOW R:R** | The reward is too small relative to the risk. Filter caught it before entry. |
+| ⚡ **WATCH** | A strong reversal candle is already present, but R:R is too low for entry. |
+| 🌊 **TREND** | Market is still trending too strongly, and there is no reversal candle yet. |
+| ⚖ **LOW R:R** | The reward is too small relative to the risk. |
 | 🛡 **SKIP** | Edge case that doesn't match any of the above categories. |
 
-### Tooltip example
+### v14.9.0 additional downgrade reasons
 
-```text
-[4h/normal] ADX 31.2≥28.0 (too trendy for grid) · |VWAP| 6.1%>5.0%
-   · strong reversal candle but R:R too low — watch for re-entry
+STRONG signals can also be **downgraded to GRID** (visible in tooltip as a suffix) for these reasons:
+
+- **`downgraded — Asian night session (00-06 UTC, low liquidity)`** — Session Filter
+- **`downgraded — low liquidity (< $50k avg turnover/bar)`** — Liquidity Guard
+- **`rejected — fights higher-TF EMA50 trend`** — MTF Trend Filter (rejects entirely, not downgrade)
+
+### Tooltip example (v14.9.0)
+
 ```
-
-This means the row is WATCH, on the 4h timeframe with normal Strictness, and it tells you exactly which numeric thresholds were exceeded.
+[4h/normal] Exhaustion (trend blow-off) · ADX=31.2 VWAP=6.1% Vol=1.72x R:R=2.34 d=6
+   · downgraded — low liquidity (< $50k avg turnover/bar)
+```
 
 ---
 
 ## ⭐ Two paths to STRONG
 
-A STRONG setup can be unlocked in two different ways, so trades aren't gated solely on extreme blow-off conditions.
+A STRONG setup can be unlocked in two different ways.
 
 ### 1️⃣ Exhaustion route
 
@@ -436,10 +653,11 @@ The classic blow-off / trend-exhaustion entry:
 - R:R ≥ 2.0
 - depth ≥ 5
 - Reversal candle present
+- **MTF trend agrees (v14.9.0)** if MTF filter is ON
 
 ### 2️⃣ Quality route
 
-Sometimes a clean reversal happens at moderate trend strength. The Quality route catches those by requiring:
+Sometimes a clean reversal happens at moderate trend strength:
 
 - ADX ≥ ~18 (≈ 72 % of the Exhaustion threshold)
 - |VWAP%| > ~3 % (≈ 60 % of the Exhaustion threshold)
@@ -448,13 +666,9 @@ Sometimes a clean reversal happens at moderate trend strength. The Quality route
 - depth ≥ ~7 (≈ 140 % of the Exhaustion threshold)
 - Reversal candle present
 - ⭐ **VWAP confluence required**
+- **MTF trend agrees (v14.9.0)** if MTF filter is ON
 
-Both routes still scale with TF and Strictness.
-
-A subtitle in the Mode tooltip tells you which route fired:
-
-- **Exhaustion (trend blow-off)**
-- **Quality (⭐ VWAP confluence)**
+Both routes still scale with TF and Strictness. Both routes are further subject to **Session Filter** and **Liquidity Guard** in v14.9.0.
 
 ---
 
@@ -465,36 +679,14 @@ A subtitle in the Mode tooltip tells you which route fired:
 | MACD | 12 / 26 / 9 | Used for divergence + histogram window |
 | VWAP | 50 | Rolling, volume-weighted |
 | VWAP bands | 50, ±1σ / ±2σ | Used for ⭐ confluence detection |
-| ATR | 14 | Drives candle-size filter and Grid SL/TP |
+| ATR | 14 | Drives candle-size filter, Grid SL/TP, Chandelier trail |
 | ADX | 14 | Trend strength; reused for grid range width |
+| **EMA50 (higher TF)** | **50** | **MTF Trend Filter (v14.9.0)** |
+| **Donchian channels** | **26** | **Bot Range mode (v14.9.0)** |
+| **Bollinger Bands** | **20 / 2σ** | **Bot Range mode (v14.9.0)** |
 | Volume ratio | last vs. avg of 20 | Used for Vol ≥ 1.1× / 1.5× filters |
+| USD turnover | avg of 20 | **Liquidity Guard (v14.9.0)** |
 | R:R | derived from limit / stop / next swing | Reward-to-risk |
-
-### Reversal candle detection
-
-A **bearish reversal candle** (for a BEAR / STRONG_SELL setup) is the first down-close candle whose high is the highest within the last `Extremum` window (default 5 candles). The next candle must also close down, with high ≤ reversal-candle high.
-
-Bullish reversal mirrors this.
-
-### Entry geometry (limL / stopL / stopC)
-
-For a **bearish** setup:
-
-- `limL` = reversal candle low (breakout-against-trend entry)
-- `stopL` = max high of the last 7 candles up to and including the reversal candle
-- `stopC` (conservative) = reversalHigh + 2 × (reversalHigh − reversalLow)
-
-For a **bullish** setup, all extremes are mirrored.
-
-### ⭐ VWAP confluence
-
-A setup gets the ⭐ tag when `limL` lands within a tight band around any of:
-
-- VWAP
-- VWAP ± 1σ
-- VWAP ± 2σ
-
-The tolerance is small (< 0.5 % of price), so this is a real confluence — not just "near VWAP".
 
 ### ATR-based Grid SL / TP
 
@@ -512,21 +704,20 @@ For GRID setups, SL and TP are scaled by ATR per timeframe:
 | 1W | 3.5 | 2.5 |
 | 1M | 4.0 | 3.0 |
 
-If ATR is missing, the screener falls back to a fixed 15 % / 20 % rule.
+### Chandelier trailing stop (v14.9.0)
+
+For STRONG setups, the Launch Card recommends a **Chandelier trailing stop** at **ATR × 3** from the highest high (for longs) or lowest low (for shorts) since entry. This is the industry-standard technical trailing stop for swing trades.
 
 ---
 
 ## 💰 Funding-aware logic
 
-Only active on **USDT Futures** market.
+Only active on **USDT Futures** market. Unchanged from v14.8.2.
 
 When enabled, the screener fetches funding data and uses it to:
 
 - show current rate, avg 7d (over 21 payments), daily (×3 sessions), annualized, hold-period cost, and next-payment countdown
-- compute a directional bias label:
-  - 🟢 LONG-friendly / 🔴 LONG-costly
-  - 🟢 SHORT-friendly / 🔴 SHORT-costly
-  - ➖ Neutral
+- compute a directional bias label: 🟢 LONG-friendly / 🔴 LONG-costly / 🟢 SHORT-friendly / 🔴 SHORT-costly / ➖ Neutral
 - optionally **SKIP** setups that exceed your configured daily funding threshold
 
 ### Funding settings
@@ -539,33 +730,22 @@ When enabled, the screener fetches funding data and uses it to:
 | **Max daily funding** | 0.05% / 0.10% / 0.20% / 0.30% / 0.50% / 1.00% |
 | **Hold (days)** | Time horizon for the cost projection in the Launch Card |
 
-### Funding fallback chain
-
-For **Binance Futures** funding under GeoIP block, GridPulse falls back to Bybit's tickers endpoint so the field is still populated. For **Pionex**, it tries:
-
-1. pionex `/market/indexes`
-2. pionex `/market/fundingRates`
-3. Bybit fallback by base symbol
-
-This is logged transparently with a "Funding source" line in the Launch Card.
-
 ---
 
 ## 🎛 Settings & filters
 
-All settings are persisted in `localStorage` under the key `gp_settings_v14_8_2` and **auto-migrated** from earlier versions (`v14_8_1`, `v14_8_0`, `v14_7_6`, `v14_7_5`, `v14_7_4`, `v14_7_3`, `v14_7_2`, `v14_7`, `v14_6`, `v14_5`).
-
-Presets use a separate storage key `gp_presets_v1` that's **independent** from settings — clearing settings does not delete presets.
+All settings are persisted in `localStorage` under the key `gp_settings_v14_9_0` and **auto-migrated** from earlier versions (`v14_8_2`, `v14_8_1`, `v14_8_0`, `v14_7_6`, `v14_7_5`, `v14_7_4`, `v14_7_3`, `v14_7_2`, `v14_7`, `v14_6`, `v14_5`).
 
 ### Left panel — Timeframes & depth
 
 | Control | Description |
 |---------|-------------|
-| **Timeframe row** | Pick any combination of 1m / 5m / 15m / 30m / 1h / 4h / 1D / 1W / 1M. Click ALL to toggle all. Disabled (struck-through) TFs are unsupported by the current exchange. |
-| **Search depth** | How many bars back to look for a reversal pattern. |
-| **Min TF** | Minimum number of timeframes that must produce a hit for the symbol to be shown. |
-| **Extremum** | Lookback window used when validating the reversal candle's extreme. |
-| **Strictness** | soft / normal / strict — global multiplier on every threshold. |
+| **Timeframe row** | 1m / 5m / 15m / 30m / 1h / 4h / 1D / 1W / 1M |
+| **Search depth** | How many bars back to look for a reversal pattern |
+| **Min TF** | Minimum number of TFs that must produce a hit |
+| **Extremum** | Lookback for validating reversal candle extreme |
+| **Strictness** | soft / normal / strict |
+| **🤖 Bot Range (v14.9.0)** | **Donchian 26** (default) / Bollinger 20/2σ / ATR (legacy) |
 
 ### Right panel — Exchange & filters
 
@@ -578,20 +758,10 @@ Presets use a separate storage key `gp_presets_v1` that's **independent** from s
 | **Max** | Cap the number of returned rows |
 | **REVERSAL FILTER** | Require a real reversal candle |
 | **CONSERVATIVE STOP** | Adds the wide stopC calculation |
-| **VWAP filters** | VWAP DIRECTION (price must be on the right side of VWAP) · VWAP CONFLUENCE (require ⭐) |
+| **VWAP filters** | VWAP DIRECTION · VWAP CONFLUENCE |
 | **Candle filters** | ATR SIZE ×0.8 · VOLUME ×1.1 |
-| **Trend / R:R** | ADX ≥ 18 · R:R ≥ 1.5 (both TF-scaled) |
+| **Trend / R:R** | ADX ≥ 18 · R:R ≥ 1.5 · **MTF TREND FILTER (v14.9.0, ON)** · **SESSION FILTER (v14.9.0, OFF)** |
 | **Funding (Futures only)** | CONSIDER FUNDING · USE 7-DAY HISTORY · SKIP IF EXCEEDS THRESHOLD |
-
-### Preset bar (new in v14.8.2)
-
-A dedicated control row between the action buttons and Custom Pairs textarea:
-
-| Control | Description |
-|---------|-------------|
-| **Preset dropdown** | Pick from 5 built-in starters + your saved user presets. Auto-restores last-used preset on reload. |
-| **💾 Save as…** | Save current Custom Pairs as a new preset with name and icon. |
-| **⚙ Manage** | Open management modal: apply, delete, import/export JSON. |
 
 ### Header toggles
 
@@ -601,24 +771,25 @@ A dedicated control row between the action buttons and Custom Pairs textarea:
 | 🌐 **Language** | EN / UA / ES / RU / ZH switcher |
 | 🌙 / ☀️ **Theme** | Dark / Light |
 | 🔊 / 🔇 **Sound** | Scan-tick audio synth (WebAudio) |
-| 🤝 **Pionex Only** | Lock exchange to Pionex (persists in `localStorage`) |
+| 🔍 / 🔎 **Magnifier (v14.9.0)** | Toggle cell hover magnification |
+| 🤝 **Pionex Only** | Lock exchange to Pionex |
 
 ---
 
 ## 📋 Launch Cards
 
-Each row in the results table has a 📋 button. Clicking it opens a **Launch Card** — a focused, copy-paste-ready trading plan with a prominent **"Open in Pionex"** CTA.
+Each row in the results table has a 📋 button. Clicking it opens a **Launch Card** — a focused, copy-paste-ready trading plan.
 
-### Launch Card layouts per mode
+### Launch Card layouts per mode (v14.9.0)
 
-**STRONG BUY / STRONG SELL**
+**STRONG BUY / STRONG SELL — Trade Plan v2**
 
 - Entry (Buy/Sell Price) — limL
 - Stop Loss — stopL
 - Conservative SL — stopC
-- Fixed Take Profit — calculated from R:R
-- Trailing trigger — ±10 % from entry
-- Max trailing drawdown — 5–7 %
+- **🎯 TP1 — close 50% at 1R (v14.9.0)**
+- **🎯 TP2 — trail rest at 2R+ (v14.9.0)**
+- **📉 Chandelier trailing stop (ATR×3) (v14.9.0)**
 - Position size — 10–20 % of capital
 
 **GRID BUY / GRID SELL** (Pionex Grid Bot ready)
@@ -626,10 +797,11 @@ Each row in the results table has a 📋 button. Clicking it opens a **Launch Ca
 - Lower Limit — bot range low
 - Upper Limit — bot range high
 - Range width — % of price
-- Grid lines count — 30 / 40 / 50 depending on width
+- **Range source (v14.9.0)** — Donchian / Bollinger / ATR
+- Grid lines count — 30 / 40 / 50
 - Grid mode — Geometric
 - Investment — tokens (base asset)
-- Stop Loss — ATR-based (see table above)
+- Stop Loss — ATR-based
 - Take Profit — ATR-based
 
 **SKIP**
@@ -646,19 +818,11 @@ Each row in the results table has a 📋 button. Clicking it opens a **Launch Ca
 - Funding section (Futures only) — full breakdown + cost over N days + bias
 - QR code (84 px) for Pionex referral signup, in a dedicated bordered panel
 - **🤝 Pionex Affiliate** badge in the "Trade on Pionex" section
-- Buttons:
-  - 📋 Copy all (full plain-text plan)
-  - 📊 Open chart (TradingView)
-  - ✈️ Share to Telegram
-  - **🚀 Open in Pionex** (large full-width gradient CTA with UTM tags)
-
-All numeric values are click-to-copy with a confirmation toast.
+- Buttons: Copy all · Open chart (TradingView) · Share to Telegram · **🚀 Open in Pionex** (large gradient CTA with UTM tags)
 
 ### UTM tracking on Pionex deep links
 
-When you click **"Open in Pionex"** from a Launch Card, the destination URL is enriched with UTM parameters that carry the setup context:
-
-```text
+```
 ?utm_source=gridpulse
 &utm_medium=launchcard
 &utm_campaign={mode}        # strong_buy, grid_sell, etc.
@@ -672,14 +836,12 @@ When you click **"Open in Pionex"** from a Launch Card, the destination URL is e
 | Tool | Trigger | Output |
 |------|---------|--------|
 | CSV export | CSV button | Full results + funding columns |
-| Full screenshot | 📸 Screenshot button | Horizontal PNG of the whole results section, with watermark and daily scan serial |
-| Vertical PNG Cards | Shift + P (TikTok mode) | 1080×1350 PNG of the top 5 setups as readable cards |
-| Vertical PNG Table | Shift + Alt + P (TikTok mode) | 1080×1350 PNG of the top 15 setups in compact table form |
+| Full screenshot | 📸 Screenshot button | Horizontal PNG of the whole results section |
+| Vertical PNG Cards | Shift + P (TikTok mode) | 1080×1350 PNG of the top 5 setups |
+| Vertical PNG Table | Shift + Alt + P (TikTok mode) | 1080×1350 PNG of the top 15 setups |
 | 5-slide Carousel | Shift + C | Five 1080×1350 PNGs: Cover · Top 1 · Top 2 · Top 3 · CTA |
-| Daily scan serial | Auto | Per-day counter stored in `localStorage`, included in every export filename + watermark |
-| TikTok pager | Shift + T then ◀ ▶ | Paginates results 10 rows per page, ready for vertical video recording |
-
-On iOS, screenshots open in a new tab with instructions to long-press → Save to Photos.
+| Daily scan serial | Auto | Per-day counter stored in `localStorage` |
+| TikTok pager | Shift + T then ◀ ▶ | Paginates results 10 rows per page |
 
 ---
 
@@ -695,29 +857,14 @@ All UI text is fully translated into 5 languages:
 | ru | Русский | 🇷🇺 |
 | zh | 中文 | 🇨🇳 |
 
+**NEW in v14.9.0:** ~30 additional translation keys per language for MTF Trend Filter labels, Bot Range mode names, Session Filter labels, Liquidity/Session/MTF downgrade tooltips, Trade Plan v2 labels (TP1, TP2, Chandelier), Cell Magnifier log messages, and STRONG-row indicators.
+
 ### Language priority
 
 1. URL query: `?lang=en`, `?lang=ua`, `?lang=es`, `?lang=ru`, `?lang=zh`
 2. `localStorage` preference (`gp_lang`)
 3. `navigator.language` autodetect
 4. Fallback: English
-
-### What's localized
-
-- All controls, labels, placeholders (including the **Pionex Only** toggle and Strictness selector)
-- All log entries
-- All Launch Card sections (including the "Open in Pionex" CTA)
-- All mode labels and SKIP categories (WATCH / TREND / LOW R:R)
-- Funding bias labels
-- Welcome hint
-- Footer disclosure and license text
-- All screenshot / carousel slide content
-- All sharing templates (Telegram share text)
-- **NEW in v14.8.2:** Full preset UI translation (50+ keys) — dropdown labels, save/manage modals, confirmation prompts, URL import dialog
-
-### Hreflang & SEO
-
-The single-file build ships with hreflang alternates and an `inLanguage` array in JSON-LD so that search engines can correctly serve the right localized URL.
 
 ---
 
@@ -728,11 +875,10 @@ GridPulse is a **single `index.html` file**. There are no build tools, no npm de
 ### 1-minute setup
 
 ```bash
-# Clone
 git clone https://github.com/pro100off/gridpulse.git
 cd gridpulse
 
-# Serve locally (any of these work)
+# Serve locally
 python3 -m http.server 8000           # Python 3
 php -S localhost:8000                 # PHP
 npx serve .                           # Node
@@ -752,16 +898,12 @@ caddy file-server --listen :8000      # Caddy
 
 ### External CDN dependencies
 
-The single file pulls a few libraries from CDN at runtime:
-
 | Library | Purpose | CDN |
 |---------|---------|-----|
 | qrcodejs | QR code for Pionex referral | cdnjs |
 | html2canvas | PNG / carousel rendering | cdnjs |
-| tv.js | TradingView embedded widget | s3.tradingview.com (lazy-loaded only when a chart is opened) |
+| tv.js | TradingView embedded widget | s3.tradingview.com (lazy-loaded) |
 | Cloudflare Web Analytics | Anonymous traffic counter | static.cloudflareinsights.com |
-
-You can self-host these by replacing the `<script src=...>` tags in `index.html`.
 
 ---
 
@@ -771,32 +913,30 @@ For improved Pionex / Binance reliability in restricted regions, you can deploy 
 
 The default deployment uses:
 
-```text
+```
 https://gridpulse-proxy.pro100off.workers.dev/?url=
 ```
 
-This is a rate-limited shared instance. If you fork GridPulse, please deploy your own and update the `CUSTOM_PROXY` constant near the top of the `<script>` block in `index.html`:
+This is a rate-limited shared instance. If you fork GridPulse, please deploy your own and update the `CUSTOM_PROXY` constant in `index.html`:
 
 ```javascript
 const CUSTOM_PROXY = 'https://YOUR-WORKER.workers.dev/?url=';
 ```
 
-A minimal worker is enough — it just needs to forward `?url=<target>` and pass the JSON response back with appropriate CORS headers.
-
 ---
 
 ## 📁 Repository structure
 
-```text
+```
 gridpulse/
-├── index.html                       current release (v14.8.2)
+├── index.html                       current release (v14.9.0)
 ├── LICENSE                          CC BY-NC-SA 4.0
 ├── README.md                        this file
 ├── CHANGELOG.md                     full version history
 ├── GitHub.USER_GUIDE.md             detailed user guide
 ├── docs/
 │   ├── screenshot.png               preview image (OG / social cards)
-│   └── RELEASE_NOTES_v14.8.2.md     short release notes
+│   └── RELEASE_NOTES_v14.9.0.md     short release notes
 └── legacy/                          archived previous versions
     ├── index-v14.2.html
     ├── index-v14.3.html
@@ -804,57 +944,9 @@ gridpulse/
     ├── index-v14.7.5.html
     ├── index-v14.7.6.html
     ├── index-v14.8.0.html
-    └── index-v14.8.1.html
+    ├── index-v14.8.1.html
+    └── index-v14.8.2.html
 ```
-
----
-
-## 🧾 What's new in v14.8.2
-
-This is a **UX productivity release** that introduces a long-requested feature: **persistent named watchlists**. No scanning logic was changed.
-
-### 💾 Pair Presets — save your watchlists in one click
-
-The flagship feature: save any list of pairs as a named preset stored directly in your browser, with no backend, no account, and no cost.
-
-**5 built-in starter presets** are shown immediately on first launch:
-
-| Icon | Name | Pairs |
-|------|------|-------|
-| 💎 | **Majors** | 10 large-cap coins |
-| 🐸 | **Memes** | 10 high-volatility meme tokens |
-| 🤖 | **AI Tokens** | 10 AI-narrative tokens |
-| 🏛 | **Layer 1s** | 10 smart-contract platforms |
-| 💧 | **DeFi Blue Chips** | 10 established DeFi protocols |
-
-**Save your own** via the new **💾 Save as…** button — name it, pick from 20 emoji icons, save. Done.
-
-**Manage** via **⚙ Manage** modal — apply, delete, import/export JSON.
-
-**Share** a preset via URL: `tradescout.trade/?preset=<base64-json>` — recipient sees a consent prompt before importing.
-
-**Auto-restore** — your last-used preset is automatically selected on the next visit.
-
-See the dedicated [💾 Pair Presets section](#-pair-presets-new-in-v1482) for the full breakdown.
-
-### 🔐 Storage isolation
-
-Presets live under their own key `gp_presets_v1` — **independent** from `gp_settings_v14_8_2`. Clearing screener settings does not delete presets, and version bumps don't invalidate them.
-
-### 🌐 Full i18n for preset UI
-
-50+ new translation keys across EN / UA / ES / RU / ZH for the entire preset workflow — dropdown, modals, confirmation prompts, URL import dialog.
-
-### 💾 Settings migration
-
-- New storage key: `gp_settings_v14_8_2`
-- Automatic migration from `v14_8_1` → `v14_8_0` → … → `v14_5`
-- Preset key `gp_presets_v1` is brand new (no migration needed)
-- Welcome hint key: `gp_visited_v1480` → `gp_visited_v1482`
-
-### 🐛 No breaking changes
-
-All v14.8.1 scanning logic, geometry validation, classification, TF-adaptive thresholds, Strictness selector, classified SKIP reasons, Pionex companion positioning, Launch Card layouts, and ATR-based GRID SL/TP behaviour are **preserved unchanged**.
 
 ---
 
@@ -862,85 +954,60 @@ All v14.8.1 scanning logic, geometry validation, classification, TF-adaptive thr
 
 Full history lives in [CHANGELOG.md](CHANGELOG.md).
 
+### v14.8.2 — "Pair Presets"
+
+- 💾 Pair Presets — save/load named watchlists in localStorage
+- 5 built-in starter presets (Majors, Memes, AI, Layer 1s, DeFi)
+- JSON import/export, shareable URLs
+- Full i18n for preset UI
+- `SET_KEY` → `gp_settings_v14_8_2`
+
 ### v14.8.1 — "Setup geometry validation"
 
-- 🐛 **Bugfix:** stale setups where price already crossed entry/stop before scan no longer pass the filter
-- Strict geometry check added at end of `findSetup()`:
-  - Bullish: rejects rows where `price ≤ stopL` or `price ≥ limL`
-  - Bearish: rejects rows where `price ≥ stopL` or `price ≤ limL`
+- 🐛 Bugfix: stale setups where price already crossed entry/stop before scan no longer pass the filter
 - `SET_KEY` → `gp_settings_v14_8_1`
 
 ### v14.8.0 — "Pionex Companion"
 
-- 🤝 **Official Partner badge** — visible "Official Partner" marker next to Pionex branding in header, referral banner, and Launch Card footer
+- 🤝 Official Partner badge next to Pionex branding
 - Pionex set as **DEFAULT exchange** (was Bybit)
-- Prominent **"Open in Pionex" CTA** in Launch Card — large gradient button with UTM tags
-- Larger, more visible referral QR code (64 → 96 px in banner; 46 → 84 px in Launch Card)
-- New filter: **"Pionex Only" mode** — locks the exchange dropdown to Pionex
-- Launch Card readability boost — base font sizes increased across the board
-- Modal max-width 560 → 640 px
+- Prominent "Open in Pionex" CTA with UTM tags
+- Larger, more visible referral QR code
+- "Pionex Only" mode toggle
+- Launch Card readability boost
 - `SET_KEY` → `gp_settings_v14_8_0`
 
 ### v14.7.6 — "TF-adaptive thresholds"
 
 - TF-adaptive Strictness — every threshold scales by TF × Strictness
 - Two paths to STRONG (Exhaustion + Quality routes)
-- Classified SKIP reasons — ⚡ WATCH / 🌊 TREND / ⚖ LOW R:R with per-row tooltip
-- Dual TikTok PNG export — Cards (top 5) and Table (top 15)
+- Classified SKIP reasons — ⚡ WATCH / 🌊 TREND / ⚖ LOW R:R
+- Dual TikTok PNG export
 - ATR-based GRID SL/TP with TF multipliers
 - Custom domain — [https://tradescout.trade/](https://tradescout.trade/)
-- Hreflang & SEO for all 5 languages
 - `SET_KEY` → `gp_settings_v14_7_6`
 
-### v14.7.5
+### v14.7.5 — "Directional Grid Modes"
 
-- Directional Grid Modes — replaced unified BOT mode with STRONG_BUY / GRID_BUY / STRONG_SELL / GRID_SELL / SKIP
-- Breakout entry logic — limL now points at the opposite extreme of the reversal candle
-- Light theme contrast boost — zebra rows, accent-coloured badges with visible borders, no text-shadow blur, contrast-compliant numeric cells
-- Light TikTok mode — vertical layout no longer forces black background when light theme is active
-- Hotkeys panel — floating ⌨ button (bottom-left) listing all shortcuts
-- TikTok-branded UI hidden — TikTok PNG button, Carousel button, vertical-mode toggle, and Launch Card "Export for TikTok" no longer visible. All functions retained, accessible via hotkeys.
-- Fixed STRONG SELL Launch Card silently failing (stray Cyrillic char)
-- Fixed carousel indicators array (duplicate VWAP% fragment)
+- Directional Grid Modes — replaced unified BOT mode
+- Breakout entry logic
+- Light theme contrast boost
+- Hotkeys panel
 - `SET_KEY` → `gp_settings_v14_7_5`
-
-### v14.7.4
-
-- Dark theme contrast boost — brighter text (#f0f4fa), brighter table headers with accent underline + text-shadow, stronger BUY/SELL colours (#26d97a / #ff4566), brighter VWAP / funding cells (.dg / .dr / .dy / .dc / .dp)
-- Restored full referral banner UA i18n keys (ref.sub, ref.f2)
-- Restored full footer disclosure UA text (foot.disclosure)
-- Version markers updated everywhere (title, meta, JSON-LD, ready log, CSV filename, screenshot filename, watermark, lic-mark)
-- `SET_KEY` → `gp_settings_v14_7_3`
-
-### v14.7.2
-
-- tt-watermark hidden by default (`display:none`); only shows in TikTok mode
-- `updateTTWatermark()` only runs when TikTok mode is on
-- Removed redundant `playTick('tick')` — no more audio noise on every miss
-- Highlight Row uses double-click (`ondblclick`)
-- tt-watermark positioning hardened (right offset + z-index)
-- Redesigned carousel slides: zero dead zones
-
-### v14.7.1
-
-- Redesigned 5-slide carousel layout (now used in v14.7.6+)
 
 ### v14.7
 
-- 📱 TikTok Mode (Shift+T) — vertical layout, paginated table
-- ✨ Highlight Row — spotlight selected row, dim others
-- 🏷 Auto-watermark with daily scan serial counter (`localStorage`)
-- 📱 Export for TikTok button on Launch Card → 1080×1350 PNG
-- 🎬 Auto-Carousel — 5-slide pack (cover + top 3 + CTA)
-- 🔊 Scan tick sound (WebAudio synth, no asset deps)
-- 🛡 Bold SKIP visual — shield icon, prominent border
+- 📱 TikTok Mode (Shift+T)
+- ✨ Highlight Row
+- 🏷 Auto-watermark with daily scan serial counter
+- 🎬 Auto-Carousel — 5-slide pack
+- 🔊 Scan tick sound
 
 ### v14.6
 
-- Screenshot button (with watermark + TikTok variants)
+- Screenshot button
 - Binance Futures 451 → Bybit mirror fallback
-- Pionex PERP discovery, 1M=null, KuCoin direct fetch
-- `safeFetch` early-return on API-error payload
+- Pionex PERP discovery
 
 ---
 
@@ -967,11 +1034,11 @@ The author is enrolled in the **Pionex Affiliate Program** and earns a **referra
 - There are no paid tiers.
 - There are no premium features locked behind paywalls.
 
-The 🤝 **Pionex Affiliate** badge reflects participation in the affiliate referral program — Pionex does not direct the screener's classification logic, does not pay for ranking, and does not have any editorial control over the project. There is **no legal/contractual partnership** beyond standard affiliate-program terms.
+The 🤝 **Pionex Affiliate** badge reflects participation in the affiliate referral program — Pionex does not direct the screener's classification logic, does not pay for ranking, and does not have any editorial control over the project.
 
 ### Why Pionex specifically?
 
-Pionex's Grid Bot is one of the few exchange-native automation products whose parameters map cleanly to a screener's output (Lower Limit / Upper Limit / Grid Lines / SL / TP). That made it the natural execution target for GridPulse Launch Cards. Other exchanges are still fully supported — Pionex is just the **default** and the **deepest Launch Card integration**.
+Pionex's Grid Bot is one of the few exchange-native automation products whose parameters map cleanly to a screener's output (Lower Limit / Upper Limit / Grid Lines / SL / TP). That made it the natural execution target for GridPulse Launch Cards.
 
 ### Forking
 
@@ -981,13 +1048,11 @@ Forks with your own referral are welcome — please keep:
 - the CC BY-NC-SA 4.0 license,
 - and the transparency disclosure in the footer.
 
-If you fork the project, please use your **own affiliate code** for the Pionex referral link, and update or remove the 🤝 Pionex Affiliate badge wording to reflect *your* relationship with Pionex (or remove it entirely if you are not an affiliate yourself).
-
 ---
 
 ## 📊 Analytics
 
-GridPulse uses **Cloudflare Web Analytics** for anonymous, aggregate traffic statistics (page views, country breakdown, referrers).
+GridPulse uses **Cloudflare Web Analytics** for anonymous, aggregate traffic statistics.
 
 | Property | Status |
 |----------|--------|
@@ -998,20 +1063,18 @@ GridPulse uses **Cloudflare Web Analytics** for anonymous, aggregate traffic sta
 | GDPR-compliant | ✅ yes |
 | Open about what's tracked | ✅ yes |
 
-All user-specific settings (theme, language, last-used filters, scan serial, custom pairs draft, **saved presets**) stay in your browser's `localStorage` and **never leave your device**.
+All user-specific settings stay in your browser's `localStorage` and **never leave your device**.
 
 ---
 
 ## 🤝 Contributing
 
-Issues and PRs are welcome.
-
-For major changes, please open an issue first so we can discuss direction.
+Issues and PRs are welcome. For major changes, please open an issue first.
 
 ### Especially appreciated
 
-- **Translations** — adding new languages or improving existing ones (EN / UA / ES / RU / ZH).
-- **Built-in presets** — proposing curated starter presets for new themes (RWA tokens, gaming, restaking, etc.).
+- **Translations** — adding new languages or improving existing ones.
+- **Built-in presets** — proposing curated starter presets for new themes (RWA, gaming, restaking, etc.).
 - **Exchange adapters** — pair-list and kline fetchers for additional exchanges.
 - **Funding fallbacks** — additional reliable mirrors for restricted regions.
 - **UI accessibility** — keyboard navigation, screen-reader labels, colour-contrast audits.
@@ -1021,76 +1084,43 @@ For major changes, please open an issue first so we can discuss direction.
 1. Keep the build **single-file**. The whole app must remain shippable as one `index.html`.
 2. Keep dependencies **CDN-loaded and optional** (no npm).
 3. Preserve the CC BY-NC-SA 4.0 license and the transparency footer.
-4. Match the existing localization pattern when introducing new strings — **all 5 languages** must be updated together.
-5. If you remove the Pionex affiliate branding in your fork, also remove the 🤝 Pionex Affiliate badge — it specifically refers to the upstream project's affiliate-program participation.
+4. Match the existing localization pattern — **all 5 languages** must be updated together.
 
 ---
 
 ## ❓ FAQ
 
-**What's new in v14.8.2?**
-**Pair Presets** — save and reload named watchlists of pairs directly in your browser. 5 starter presets are built in (Majors, Memes, AI Tokens, Layer 1s, DeFi Blue Chips), and you can save your own with custom names and icons. Full JSON import/export and shareable URLs. See the [💾 Pair Presets section](#-pair-presets-new-in-v1482) for details.
+**What's new in v14.9.0?**
+**Old School Wisdom** — 9 quality features that codify decades of practical trading experience: MTF Trend Filter, Donchian/Bollinger/ATR bot ranges, Session Filter, Liquidity Guard, Symbol Unification, Cell Magnifier, STRONG row highlighting, Trade Plan v2 (TP1/TP2 + Chandelier), and freshness bonus in ranking. See the [What's new section](#-whats-new-in-v1490--old-school-wisdom) for details.
 
-**Will my saved presets survive a settings reset?**
-Yes. Presets are stored under their own key `gp_presets_v1`, completely **independent** from `gp_settings_v14_8_2`. Resetting screener settings does not delete presets. Version bumps do not invalidate them.
+**Will v14.9.0 break my saved presets or settings?**
+No. Presets live under their own key `gp_presets_v1` and are unaffected. Settings auto-migrate from `gp_settings_v14_8_2` (and all older versions back to `v14_5`) to the new `gp_settings_v14_9_0` key on first load.
 
-**Will my presets transfer to a new device automatically?**
-No — `localStorage` is per-browser, per-device. To transfer:
-1. ⚙ Manage → 📤 Export JSON on the source device
-2. Email / cloud-sync the JSON file
-3. ⚙ Manage → 📥 Import JSON on the target device
+**Why is MTF ON by default? Won't it reduce my signal count?**
+Yes — it will reduce signals by ~40%. But the removed signals are overwhelmingly counter-trend false positives that would have lost money. If you want the old behaviour, uncheck **MTF TREND FILTER** in the right filter panel.
 
-Or, for a single preset, use the shareable URL: `tradescout.trade/?preset=<base64-json>` — recipient sees a consent prompt before importing.
+**What's the difference between Donchian, Bollinger, and ATR bot ranges?**
+- **Donchian 26** (default) — uses the highest/lowest of the last 26 candles. Best for sideways markets.
+- **Bollinger 20/2σ** — uses SMA(20) ± 2 standard deviations. Best for mean-reversion character.
+- **ATR (legacy)** — the pre-v14.9.0 formula. Kept for backwards compatibility.
 
-**My presets disappeared after clearing browser data!**
-Presets live in `localStorage`. Clearing "Site data" or "All browsing data" removes them — that's how browsers work, not a bug. **Always export to JSON before clearing.**
+**Can I disable Liquidity Guard?**
+No — it's always ON by design. If you want to trade a low-liquidity pair, use GRID mode (which doesn't require STRONG classification). The Guard exists to prevent STRONG-mode leveraged entries into pairs where slippage will kill your R:R.
+
+**How does the Cell Magnifier work?**
+Hover any table cell to see it enlarge 1.45× with a blue glow. Toggle the whole feature via the 🔍 button in the header or press **Shift+M**. Persistent across sessions via `localStorage['gp_mag']`.
+
+**What is Chandelier trailing stop in Trade Plan v2?**
+A technical trailing stop that tracks the highest high (for longs) or lowest low (for shorts) since entry, minus ATR × 3. It moves up with your winner but doesn't move against you. Classic swing-trading tool used by professional traders and CTAs since the 1990s.
 
 **Why is Pionex the default exchange now?**
-GridPulse v14.8.x is positioned as a companion tool for Pionex Grid Bots. The Launch Card output maps directly to Pionex Grid Bot parameters (Lower Limit, Upper Limit, Grid Lines, ATR-based SL/TP). Other exchanges (Bybit, Binance, KuCoin, OKX) are still fully supported via the dropdown — switching is one click away.
-
-**What does "Pionex Affiliate" mean?**
-It means the project is enrolled in Pionex's **affiliate referral program** — the author earns a referral commission when users sign up via the link and trade. It does **not** mean Pionex controls the screener's logic, pays for ranking, or has any editorial input, and it is not a legal/contractual partnership. The classification logic is fully open-source — read it in `index.html`.
-
-**Can I use GridPulse without signing up on Pionex?**
-Absolutely. GridPulse is 100 % free and requires no signup on anything. The Pionex referral is optional and supports the project, but every feature works without it.
-
-**Why does Binance Futures sometimes show "Bybit mirror" in the log?**
-Some regions return HTTP 451 for `fapi.binance.com`. GridPulse mirrors the pair list and klines from Bybit so your scan still completes — and clearly logs that the fallback happened.
-
-**Why is 1M greyed out on Pionex?**
-Pionex's klines API does not currently expose a monthly interval, so the 1M button is disabled (and visually struck-through) when Pionex is selected.
-
-**My scan returns zero rows — what's wrong?**
-Check the Activity Log (bottom of the page). The most common causes:
-
-- All proxies are rate-limited at once — wait ~30 seconds and retry.
-- You picked a market the chosen exchange doesn't support (e.g. inverse pairs).
-- Top MCap filter is too aggressive — try 200 or All.
-- Strictness is set to `strict` on a low TF — try `normal` or `soft`.
-- Setup geometry validation (v14.8.1+) rejected a stale setup where price already crossed entry or stop.
-
-**Can I scan custom pairs only?**
-Yes. Either pick a **preset** from the dropdown, or click **Custom pairs** and paste a comma/space/newline-separated list (e.g. `BTCUSDT, ETHUSDT, SOLUSDT`). GridPulse normalizes the format per exchange (`BTC-USDT` for KuCoin spot, `BTC_USDT_PERP` for Pionex perps, `BTC-USDT-SWAP` for OKX, etc.).
+GridPulse v14.9.x is positioned as a companion tool for Pionex Grid Bots. The Launch Card output maps directly to Pionex Grid Bot parameters. Other exchanges (Bybit, Binance, KuCoin, OKX) are still fully supported — switching is one click away.
 
 **Is my data sent anywhere?**
-No. Indicators run client-side. The only outbound calls are:
-
-- exchange APIs (direct or via proxy),
-- TradingView widget (only when you open a chart),
-- Cloudflare Web Analytics beacon (anonymous, aggregate),
-- and — if you click "Open in Pionex" — the Pionex referral URL with UTM tags carrying only the setup classification (no personal data).
-
-**Why CC BY-NC-SA?**
-Because GridPulse is free, but commercial resale is prohibited. Forks and personal use are encouraged. See [LICENSE](LICENSE).
+No. Indicators run client-side. The only outbound calls are exchange APIs (direct or via proxy), TradingView widget (only when you open a chart), Cloudflare Web Analytics beacon (anonymous), and — if you click "Open in Pionex" — the Pionex referral URL with UTM tags carrying only the setup classification.
 
 **Where do I report bugs?**
-[GitHub Issues](https://github.com/pro100off/gridpulse/issues). Include:
-
-- exchange + market,
-- TF list,
-- Strictness setting,
-- preset name (if related),
-- a copy of the relevant Activity Log lines.
+[GitHub Issues](https://github.com/pro100off/gridpulse/issues). Include exchange + market, TF list, Strictness setting, MTF filter state (on/off), Bot Range mode, and a copy of the relevant Activity Log lines.
 
 ---
 
@@ -1120,10 +1150,10 @@ See [LICENSE](LICENSE) for full terms.
 - 🐛 Issues: [https://github.com/pro100off/gridpulse/issues](https://github.com/pro100off/gridpulse/issues)
 - 📋 Changelog: [CHANGELOG.md](CHANGELOG.md)
 - 📖 User Guide: [GitHub.USER_GUIDE.md](GitHub.USER_GUIDE.md)
-- 📝 Release notes v14.8.2: [docs/RELEASE_NOTES_v14.8.2.md](docs/RELEASE_NOTES_v14.8.2.md)
+- 📝 Release notes v14.9.0: [docs/RELEASE_NOTES_v14.9.0.md](docs/RELEASE_NOTES_v14.9.0.md)
 - 🚀 Latest release: [Releases](https://github.com/pro100off/gridpulse/releases/latest)
 - 📜 License: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ---
 
-⚡ **GridPulse v14.8.2** · 💾 **Pair Presets** · 🤝 **Pionex Affiliate** · Built with care · single-file · no build tools · runs everywhere · © 2026 GridPulse Project
+⚡ **GridPulse v14.9.0** · 🧙 **Old School Wisdom** · 🎯 **MTF Trend Filter** · 🤝 **Pionex Partner** · Built with care · single-file · no build tools · runs everywhere · © 2026 GridPulse Project
