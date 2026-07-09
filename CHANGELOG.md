@@ -1,4 +1,79 @@
-# GridPulse Changelog
+# Changelog
+
+All notable changes to GridPulse will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to a loose [Semantic Versioning](https://semver.org/spec/v2.0.0.html) scheme.
+
+---
+
+## [14.9.1] — 2026-07-09 — "ATR-Based R:R + Filter-Aware Classification"
+
+### 🎯 Core Logic Fixes
+
+- **ATR-based Take Profit** — R:R is now calculated using TF-adaptive TP targets
+  (`TP_ATR_MULT`: 1m×2.0, 5m×2.2, 15m×2.5, 30m×2.8, 1h×3.0, 4h×3.5, 1D×4.0,
+  1W×4.5, 1M×5.0), replacing the legacy fixed ±5% extremum model. This makes
+  R:R fair and comparable across all timeframes and volatility profiles.
+- **Filter-Aware Classification** — `decideMode()` now respects user's filter
+  checkbox states. If ADX/VOL/RR/VWAP filter is **OFF**, its threshold does
+  not block STRONG/GRID classification. If **ON** — strict enforcement.
+  Fixes the long-standing "why does it skip when my filters are off" bug.
+- **VWAP distance decoupled from classification** — Large `|VWAP%|` is now
+  correctly recognized as an *expected* signal for reversal setups (extended
+  extremes = higher reversal probability). VWAP direction is still honored
+  via the `chVD` filter. This eliminates false SKIPs on legitimate reversals
+  with `|VWAP%| > 7.5%` (previously auto-rejected regardless of filter state).
+
+### 🎯 Trade Plan v3 (Launch Card)
+
+- STRONG mode now shows:
+  - **TP1** at 1R (close 33%)
+  - **TP2** at ATR×N target (close 33%) — uses same multiplier as R:R calc
+  - **TP3** at 3R+ (trail rest)
+  - **Chandelier trailing stop** at ATR×3
+
+### 📊 Diagnostics & UX
+
+- `📊 Reject breakdown` log line now includes `rr=N` counter — you can see
+  exactly how many setups are filtered by R:R for threshold calibration.
+- Table cell `R:R` shows a tooltip on hover with: TP price, Entry, Stop,
+  Risk (abs), Reward (abs), ATR multiplier used.
+- Column header renamed `R:R` → `R:R 🎯` (i18n across EN/UA/ES/RU/ZH).
+- Mode cell tooltip now shows active filter state: `filters:[ADX RR VD]`.
+
+### 📥 Data Export
+
+- CSV export includes new columns: `TP_ATR` (price), `TP_Mult` (multiplier).
+- Share-to-Telegram text includes TP line.
+
+### 🔧 Technical
+
+- `SET_KEY` bumped to `gp_settings_v14_9_1` with migration from `v14_9_0`
+  and older versions.
+- Version markers updated in title, meta tags, JSON-LD, ready log, CSV
+  filename, screenshot filename, watermark, lic-mark, footer.
+- Referral URL updated to Pionex campaign link with `?referral=gridpulse20`
+  UTM parameter.
+
+### ⚠ Migration Notes
+
+If upgrading from v14.9.0 or earlier: settings auto-migrate on first load.
+`localStorage` keys involved: `gp_settings_v14_9_1`, `gp_visited_v1491`.
+Presets (`gp_presets_v1`) survive the update unchanged.
+
+### 🐛 Bug Fixes
+
+- Fixed `TH.strongVWAP` reference in Exhaustion STRONG check that produced
+  `NaN` after VWAP-decoupling refactor, silently blocking all Exhaustion
+  STRONG setups. Now uses simple direction check (`vwapDist < 0` for bullish,
+  `> 0` for bearish) with null-tolerance.
+- Rebalanced `qADX`/`qVol`/`qRR` in Quality STRONG to be filter-aware —
+  when a filter is OFF, its null-value doesn't block the check.
+- Fixed rare edge case where R:R filter would silently reject setups without
+  incrementing `_rejectStats.rr` counter (now visible in reject breakdown).
+
+---
 
 ## [14.9.0] - 2026-07-04 — Old School Wisdom
 
@@ -116,6 +191,7 @@ All existing keys (`gp_presets_v1`, `gp_preset_last`, `gp_settings_v14_9_0`, `gp
 The 6s scan time overhead is the cost of fetching one additional higher-TF kline series per (symbol × TF) combination. Cached under standard 60s TTL like all other klines.
 
 ---
+
 ## [14.8.2] - 2026-06-27 — Pair Presets
 
 ### Added
@@ -177,6 +253,8 @@ The 6s scan time overhead is the cost of fetching one additional higher-TF kline
 
 ---
 
+## [14.8.0] - 2026-06-24 — Pionex Companion
+
 > **Positioning release.** GridPulse is now explicitly framed as a **dedicated companion tool for Pionex Grid Bots**, with Pionex as the default exchange, an "Official Partner" badge throughout the UI, and a redesigned Launch Card focused on driving users straight into a trading-ready Pionex session.
 
 ### Added
@@ -219,6 +297,9 @@ The 6s scan time overhead is the cost of fetching one additional higher-TF kline
 - The Pionex Only toggle is **opt-in** and off by default.
 
 ---
+
+## [14.7.6] - 2026-06-23 — TF-adaptive Strictness + Classified SKIP
+
 ### Added
 - **TF-adaptive thresholds**: STRONG/GRID/SKIP cutoffs now scale per timeframe
   (1m softer ... 1W stricter) via a single **Strictness** selector
@@ -295,4 +376,4 @@ The 6s scan time overhead is the cost of fetching one additional higher-TF kline
 
 ---
 
-License: CC BY-NC-SA 4.0 · © 2026 GridPulse Project
+License: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) · © 2026 GridPulse Project · [tradescout.trade](https://tradescout.trade/)
