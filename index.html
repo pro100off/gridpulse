@@ -769,7 +769,7 @@ body.light .preset-select,body.light .preset-btn{color:var(--t1)}
 body.light .preset-modal-box{box-shadow:0 8px 32px rgba(0,0,0,.2)}
 @media(max-width:600px){.preset-bar{padding:8px 12px}.preset-select{min-width:140px;flex:1}.preset-info{display:none}}
 
-/* ===== v14.9.0: Cell Magnifier — hover cell to enlarge 1.45× ===== */
+/* ===== v14.9.1: Cell Magnifier — hover cell to enlarge 1.45× ===== */
 #resTable tbody td{transition:transform .15s ease-out,background .15s;position:relative}
 body.mag-off #resTable tbody td:hover{transform:none;background:inherit;box-shadow:none;cursor:default}
 body:not(.mag-off) #resTable tbody td:hover{transform:scale(1.45);transform-origin:center;z-index:50;background:linear-gradient(135deg,rgba(66,165,245,.22),rgba(195,155,255,.15));box-shadow:0 4px 18px rgba(0,0,0,.55),0 0 0 2px rgba(66,165,245,.55);border-radius:6px;font-weight:800;cursor:zoom-in}
@@ -777,7 +777,7 @@ body:not(.mag-off) tbody.has-highlight tr td:hover{transform:none;background:inh
 body:not(.mag-off) #resTable tbody td:nth-child(8):hover,body:not(.mag-off) #resTable tbody td:nth-child(9):hover,body:not(.mag-off) #resTable tbody td:nth-child(10):hover{transform:scale(1.15)}
 body.light:not(.mag-off) #resTable tbody td:hover{background:linear-gradient(135deg,#e3f0ff,#f0e5ff);box-shadow:0 4px 18px rgba(0,0,0,.15),0 0 0 2px #1668c4}
 
-/* ===== v14.9.0: STRONG-signal row highlighting ===== */
+/* ===== v14.9.1: STRONG-signal row highlighting ===== */
 tbody tr.row-strong-buy{background:linear-gradient(90deg,rgba(38,217,122,.14) 0%,rgba(38,217,122,.06) 40%,transparent 100%) !important;box-shadow:inset 4px 0 0 var(--grn),inset 0 0 24px rgba(38,217,122,.10);animation:strongPulseBuy 3s ease-in-out infinite}
 tbody tr.row-strong-sell{background:linear-gradient(90deg,rgba(255,69,102,.14) 0%,rgba(255,69,102,.06) 40%,transparent 100%) !important;box-shadow:inset 4px 0 0 var(--red),inset 0 0 24px rgba(255,69,102,.10);animation:strongPulseSell 3s ease-in-out infinite}
 tbody tr.row-strong-buy:hover{background:linear-gradient(90deg,rgba(38,217,122,.24),rgba(38,217,122,.10)) !important}
@@ -793,11 +793,11 @@ body.light tbody tr.row-strong-buy{background:linear-gradient(90deg,#d4f4e2 0%,#
 body.light tbody tr.row-strong-sell{background:linear-gradient(90deg,#fce0e5 0%,#fceff2 50%,transparent 100%) !important;box-shadow:inset 4px 0 0 #a01228,inset 0 0 24px rgba(160,18,40,.08)}
 body.light tbody tr.row-strong-buy td:first-child,body.light tbody tr.row-strong-sell td:first-child{color:#0a1228}
 
-/* ===== v14.9.0: Magnifier toggle button ===== */
+/* ===== v14.9.1: Magnifier toggle button ===== */
 .mag-btn{cursor:pointer;font-size:14px;background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:12px;padding:4px 10px;font-weight:700}
 .mag-btn.on{color:var(--cyan);border-color:var(--cyan)}
 
-/* ===== v14.9.0: Styled checkbox tooltips (data-tip) ===== */
+/* ===== v14.9.1: Styled checkbox tooltips (data-tip) ===== */
 .ck[data-tip]{position:relative;cursor:help}
 .ck[data-tip]:hover::after{
   content:attr(data-tip);
@@ -2837,7 +2837,7 @@ function stopScan(){scanning=false;lg(t('log.stopped'),'wr');render();done();}
 
 function fmP(p){if(p==null||!isFinite(p))return'—';if(p>=1e4)return p.toFixed(1);if(p>=100)return p.toFixed(2);if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(6);return p.toFixed(8);}
 function dCl(d){if(d==null)return'';return d<2?'dg':d<5?'dy':'dr';}
-/* v14.9.0.1: MACD histogram with zero-baseline (Old School style) — bars grow above/below a centered dashed line */
+/* v14.9.1: MACD histogram with zero-baseline — bars grow above/below a centered dashed line */
 function miniH(a){
   if(!a?.length)return'—';
   const n=a.length;
