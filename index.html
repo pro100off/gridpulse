@@ -793,6 +793,139 @@ body.light tbody tr.row-strong-buy{background:linear-gradient(90deg,#d4f4e2 0%,#
 body.light tbody tr.row-strong-sell{background:linear-gradient(90deg,#fce0e5 0%,#fceff2 50%,transparent 100%) !important;box-shadow:inset 4px 0 0 #a01228,inset 0 0 24px rgba(160,18,40,.08)}
 body.light tbody tr.row-strong-buy td:first-child,body.light tbody tr.row-strong-sell td:first-child{color:#0a1228}
 
+/* ===== v14.9.1: Screenshot mode — clean readable table (no row backgrounds, no magnifier) ===== */
+body.shot-mode tbody tr.row-strong-buy,
+body.shot-mode tbody tr.row-strong-sell,
+body.shot-mode tbody tr.row-grid-buy,
+body.shot-mode tbody tr.row-grid-sell{
+  background:transparent !important;
+  box-shadow:none !important;
+  animation:none !important;
+}
+body.shot-mode tbody tr.row-strong-buy td:first-child::before,
+body.shot-mode tbody tr.row-strong-sell td:first-child::before{
+  content:none !important;
+}
+body.shot-mode tbody tr.row-strong-buy td:first-child,
+body.shot-mode tbody tr.row-strong-sell td:first-child{
+  font-weight:900;
+}
+body.shot-mode tbody tr:nth-child(even){
+  background:rgba(255,255,255,.025) !important;
+}
+body.light.shot-mode tbody tr:nth-child(even){
+  background:#f6f8fc !important;
+}
+body.shot-mode tbody.has-highlight tr{opacity:1 !important}
+body.shot-mode tbody.has-highlight tr.row-highlighted{
+  background:transparent !important;
+  box-shadow:none !important;
+}
+body.shot-mode #resTable tbody td:hover{
+  transform:none !important;
+  background:inherit !important;
+  box-shadow:none !important;
+  cursor:default !important;
+  font-weight:inherit !important;
+  z-index:auto !important;
+}
+/* Keep the # column (rank) subtly indicating STRONG/GRID via left border only */
+body.shot-mode tbody tr.row-strong-buy td:first-child{
+  box-shadow:inset 3px 0 0 var(--grn) !important;
+  color:var(--grn) !important;
+}
+body.shot-mode tbody tr.row-strong-sell td:first-child{
+  box-shadow:inset 3px 0 0 var(--red) !important;
+  color:var(--red) !important;
+}
+body.shot-mode tbody tr.row-grid-buy td:first-child{
+  box-shadow:inset 2px 0 0 rgba(38,217,122,.55) !important;
+}
+body.shot-mode tbody tr.row-grid-sell td:first-child{
+  box-shadow:inset 2px 0 0 rgba(255,69,102,.55) !important;
+}
+body.light.shot-mode tbody tr.row-strong-buy td:first-child{
+  box-shadow:inset 3px 0 0 #0a6e35 !important;
+  color:#0a6e35 !important;
+}
+body.light.shot-mode tbody tr.row-strong-sell td:first-child{
+  box-shadow:inset 3px 0 0 #a01228 !important;
+  color:#a01228 !important;
+}
+
+/* ===== v14.9.1: Screenshot mode — boost Mode badge readability ===== */
+body.shot-mode .bmd-buy{
+  background:rgba(38,217,122,.35) !important;
+  color:#0a4d24 !important;
+  border:1.5px solid #0a9d4a !important;
+  padding:4px 10px !important;
+  font-weight:900 !important;
+  text-shadow:none !important;
+  letter-spacing:.6px !important;
+}
+body.shot-mode .bmd-sel{
+  background:rgba(255,69,102,.35) !important;
+  color:#5a0512 !important;
+  border:1.5px solid #a01228 !important;
+  padding:4px 10px !important;
+  font-weight:900 !important;
+  text-shadow:none !important;
+  letter-spacing:.6px !important;
+}
+body.shot-mode .bmd-buy.strong{
+  background:#0a9d4a !important;
+  color:#fff !important;
+  border:1.5px solid #063d1d !important;
+  box-shadow:0 0 0 2px rgba(10,157,74,.30) !important;
+}
+body.shot-mode .bmd-sel.strong{
+  background:#a01228 !important;
+  color:#fff !important;
+  border:1.5px solid #5a0512 !important;
+  box-shadow:0 0 0 2px rgba(160,18,40,.30) !important;
+}
+body.shot-mode .bmd-skp{
+  background:rgba(255,167,38,.30) !important;
+  color:#5a2800 !important;
+  border:1.5px solid #c96a00 !important;
+  padding:4px 10px !important;
+  font-weight:900 !important;
+  text-shadow:none !important;
+  letter-spacing:.6px !important;
+}
+/* Dark theme — brighter, higher contrast in shot-mode */
+body:not(.light).shot-mode .bmd-buy{
+  background:rgba(38,217,122,.30) !important;
+  color:#a8f5c8 !important;
+  border:1.5px solid #26d97a !important;
+  padding:4px 10px !important;
+  font-weight:900 !important;
+}
+body:not(.light).shot-mode .bmd-sel{
+  background:rgba(255,69,102,.30) !important;
+  color:#ffb8c4 !important;
+  border:1.5px solid #ff4566 !important;
+  padding:4px 10px !important;
+  font-weight:900 !important;
+}
+body:not(.light).shot-mode .bmd-buy.strong{
+  background:#26d97a !important;
+  color:#001a0d !important;
+  border:1.5px solid #7df0b3 !important;
+}
+body:not(.light).shot-mode .bmd-sel.strong{
+  background:#ff4566 !important;
+  color:#1a0006 !important;
+  border:1.5px solid #ff8da0 !important;
+}
+body:not(.light).shot-mode .bmd-skp{
+  background:rgba(255,167,38,.28) !important;
+  color:#ffd699 !important;
+  border:1.5px solid #ffa726 !important;
+  padding:4px 10px !important;
+  font-weight:900 !important;
+}
+
 /* ===== v14.9.1: Magnifier toggle button ===== */
 .mag-btn{cursor:pointer;font-size:14px;background:var(--bg3);border:1px solid var(--bd);color:var(--t2);border-radius:12px;padding:4px 10px;font-weight:700}
 .mag-btn.on{color:var(--cyan);border-color:var(--cyan)}
@@ -1161,7 +1294,7 @@ const I18N = {
     "foot.free":"Free open-source tool","foot.lic":"License","foot.licLink":"license terms","foot.changelog":"Changelog","foot.noSale":"commercial resale prohibited","foot.disclosure":"<strong>💡 Transparency:</strong> GridPulse is free and open-source. I earn a referral commission from Pionex when you sign up via my link and trade — this is the project's only monetization. Forking with your own referral is fine — please keep a link back to the original.","foot.riskWarn":"⚠ Crypto trading is risky; this tool is not financial advice.",
     "social.share":"Share","welcome.title":"👋 First time here?","welcome.body":"Click <strong style='color:var(--grn)'>▶ Scan</strong> — in ~30 seconds you'll see potential setups. Try <strong style='color:var(--pur)'>Shift+T</strong> for TikTok mode. Double-click a row to highlight it.","welcome.go":"Got it","welcome.tg":"📢 Channel",
     "share.title":"GridPulse — Free Crypto Screener","share.text":"⚡ Found a great free crypto reversal screener.\nMACD + VWAP + ADX + Funding setups across 5 exchanges with ready-to-use Pionex Grid Bot Launch Cards.","share.setup":"⚡ {sym} / {tf} — {mode} setup\n\nPrice: {price}\n{entry}{stop}{rr}\nFound with GridPulse: {app}\nTrade on Pionex: {ref}",
-    "shot.totalSetups":"TOTAL SETUPS","shot.exchange":"Exchange","shot.timeframes":"Timeframes","shot.generated":"Generated","shot.disclaimer":"Not financial advice. DYOR.","shot.tagline":"free open-source screener","shot.scanSerial":"Scan #","shot.watermark":"GridPulse Daily Scan",
+    "shot.totalSetups":"TOTAL SETUPS","shot.exchange":"Exchange","shot.timeframes":"Timeframes","shot.generated":"Generated","shot.disclaimer":"Not financial advice. DYOR.","shot.disclaimerLong":"Cryptocurrency trading is highly risky · Past setups don't guarantee future results · Do your own research","shot.tagline":"free open-source screener","shot.scanSerial":"Scan #","shot.watermark":"GridPulse Daily Scan",
     "tv.unavailable":"Chart unavailable on TradingView for this symbol.",
     "tt.page":"Page {n} / {tot}","tt.cover.line1":"DAILY CRYPTO SCAN","tt.cover.line2":"Pionex Grid Bots","tt.carousel.cta1":"Found this useful?","tt.carousel.cta2":"Follow for daily scans","tt.carousel.cta3":"Free tool · Link in bio",
     "tip.reversal":"Requires a valid reversal candle (rc) + confirming candle (cc) with proper geometry. Filters ~40% of low-quality signals. Turn OFF only for exploratory scans.",
@@ -1208,7 +1341,7 @@ const I18N = {
     "foot.free":"Безкоштовний open-source інструмент","foot.lic":"Ліцензія","foot.licLink":"умови ліцензії","foot.changelog":"Історія змін","foot.noSale":"комерційний перепродаж заборонено","foot.disclosure":"<strong>💡 Прозорість:</strong> GridPulse безкоштовний і open-source. Я отримую реферальну комісію від Pionex, коли ти реєструєшся за моїм посиланням і торгуєш — це єдина монетизація проєкту. Форк зі своїм рефералом дозволено — лише залиш посилання на оригінал.","foot.riskWarn":"⚠ Криптотрейдинг ризикований; цей інструмент не є фінансовою порадою.",
     "social.share":"Поділитися","welcome.title":"👋 Перший раз тут?","welcome.body":"Натисни <strong style='color:var(--grn)'>▶ Сканувати</strong> — за ~30 секунд побачиш потенційні сетапи. Спробуй <strong style='color:var(--pur)'>Shift+T</strong> для TikTok-режиму. Подвійний клік на рядку — підсвітка.","welcome.go":"Зрозуміло","welcome.tg":"📢 Канал",
     "share.title":"GridPulse — Безкоштовний крипто-скринер","share.text":"⚡ Знайшов чудовий безкоштовний скринер крипто-розворотів.\nMACD + VWAP + ADX + Funding сетапи на 5 біржах з готовими Pionex Grid Bot Launch Cards.","share.setup":"⚡ {sym} / {tf} — {mode} сетап\n\nЦіна: {price}\n{entry}{stop}{rr}\nЗнайдено через GridPulse: {app}\nТоргуй на Pionex: {ref}",
-    "shot.totalSetups":"ВСЬОГО СЕТАПІВ","shot.exchange":"Біржа","shot.timeframes":"Таймфрейми","shot.generated":"Створено","shot.disclaimer":"Не є фінансовою порадою. DYOR.","shot.tagline":"безкоштовний open-source скринер","shot.scanSerial":"Скан #","shot.watermark":"GridPulse Щоденний скан",
+    "shot.totalSetups":"ВСЬОГО СЕТАПІВ","shot.exchange":"Біржа","shot.timeframes":"Таймфрейми","shot.generated":"Створено","shot.disclaimer":"Не є фінансовою порадою. DYOR.","shot.disclaimerLong":"Криптотрейдинг ризикований · Минулі сетапи не гарантують майбутні результати · Роби власне дослідження","shot.tagline":"безкоштовний open-source скринер","shot.scanSerial":"Скан #","shot.watermark":"GridPulse Щоденний скан",
     "tv.unavailable":"Графік для цього символу недоступний на TradingView.",
     "tt.page":"Сторінка {n} / {tot}","tt.cover.line1":"ЩОДЕННИЙ КРИПТО-СКАН","tt.cover.line2":"Pionex Grid Bots","tt.carousel.cta1":"Корисно?","tt.carousel.cta2":"Підпишись на щоденні скани","tt.carousel.cta3":"Безкоштовно · Лінк в біо",
     "tip.reversal":"Вимагає валідну свічку розвороту (rc) + підтверджуючу свічку (cc) з правильною геометрією. Фільтрує ~40% низькоякісних сигналів. Вимикай тільки для розвідувальних сканів.",
@@ -1255,7 +1388,7 @@ const I18N = {
     "foot.free":"Herramienta gratuita open-source","foot.lic":"Licencia","foot.licLink":"términos de la licencia","foot.changelog":"Historial de cambios","foot.noSale":"reventa comercial prohibida","foot.disclosure":"<strong>💡 Transparencia:</strong> GridPulse es gratuito y open-source. Recibo una comisión de referido de Pionex cuando te registras con mi enlace y operas — es la única monetización del proyecto. Hacer fork con tu propio referido está permitido — por favor mantén un enlace al original.","foot.riskWarn":"⚠ El trading de criptomonedas es arriesgado; esta herramienta no es asesoramiento financiero.",
     "social.share":"Compartir","welcome.title":"👋 ¿Primera vez aquí?","welcome.body":"Haz clic en <strong style='color:var(--grn)'>▶ Escanear</strong> — en ~30 segundos verás setups potenciales. Prueba <strong style='color:var(--pur)'>Shift+T</strong> para el modo TikTok. Doble clic en una fila para resaltarla.","welcome.go":"Entendido","welcome.tg":"📢 Canal",
     "share.title":"GridPulse — Screener cripto gratuito","share.text":"⚡ Encontré un excelente screener gratuito de reversiones cripto.\nSetups con MACD + VWAP + ADX + Funding en 5 exchanges con Launch Cards listas para Pionex Grid Bots.","share.setup":"⚡ {sym} / {tf} — setup {mode}\n\nPrecio: {price}\n{entry}{stop}{rr}\nEncontrado con GridPulse: {app}\nOpera en Pionex: {ref}",
-    "shot.totalSetups":"SETUPS TOTALES","shot.exchange":"Exchange","shot.timeframes":"Temporalidades","shot.generated":"Generado","shot.disclaimer":"No es asesoramiento financiero. DYOR.","shot.tagline":"screener gratuito open-source","shot.scanSerial":"Escaneo #","shot.watermark":"GridPulse Escaneo Diario",
+    "shot.totalSetups":"SETUPS TOTALES","shot.exchange":"Exchange","shot.timeframes":"Temporalidades","shot.generated":"Generado","shot.disclaimer":"No es asesoramiento financiero. DYOR.","shot.disclaimerLong":"El trading de criptomonedas es arriesgado · Los setups pasados no garantizan resultados futuros · Investiga por tu cuenta","shot.tagline":"screener gratuito open-source","shot.scanSerial":"Escaneo #","shot.watermark":"GridPulse Escaneo Diario",
     "tv.unavailable":"Gráfico no disponible en TradingView para este símbolo.",
     "tt.page":"Página {n} / {tot}","tt.cover.line1":"ESCANEO CRIPTO DIARIO","tt.cover.line2":"Pionex Grid Bots","tt.carousel.cta1":"¿Te resultó útil?","tt.carousel.cta2":"Sigue para escaneos diarios","tt.carousel.cta3":"Herramienta gratis · Enlace en bio",
     "tip.reversal":"Requiere vela de reversión (rc) + vela de confirmación (cc) válidas con geometría correcta. Filtra ~40% de señales de baja calidad. Desactivar solo para escaneos exploratorios.",
@@ -1302,7 +1435,7 @@ const I18N = {
     "foot.free":"Бесплатный open-source инструмент","foot.lic":"Лицензия","foot.licLink":"условия лицензии","foot.changelog":"История изменений","foot.noSale":"коммерческая перепродажа запрещена","foot.disclosure":"<strong>💡 Прозрачность:</strong> GridPulse бесплатный и open-source. Я получаю реферальную комиссию от Pionex, когда ты регистрируешься по моей ссылке и торгуешь — это единственная монетизация проекта. Форк со своим рефералом разрешён — пожалуйста, оставь ссылку на оригинал.","foot.riskWarn":"⚠ Криптотрейдинг рискованный; этот инструмент не является финансовым советом.",
     "social.share":"Поделиться","welcome.title":"👋 Первый раз здесь?","welcome.body":"Нажми <strong style='color:var(--grn)'>▶ Сканировать</strong> — за ~30 секунд увидишь потенциальные сетапы. Попробуй <strong style='color:var(--pur)'>Shift+T</strong> для TikTok-режима. Двойной клик по строке — подсветка.","welcome.go":"Понятно","welcome.tg":"📢 Канал",
     "share.title":"GridPulse — Бесплатный крипто-скринер","share.text":"⚡ Нашёл отличный бесплатный скринер крипто-разворотов.\nСетапы MACD + VWAP + ADX + Funding на 5 биржах с готовыми Pionex Grid Bot Launch Cards.","share.setup":"⚡ {sym} / {tf} — {mode} сетап\n\nЦена: {price}\n{entry}{stop}{rr}\nНайдено через GridPulse: {app}\nТоргуй на Pionex: {ref}",
-    "shot.totalSetups":"ВСЕГО СЕТАПОВ","shot.exchange":"Биржа","shot.timeframes":"Таймфреймы","shot.generated":"Создано","shot.disclaimer":"Не финансовый совет. DYOR.","shot.tagline":"бесплатный open-source скринер","shot.scanSerial":"Скан #","shot.watermark":"GridPulse Ежедневный скан",
+    "shot.totalSetups":"ВСЕГО СЕТАПОВ","shot.exchange":"Биржа","shot.timeframes":"Таймфреймы","shot.generated":"Создано","shot.disclaimer":"Не финансовый совет. DYOR.","shot.disclaimerLong":"Криптотрейдинг рискованный · Прошлые сетапы не гарантируют будущих результатов · Делай собственное исследование","shot.tagline":"бесплатный open-source скринер","shot.scanSerial":"Скан #","shot.watermark":"GridPulse Ежедневный скан",
         "tv.unavailable":"График для этого символа недоступен на TradingView.",
     "tt.page":"Страница {n}/{tot}","tt.cover.line1":"ЕЖЕДНЕВНЫЙ СКАН","tt.cover.line2":"Pionex Grid Bots","tt.carousel.cta1":"Полезно?","tt.carousel.cta2":"Подпишись","tt.carousel.cta3":"Бесплатно · Ссылка в био",
     "tip.reversal":"Требует валидную свечу разворота (rc) + подтверждающую свечу (cc) с правильной геометрией. Фильтрует ~40% низкокачественных сигналов. Выключай только для разведывательных сканов.",
@@ -1349,7 +1482,7 @@ const I18N = {
     "foot.free":"免费开源工具","foot.lic":"许可证","foot.licLink":"许可条款","foot.changelog":"更新日志","foot.noSale":"禁止商业转售","foot.disclosure":"<strong>💡 透明声明:</strong> GridPulse 免费且开源。当你通过我的链接注册并交易时,我会从 Pionex 获得推荐佣金 — 这是项目唯一的收入来源。允许使用你自己的推荐链接进行 Fork — 请保留指向原项目的链接。","foot.riskWarn":"⚠ 加密货币交易有风险,此工具不构成投资建议。",
     "social.share":"分享","welcome.title":"👋 第一次来?","welcome.body":"点击 <strong style='color:var(--grn)'>▶ 扫描</strong> — 大约 30 秒后你将看到潜在形态。试试 <strong style='color:var(--pur)'>Shift+T</strong> 切换 TikTok 模式。双击行可高亮。","welcome.go":"知道了","welcome.tg":"📢 频道",
     "share.title":"GridPulse — 免费加密筛选器","share.text":"⚡ 发现了一个超棒的免费加密反转筛选器。\n5 个交易所的 MACD + VWAP + ADX + 资金费率形态,附带可直接使用的 Pionex 网格机器人 Launch Card。","share.setup":"⚡ {sym} / {tf} — {mode} 形态\n\n价格: {price}\n{entry}{stop}{rr}\n通过 GridPulse 发现: {app}\n在 Pionex 交易: {ref}",
-    "shot.totalSetups":"形态总数","shot.exchange":"交易所","shot.timeframes":"时间周期","shot.generated":"生成时间","shot.disclaimer":"非投资建议。请自行研究。","shot.tagline":"免费开源筛选器","shot.scanSerial":"扫描 #","shot.watermark":"GridPulse 每日扫描",
+    "shot.totalSetups":"形态总数","shot.exchange":"交易所","shot.timeframes":"时间周期","shot.generated":"生成时间","shot.disclaimer":"非投资建议。请自行研究。","shot.disclaimerLong":"加密货币交易风险高 · 过往形态不保证未来结果 · 请自行研究","shot.tagline":"免费开源筛选器","shot.scanSerial":"扫描 #","shot.watermark":"GridPulse 每日扫描",
     "tv.unavailable":"TradingView 上此代币图表不可用。",
     "tt.page":"第 {n} / {tot} 页","tt.cover.line1":"每日加密扫描","tt.cover.line2":"Pionex 网格机器人","tt.carousel.cta1":"觉得有用?","tt.carousel.cta2":"关注获取每日扫描","tt.carousel.cta3":"免费工具 · 简介有链接",
     "tip.reversal":"要求有效的反转K线(rc)+确认K线(cc),几何形态正确。过滤约40%低质量信号。仅在探索性扫描时关闭。",
@@ -1947,9 +2080,18 @@ function buildShotWrapper(opts){
   wm.innerHTML=`<div style="color:${accentPurple};font-weight:900;letter-spacing:1.5px">${t('shot.watermark')} #${serialStr}</div><div style="color:${fg};font-weight:700">${TT_CHANNEL}</div><div style="color:${muted};font-weight:600">${new Date().toLocaleString()}</div>`;
   wrap.appendChild(wm);
 
+  /* v14.9.1: Prominent disclaimer banner — always visible on shared screenshots */
+  const discBanner=document.createElement('div');
+  const discBg=isLight?'linear-gradient(135deg,#fff7db,#ffe6ea)':'linear-gradient(135deg,rgba(255,224,102,.18),rgba(255,69,102,.14))';
+  const discBorder=isLight?'#c96a00':'#ffe066';
+  const discColor=isLight?'#8a3d00':'#ffe066';
+  discBanner.style.cssText=`margin-top:20px;padding:${orientation==='vertical'?'18px 26px':'14px 22px'};background:${discBg};border:2px solid ${discBorder};border-radius:10px;text-align:center;font-size:${orientation==='vertical'?'18':'14'}px;font-weight:800;color:${discColor};line-height:1.5;letter-spacing:.4px;box-shadow:0 2px 12px rgba(201,106,0,.15)`;
+  discBanner.innerHTML=`⚠ <span style="text-transform:uppercase;letter-spacing:1.2px">${t('shot.disclaimer')}</span> ⚠<br><span style="font-size:${orientation==='vertical'?'14':'11'}px;font-weight:600;opacity:.85;margin-top:6px;display:inline-block">${t('shot.disclaimerLong')}</span>`;
+  wrap.appendChild(discBanner);
+
   const footer=document.createElement('div');
-  footer.style.cssText=`margin-top:16px;padding-top:18px;border-top:1.5px solid ${isLight?'#cdd6e6':'rgba(255,255,255,.14)'};display:flex;justify-content:space-between;align-items:center;font-size:${orientation==='vertical'?'16':'11'}px;color:${muted};flex-wrap:wrap;gap:12px`;
-  footer.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><span style="font-size:${orientation==='vertical'?'22':'16'}px">🔗</span><span><b style="color:${accentBlue};font-weight:900">tradescout.trade</b> — ${t('shot.tagline')}</span></div><div style="color:${muted};font-weight:600">⚠ ${t('shot.disclaimer')}</div>`;
+  footer.style.cssText=`margin-top:14px;padding-top:14px;border-top:1.5px solid ${isLight?'#cdd6e6':'rgba(255,255,255,.14)'};display:flex;justify-content:space-between;align-items:center;font-size:${orientation==='vertical'?'16':'11'}px;color:${muted};flex-wrap:wrap;gap:12px`;
+  footer.innerHTML=`<div style="display:flex;align-items:center;gap:10px"><span style="font-size:${orientation==='vertical'?'22':'16'}px">🔗</span><span><b style="color:${accentBlue};font-weight:900">tradescout.trade</b> — ${t('shot.tagline')}</span></div><div style="color:${muted};font-weight:600">v14.9.1 · CC BY-NC-SA 4.0</div>`;
   wrap.appendChild(footer);
 
   return wrap;
@@ -1957,7 +2099,11 @@ function buildShotWrapper(opts){
 
 async function captureWrapper(wrap,filename){
   if(document.fonts&&document.fonts.ready) await document.fonts.ready;
-  await new Promise(r=>setTimeout(r,150));
+  /* v14.9.1: Enable shot-mode for clean readable screenshots
+     — strips row backgrounds, keeps only rank column color indicators */
+  const _hadShotMode=document.body.classList.contains('shot-mode');
+  if(!_hadShotMode) document.body.classList.add('shot-mode');
+  await new Promise(r=>setTimeout(r,200));
   const isLight=document.body.classList.contains('light');
   const scale=RES.length>100?1.5:2;
   const actualWidth=Math.max(wrap.scrollWidth,wrap.offsetWidth,1080);
@@ -1969,7 +2115,11 @@ async function captureWrapper(wrap,filename){
     scale,useCORS:true,allowTaint:false,logging:false,
     width:actualWidth,height:actualHeight,
     windowWidth:actualWidth+100,windowHeight:actualHeight+100,
-    scrollX:0,scrollY:0,imageTimeout:5000
+    scrollX:0,scrollY:0,imageTimeout:5000,
+    onclone:(clonedDoc)=>{
+      /* v14.9.1: ensure shot-mode is set in the cloned DOM used by html2canvas */
+      try{ clonedDoc.body.classList.add('shot-mode'); }catch(e){}
+    }
   });
   const isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent);
   if(isIOS){
@@ -1977,15 +2127,23 @@ async function captureWrapper(wrap,filename){
     const w=window.open();
     if(w) w.document.write(`<html><head><title>${filename}</title></head><body style="margin:0;background:#000;text-align:center"><img src="${dataUrl}" style="max-width:100%;height:auto"><p style="color:#fff;font-family:sans-serif;font-size:14px;padding:14px">📱 Long-press → Save to Photos</p></body></html>`);
     else window.location.href=dataUrl;
+    /* v14.9.1: cleanup shot-mode */
+    if(!_hadShotMode) document.body.classList.remove('shot-mode');
     return canvas;
   }
   return new Promise(resolve=>{
     canvas.toBlob(blob=>{
-      if(!blob){resolve(canvas);return;}
+      if(!blob){
+        /* v14.9.1: cleanup shot-mode */
+        if(!_hadShotMode) document.body.classList.remove('shot-mode');
+        resolve(canvas);return;
+      }
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');a.href=url;a.download=filename;
       document.body.appendChild(a);a.click();document.body.removeChild(a);
       setTimeout(()=>URL.revokeObjectURL(url),1500);
+      /* v14.9.1: cleanup shot-mode */
+      if(!_hadShotMode) document.body.classList.remove('shot-mode');
       resolve(canvas);
     },'image/png',0.95);
   });
