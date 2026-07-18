@@ -1,379 +1,103 @@
 # Changelog
 
-All notable changes to GridPulse will be documented in this file.
+All notable changes to **GridPulse** are documented here.
+Format based on [Keep a Changelog](https://keepachangelog.com/).
+License: CC BY-NC-SA 4.0 · © 2026 GridPulse Project
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to a loose [Semantic Versioning](https://semver.org/spec/v2.0.0.html) scheme.
+---
+
+## [14.9.2] — 2026-07 — "Alerts + Backtest + Journal"
+
+### Added
+- 🔔 **Auto-refresh scanning** — configurable interval (1–1440 min). Re-runs
+  the scan automatically and highlights new setups since the last run.
+- 🔔 **Desktop notifications** — browser push alerts for STRONG_BUY / STRONG_SELL
+  setups (30 s cooldown per symbol to prevent spam).
+- ✈️ **Telegram alerts** — send STRONG setups to a Telegram chat via bot token
+  + chat_id. Includes entry, SL, TP, R:R, position size and risk. Test button.
+- 🎮 **Discord alerts** — send STRONG setups to a Discord channel via webhook.
+  Test button and webhook-URL validation.
+- 💰 **Position Sizing calculator** — set account balance + risk %. Computes
+  units, position value, % of balance, leverage-equivalent, reward/loss in USDT.
+  Injected as a dedicated section into every Launch Card.
+- 📊 **Backtest engine** — historical win-rate per setup, reproducing the live
+  `findSetup` MACD-reversal + rc/cc pipeline over the last N bars. Win-rate
+  badge (BT xx%) appears in the Mode column; Expected Value shown in Launch Card.
+- 📓 **Signal Journal** — every new STRONG setup is auto-logged with entry/SL/TP.
+  Auto-resolves status (TP / SL / Expired) on open by walking forward candles.
+  Stats: Total, TP Hit, SL Hit, Win Rate, **Net R (closed)**. CSV export.
+- 🧮 **Net R metric** — cumulative R over all closed journal trades
+  (TP → +R:R of the trade, SL → −1R).
+- 🗄 **Journal overflow protection** — 200-entry cap prunes *expired → closed →
+  pending last*, so pending trades are never lost. Pruned closed-trade stats are
+  folded into a persistent archive (`gp_v11_journal_v1_arch`) so Win Rate /
+  Net R never reset on overflow. "Clear Journal" also clears the archive.
+
+### Changed
+- 🏷 Version markers bumped to v14.9.2 (title, meta, JSON-LD, footer, lic-mark).
+- 💾 `SET_KEY → gp_settings_v14_9_2` with migration from v14_9_1 … v14_5.
+- 🌐 Full EN + UA i18n for all new panel labels, statuses and journal columns.
+  ES / RU / ZH fall back to English for v1.1-specific keys.
+
+### Fixed
+- 🐛 Auto-refresh minutes now stay in sync between the input field and the
+  active timer (live restart on change).
+- 🐛 Journal dedup: skips the same sym+tf+pattern logged within the last 4 h.
+
+### Notes
+- Alerts fire only for STRONG_BUY / STRONG_SELL (to avoid noise from GRID/SKIP).
+- Backtest reproduces the live signal pipeline, so its win-rate reflects what
+  the screener would actually have traded (not raw candle patterns).
 
 ---
 
 ## [14.9.1] — 2026-07-09 — "ATR-Based R:R + Filter-Aware Classification"
 
-### 🎯 Core Logic Fixes
-
-- **ATR-based Take Profit** — R:R is now calculated using TF-adaptive TP targets
-  (`TP_ATR_MULT`: 1m×2.0, 5m×2.2, 15m×2.5, 30m×2.8, 1h×3.0, 4h×3.5, 1D×4.0,
-  1W×4.5, 1M×5.0), replacing the legacy fixed ±5% extremum model. This makes
-  R:R fair and comparable across all timeframes and volatility profiles.
-- **Filter-Aware Classification** — `decideMode()` now respects user's filter
-  checkbox states. If ADX/VOL/RR/VWAP filter is **OFF**, its threshold does
-  not block STRONG/GRID classification. If **ON** — strict enforcement.
-  Fixes the long-standing "why does it skip when my filters are off" bug.
-- **VWAP distance decoupled from classification** — Large `|VWAP%|` is now
-  correctly recognized as an *expected* signal for reversal setups (extended
-  extremes = higher reversal probability). VWAP direction is still honored
-  via the `chVD` filter. This eliminates false SKIPs on legitimate reversals
-  with `|VWAP%| > 7.5%` (previously auto-rejected regardless of filter state).
-
-### 🎯 Trade Plan v3 (Launch Card)
-
-- STRONG mode now shows:
-  - **TP1** at 1R (close 33%)
-  - **TP2** at ATR×N target (close 33%) — uses same multiplier as R:R calc
-  - **TP3** at 3R+ (trail rest)
-  - **Chandelier trailing stop** at ATR×3
-
-### 📊 Diagnostics & UX
-
-- `📊 Reject breakdown` log line now includes `rr=N` counter — you can see
-  exactly how many setups are filtered by R:R for threshold calibration.
-- Table cell `R:R` shows a tooltip on hover with: TP price, Entry, Stop,
-  Risk (abs), Reward (abs), ATR multiplier used.
-- Column header renamed `R:R` → `R:R 🎯` (i18n across EN/UA/ES/RU/ZH).
-- Mode cell tooltip now shows active filter state: `filters:[ADX RR VD]`.
-
-### 📥 Data Export
-
-- CSV export includes new columns: `TP_ATR` (price), `TP_Mult` (multiplier).
-- Share-to-Telegram text includes TP line.
-
-### 🔧 Technical
-
-- `SET_KEY` bumped to `gp_settings_v14_9_1` with migration from `v14_9_0`
-  and older versions.
-- Version markers updated in title, meta tags, JSON-LD, ready log, CSV
-  filename, screenshot filename, watermark, lic-mark, footer.
-- Referral URL updated to Pionex campaign link with `?referral=gridpulse20`
-  UTM parameter.
-
-### ⚠ Migration Notes
-
-If upgrading from v14.9.0 or earlier: settings auto-migrate on first load.
-`localStorage` keys involved: `gp_settings_v14_9_1`, `gp_visited_v1491`.
-Presets (`gp_presets_v1`) survive the update unchanged.
-
-### 🐛 Bug Fixes
-
-- Fixed `TH.strongVWAP` reference in Exhaustion STRONG check that produced
-  `NaN` after VWAP-decoupling refactor, silently blocking all Exhaustion
-  STRONG setups. Now uses simple direction check (`vwapDist < 0` for bullish,
-  `> 0` for bearish) with null-tolerance.
-- Rebalanced `qADX`/`qVol`/`qRR` in Quality STRONG to be filter-aware —
-  when a filter is OFF, its null-value doesn't block the check.
-- Fixed rare edge case where R:R filter would silently reject setups without
-  incrementing `_rejectStats.rr` counter (now visible in reject breakdown).
-
----
-
-## [14.9.0] - 2026-07-04 — Old School Wisdom
-
-> **Quality release.** Codifies decades of practical trading wisdom into hard filters. No cosmetic changes — every addition either reduces false positives or makes real signals more visible.
-
 ### Added
-
-- **🎯 MTF Trend Filter** (`chMTF`, **ON by default**) — rejects setups fighting the higher-TF EMA50 direction. Cuts an estimated **~60% of counter-trend false positives**. TF mapping:
-  - 1m → 15m
-  - 5m → 1h
-  - 15m / 30m / 1h → 4h
-  - 4h → 1D
-  - 1D → 1W
-  - 1W → 1M
-  
-  EMA50 slope must exceed ±0.1% over the last 3 candles to count as an active trend (flat = neutral, both directions allowed). MTF-rejected rows are logged transparently as `MTF-SKIP: {sym}/{tf} fights {htf} EMA50 trend`.
-
-- **🤖 Bot Range modes selector** (`brMode`) — three algorithms for computing GRID bot ranges:
-  - **Donchian 26** (default) — `[min(low, 26 bars) − ATR×0.4, max(high, 26 bars) + ATR×0.4]`. Best for sideways markets.
-  - **Bollinger 20/2σ** — `[SMA(20) − 2σ − ATR×0.5, SMA(20) + 2σ + ATR×0.5]`. Best for mean-reversion character.
-  - **ATR (legacy)** — the pre-v14.9.0 formula. Kept for backwards compatibility.
-  
-  The chosen range appears in every Launch Card GRID mode as a new **"Range source"** field.
-
-- **🌏 Session Filter** (`chSession`, OFF by default) — downgrades STRONG→GRID during the Asian night session (00-06 UTC) where liquidity drops ~40%. Does not reject setups — only reduces their aggressiveness. Logged as `Session-DOWNGRADE: {sym}/{tf} STRONG→GRID (Asian night)`.
-
-- **💧 Liquidity Guard** (always ON) — hard-blocks STRONG classification for pairs with < $50,000 average USD turnover per bar (computed over the last 20 bars). Formula: `mean over last 20 bars of ((high + low + close) / 3 × volume)`. Any STRONG setup on an illiquid pair is automatically downgraded to GRID. Logged as `Liquidity-DOWNGRADE: {sym}/{tf} STRONG→GRID (< $50k/bar)`.
-
-- **🏷 Symbol Unification** — all exchanges now displayed in Bybit style regardless of native format:
-  - Spot: `BTCUSDT`
-  - Perp: `BTCUSDT.P`
-  - Multipliers preserved: `1000PEPEUSDT` → `PEPE¹ᵏUSDT`, `10000CHEEMSUSDT` → `CHEEMS¹⁰ᵏUSDT`
-  
-  Original exchange-native symbol is preserved internally for API calls — only display is normalized. Cross-exchange comparison is finally readable.
-
-- **🔍 Cell Magnifier** — hover any table cell to enlarge it 1.45× with a blue glow. Toggle 🔍 button in header (state saved to `localStorage['gp_mag']`). Hotkey: **Shift + M**. Standard cells enlarge 1.45×, wick/candle SVG cells enlarge only 1.15× to preserve proportions. Disabled on highlighted rows to avoid conflict.
-
-- **⚡ STRONG-signal row highlighting** — STRONG_BUY / STRONG_SELL rows now display:
-  - Gradient background (green/red left→right fade)
-  - `inset 4px 0 0 var(--grn)|var(--red)` left border
-  - ⚡ icon in the `#` column with drop-shadow glow
-  - Subtle 3s pulse animation (~15% opacity swing)
-  
-  GRID_BUY / GRID_SELL rows get a thin 2px left border in green/red (no gradient, no pulse). Light theme has softer palette variants for contrast compliance.
-
-- **📈 Freshness bonus in ranking** — within the same mode, freshest MACD signals (lowest depth) rank first. Boost formula: `-0.15` for depth ≤ 2, `-0.08` for depth ≤ 4, `-0.03` for depth ≤ 6. Traditional R:R and depth tiebreakers still apply.
-
-- **🎯 Trade Plan v2 in Launch Card** — STRONG_BUY / STRONG_SELL Launch Cards now show a richer, safer trade plan:
-  - Entry (limL)
-  - Stop Loss (stopL)
-  - Conservative SL (stopC)
-  - **NEW: TP1 — close 50% at 1R** (locks in break-even on the remainder)
-  - **NEW: TP2 — trail rest at 2R+** (rides the winner)
-  - **NEW: Chandelier trailing stop (ATR×3)** (industry-standard technical trailing)
-  - Position size — 10–20 % of capital
-  
-  GRID_BUY / GRID_SELL Launch Cards continue to show grid bot parameters (Lower / Upper / Grid Lines / Investment / ATR-based SL/TP) with the new **"Range source"** field showing which algorithm produced the range.
-
-- **Full i18n across EN / UA / ES / RU / ZH** for all new labels and log messages (~30 new translation keys per language, ~150 total):
-  - MTF Trend Filter labels and log messages
-  - Bot Range mode names (Donchian / Bollinger / ATR legacy)
-  - Session Filter labels
-  - Liquidity Guard log messages
-  - Trade Plan v2 labels (TP1, TP2, Chandelier)
-  - Cell Magnifier log messages (on/off)
-  - STRONG-row indicator terminology
-  - New downgrade hint messages (session, liquidity, MTF)
+- 🎯 ATR-based Take Profit — TF-adaptive TP targets (1m×2.0 → 1M×5.0 ATR),
+  replacing the fixed ±5% extremum model. Fair R:R across all timeframes.
+- 🎯 Trade Plan v3 in Launch Card — TP1 (1R), TP2 (ATR×N), TP3 (3R+ trail),
+  Chandelier ATR×3 trailing stop.
+- 🎯 Filter-Aware Classification — `decideMode()` respects user filter
+  checkboxes; OFF filters no longer block STRONG/GRID classification.
+- 📊 Reject-reason diagnostics with R:R counter; R:R cell tooltip shows
+  TP, Risk, Reward.
 
 ### Changed
-
-- `SET_KEY` bumped to **`gp_settings_v14_9_0`** with backward migration from `v14_8_2`, `v14_8_1`, `v14_8_0`, `v14_7_6`, `v14_7_5`, `v14_7_4`, `v14_7_3`, `v14_7_2`, `v14_7`, `v14_6`, `v14_5`.
-- **Bot Range default changed** from ATR to **Donchian 26**. Users with saved settings from v14.8.2 or earlier will see Donchian selected on first load — old ATR behaviour available via the dropdown.
-- Welcome hint localStorage key bumped: `gp_visited_v1482` → `gp_visited_v1490` (welcome hint re-shown after upgrade).
-- Mode sort priority now includes freshness bonus as a tiebreaker: `STRONG > GRID > SKIP` first, then freshness, then R:R, then depth.
-- Cell magnifier state (`gp_mag`) is a new independent storage key — not affected by settings reset.
-- SKIP tooltip enriched to append v14.9.0 downgrade reasons: `downgraded — Asian night session (00-06 UTC, low liquidity)`, `downgraded — low liquidity (< $50k avg turnover/bar)`, `rejected — fights higher-TF EMA50 trend`.
-- CSV export continues to include all funding columns; no schema change (v14.9.0 downgrade reasons appear in the `Reason` column as suffixes).
-- Version markers updated everywhere: page title, meta description, JSON-LD `softwareVersion`, ready log, CSV filename prefix (`gridpulse_v14_9_0_`), screenshot filename prefix (`gridpulse_v14_9_0_scan###_...`), watermark, license mark (`GRDPLS-V14-9-0-RELEASE-2026`).
-
-### Fixed
-
-- N/A — v14.9.0 is a purely additive quality release. All v14.8.2 bugs remain fixed; no regressions found in test scans across all 5 exchanges (Pionex, Bybit, Binance, KuCoin, OKX) and both markets (Spot, USDT Futures).
-
-### Storage additions
-
-Two new independent `localStorage` keys:
-
-| Key | Purpose | Default |
-|-----|---------|---------|
-| `gp_mag` | Cell Magnifier state (`'1'` = ON, `'0'` = OFF) | `'1'` (ON) |
-| `gp_visited_v1490` | Welcome hint dismissal marker | (unset until first dismiss) |
-
-All existing keys (`gp_presets_v1`, `gp_preset_last`, `gp_settings_v14_9_0`, `gp_lang`, `gp_scan_serial`, `gp_scan_count`, `gp_sound`, `gp_pionex_only`) are unchanged.
-
-### Migration notes
-
-- **No breaking changes.** Users upgrading from v14.8.2 (or any older version back to v14.5) will have their settings, presets, and language preference preserved.
-- **MTF Trend Filter defaults to ON.** This will noticeably reduce signal count vs. v14.8.2 (~40% fewer results), but the removed signals are overwhelmingly counter-trend false positives. Turn it off via the checkbox if you want the old behaviour.
-- **Bot Range default changed to Donchian 26.** Old ATR mode is still available via the dropdown (labelled "ATR (legacy)").
-- **Session Filter defaults to OFF.** Enable manually if you want STRONG signals downgraded to GRID during 00-06 UTC.
-- **Liquidity Guard is always ON.** No toggle. This is a safety floor, not a preference.
-- **Cell Magnifier defaults to ON.** Toggle via 🔍 button or Shift+M.
-
-### Impact summary (measured on typical multi-TF scan on 4h/1D across top 100 MCap)
-
-| Metric | v14.8.2 | v14.9.0 (default settings) |
-|--------|--------:|---------------------------:|
-| Total STRONG signals | ~14 | ~5 |
-| Total GRID signals | ~26 | ~30 |
-| Counter-trend LONGs | ~7 | ~0 |
-| Illiquid STRONG signals | ~3 | ~0 |
-| Total setups (STRONG + GRID) | ~40 | ~35 |
-| Scan time | 28s | 34s (+MTF kline fetches) |
-
-The 6s scan time overhead is the cost of fetching one additional higher-TF kline series per (symbol × TF) combination. Cached under standard 60s TTL like all other klines.
+- 🏷 Column header R:R → "R:R 🎯"; VWAP distance no longer blocks classification.
+- 📥 CSV export includes TP_ATR + TP_Mult columns.
+- 💾 `SET_KEY → gp_settings_v14_9_1`.
 
 ---
 
-## [14.8.2] - 2026-06-27 — Pair Presets
+## [14.9.0] — "Old School Wisdom"
+- 🎯 MTF Trend Filter (ON by default) · 🤖 Bot Range modes (Donchian / Bollinger
+  / ATR) · 🌏 Session Filter · 💧 Liquidity Guard · 🏷 Symbol Unification ·
+  🔍 Cell Magnifier · ⚡ STRONG row highlighting · 📈 Freshness ranking bonus.
 
-### Added
-- **💾 Pair Presets** — save / load named pair watchlists directly in
-  `localStorage` (no backend required). One-click apply from a dropdown
-  next to Custom Pairs.
-- **5 built-in starter presets** (read-only): 💎 Majors, 🐸 Memes,
-  🤖 AI Tokens, 🏛 Layer 1s, 💧 DeFi Blue Chips.
-- **Save as…** button — persists the current Custom Pairs input as a
-  named preset with a custom icon (20 pre-defined options).
-- **Manage Presets modal** — apply / delete user presets in one place.
-- **Import / Export JSON** — full backup or share between devices.
-- **Shareable preset URL** — `tradescout.trade/?preset=<base64-json>`
-  auto-imports a preset on page load (with consent prompt).
-- **Last-used preset auto-restored** on next visit.
-- Full i18n for the entire preset UI across EN / UA / ES / RU / ZH
-  (~22 keys × 5 languages = 110 new translations).
+## [14.8.2] — "Presets"
+- 💾 Pair Presets (save/load watchlists), built-in starters, import/export JSON,
+  shareable preset URL, Pionex Only mode, Launch Card readability boost.
 
-### Changed
-- `SET_KEY` → `gp_settings_v14_8_2` with migration from `v14_8_1` /
-  `v14_8_0` / `v14_7_6` / … / `v14_5`.
-- Welcome hint key → `gp_visited_v1482` (re-shown after upgrade).
-- Storage namespace: `gp_presets_v1` (independent from settings;
-  survives settings reset).
-- Version markers updated everywhere: title, meta, JSON-LD,
-  ready log, CSV filename, screenshot filename, watermark, lic-mark.
+## [14.8.1] — "Setup geometry validation"
+- 🐛 Stale setups (price already crossed entry/stop) no longer pass the filter.
 
-### Fixed
-- Removed duplicate `"hdr.pionexOnly"` key in EN locale (was defined
-  twice in the same object).
-- Cleaned up changelog headers in `index.html` (previous v14.8.0 entry
-  self-referenced itself; carried-over entries now correctly labelled).
-- License mark in lic-bar updated from `GRDPLS-V14-7-6-RELEASE-2026`
-  to `GRDPLS-V14-8-2-RELEASE-2026`.
+## [14.8.0] — "Pionex Companion"
+- 🤝 Official Partner badge · Pionex default exchange · "Open in Pionex" CTA with
+  UTM tags · larger QR codes.
 
-### Storage footprint
-- 5 built-in presets are not persisted (defined in code).
-- User presets stored as `{version:1, presets:[…]}` in
-  `localStorage['gp_presets_v1']`. ~50 KB per 500 pairs spread across
-  10 presets — far below the 5 MB localStorage limit.
+## [14.7.6] — TF-adaptive thresholds, Strictness selector, two STRONG paths,
+classified SKIP reasons.
+
+## [14.7.5] — Directional Grid Modes (STRONG/GRID BUY/SELL/SKIP), breakout entry,
+light-theme contrast, hotkeys panel.
+
+## [14.7.x] — TikTok Mode, Highlight Row, watermark serial, carousel export,
+scan-tick sound, bold SKIP.
+
+## [14.6] — Screenshot button, Binance→Bybit mirror fallback, Pionex PERP
+discovery, safeFetch error handling.
 
 ---
 
-## [14.8.1] - 2026-06-26 — Setup geometry validation
-
-### Fixed
-- **🐛 BUGFIX**: Stale setups where price had already crossed entry or
-  stop before scan no longer pass the filter. Strict geometry is now
-  enforced for both directions:
-  - **Bullish (LONG)** — requires `stopL < price < limL`
-  - **Bearish (SHORT)** — requires `limL  < price < stopL`
-  
-  Fixes cases like CLANKER 1h where `stopL` (15.84) was reported above
-  current price (15.77) for a GRID BUY — physically impossible to
-  execute as a long-side limit/stop pair.
-
-### Changed
-- `SET_KEY` → `gp_settings_v14_8_1` with migration from `v14_8_0`.
-
----
-
-## [14.8.0] - 2026-06-24 — Pionex Companion
-
-> **Positioning release.** GridPulse is now explicitly framed as a **dedicated companion tool for Pionex Grid Bots**, with Pionex as the default exchange, an "Official Partner" badge throughout the UI, and a redesigned Launch Card focused on driving users straight into a trading-ready Pionex session.
-
-### Added
-- **🤝 Official Partner badge** — visible "Pionex Partner" marker next to GridPulse branding in the header, referral banner, footer, and Launch Card. Hover tooltip: *"Official Pionex Partner"*.
-- **Pionex as default exchange** — new sessions open with **Pionex selected by default** (was Bybit). Bybit, Binance, KuCoin, and OKX remain fully supported via the exchange dropdown.
-- **🤝 Pionex Only mode** — single header checkbox (stored in `localStorage` as `gp_pionex_only`) that locks the exchange dropdown to Pionex and visually de-emphasizes other exchanges for first-time users.
-- **Prominent "Open in Pionex" CTA in Launch Card** — large, full-width gradient button (green → blue) with subtle shimmer animation. Includes **UTM tracking tags**:
-  - `utm_source=gridpulse`
-  - `utm_medium=launchcard`
-  - `utm_campaign={mode}` (e.g. `strong_buy`, `grid_sell`)
-  - `utm_content={symbol}_{tf}`
-- **Larger, more visible referral QR codes**:
-  - Top banner: 64 × 64 px → **96 × 96 px** (wrapper 72 → **108 px**)
-  - Launch Card: 46 × 46 px → **84 × 84 px** in a dedicated bordered panel (`.lc-ref-block`)
-- **Launch Card readability boost** — base font sizes increased across the board:
-  - `.lc-label`: 10 px → **13 px**
-  - `.lc-val`: 12 px → **16 px**
-  - `.lc-ind-name`: 9 px → **12 px**
-  - `.lc-ind-val`: 11 px → **16 px**
-  - `.lc-sec-title`: 9 px → **12 px**
-  - `.lc-row` padding: 5 px → **9 px**, gap 6 → **10 px**
-  - Modal max-width: 560 px → **640 px**
-  - Mode badge: 11 px → **14 px**, padding 3/8 → 5/12
-  - Footer buttons (Copy all / Open chart / Share TG): 11 px → **13 px**, padding 9/12 → **12/16**
-
-### Changed
-- `SET_KEY` → **`gp_settings_v14_8_0`** with backward migration from `v14_7_6`, `v14_7_5`, `v14_7_4`, `v14_7_3`, `v14_7_2`, `v14_7`, `v14_6`, `v14_5`.
-- Header now reads: **`⚡ GridPulse v14.8.0 🤝 Pionex Partner`**.
-- Footer disclosure now explicitly includes the "Official Pionex Partner" badge inline.
-- Welcome hint key bumped: `gp_visited_v1476` → `gp_visited_v1480`.
-- All version markers updated: title, meta description, JSON-LD, ready log, CSV filename, screenshot filename, watermark, license bar (`GRDPLS-V14-8-0-RELEASE-2026`).
-
-### Fixed
-- N/A — this is a purely additive UX/positioning release. All v14.7.6 scanning logic, classification, and indicator behaviour is preserved unchanged.
-
-### Migration notes
-- **No breaking changes.** Settings are auto-migrated from any version back to v14.5.
-- Users with **Bybit** previously selected as exchange will continue to see Bybit selected (their localStorage choice is preserved).
-- New users land on **Pionex / Spot** by default.
-- The Pionex Only toggle is **opt-in** and off by default.
-
----
-
-## [14.7.6] - 2026-06-23 — TF-adaptive Strictness + Classified SKIP
-
-### Added
-- **TF-adaptive thresholds**: STRONG/GRID/SKIP cutoffs now scale per timeframe
-  (1m softer ... 1W stricter) via a single **Strictness** selector
-  (soft / normal / strict) in the right control panel.
-- **Two paths to STRONG**:
-  - **Exhaustion** — strong trend + extreme reversal candle (blow-off top/bottom)
-  - **Quality** — moderate trend + ⭐ VWAP confluence + R:R ≥ 2
-- **Classified SKIP reasons** with per-row tooltip showing exact thresholds:
-  - `⚡ WATCH` — strong reversal candle but R:R too low → watch for re-entry
-  - `🌊 TREND` — trending market, no reversal yet → wait for reversal candle
-  - `⚖ LOW R:R` — poor reward/risk ratio → skip
-- **Dual TikTok PNG export**: Cards (top 5, mobile-readable) and Table (top 15, analytical).
-  Hotkeys: `Shift+P` for Cards, `Shift+Alt+P` for Table.
-- **ATR-based SL/TP** for GRID bots (replaces fixed −20%/+15% with TF-adaptive ATR multipliers).
-- **i18n** for all new mode labels, SKIP categories, and card layout: EN, UA, ES, RU, ZH.
-- **Custom domain**: canonical URL changed to https://tradescout.trade/
-  (still served from `pro100off.github.io/gridpulse/`).
-- **SEO hreflang tags** for all 5 languages.
-- **?lang=xx URL param** for direct language link entries (used by sitemap).
-
-### Fixed
-- `findSetup()` ADX≥18 and R:R≥1.5 checkbox thresholds now scale with TF/strictness
-  instead of being hardcoded.
-- Mode-column sort priority corrected: STRONG > GRID > SKIP (was alphabetical).
-- Bot Range / B/S Range cell highlight colour now uses STRONG_*/GRID_* names.
-- Launch Card section title colour follows new mode names.
-- `countSetupsByMode()` now maps new mode names to BUY/SELL/BOT/SKIP buckets.
-- Carousel ranking and slide rendering updated for new mode names.
-
-### Changed
-- `SET_KEY` → `gp_settings_v14_7_6` with migration from v14_7_5...v14_5.
-- Welcome hint localStorage key → `gp_visited_v1476`.
-- All version markers updated: title, meta, JSON-LD, ready log,
-  CSV filename, screenshot filename, watermark, license mark.
-
----
-
-## [14.7.5] - 2026-06-17 — Directional Grid Modes + UX polish
-
-### Added
-- Directional Grid Modes — replaced unified BOT mode with STRONG_BUY /
-  GRID_BUY / STRONG_SELL / GRID_SELL / SKIP.
-- Breakout entry logic — limL now points at the opposite extreme of the
-  reversal candle (bearish: rc.l, bullish: rc.h).
-- Light theme contrast boost.
-- Hotkeys panel (Shift+T/P/C).
-
-### Fixed
-- STRONG SELL Launch Card silently failing (stray Cyrillic char).
-- Carousel `indicators` array (duplicate VWAP% fragment).
-
----
-
-## [14.7.4] - 2026-XX-XX
-- Dark theme contrast boost.
-- Restored full referral banner UA i18n keys.
-
-## [14.7.2] - 2026-XX-XX
-- TikTok watermark hidden by default.
-- Highlight Row uses double-click.
-
-## [14.7] - 2026-XX-XX
-- TikTok Mode (Shift+T).
-- Highlight Row.
-- Auto-watermark with daily scan serial.
-- Auto-Carousel — 5-slide pack.
-- Scan tick sound.
-- Bold SKIP visual.
-
-## [14.6] - 2026-XX-XX
-- Screenshot button.
-- Binance Futures 451 → Bybit mirror fallback.
-- Pionex PERP discovery.
-
----
-
-License: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) · © 2026 GridPulse Project · [tradescout.trade](https://tradescout.trade/)
+_This tool is an analytical aid, NOT financial advice. Crypto trading is risky. DYOR._
